@@ -31,3 +31,19 @@ use App\Http\Middleware\PetugasMiddleware;
     Route::get('/home', function () {
     return view('home');
 })->middleware('auth');
+
+
+// Rute untuk User (Pelanggan)
+Route::get('/users', [UserController::class, 'index']); // Admin melihat daftar user
+Route::get('/users/{id}', [UserController::class, 'show']); // Admin melihat detail user
+Route::put('/users/{id}', [UserController::class, 'update']); // Admin mengupdate user
+Route::delete('/users/{id}', [UserController::class, 'destroy']); // Admin menghapus user
+
+// Rute untuk petugas (Admin/Petugas)
+    Route::prefix('staff')->group(function () {
+    Route::get('/', [UserController::class, 'indexStaff']);  // Ambil semua petugas
+    Route::get('/{id}', [UserController::class, 'showStaff']); // Detail petugas
+    Route::post('/', [UserController::class, 'storeStaff']);  // Buat petugas baru
+    Route::put('/{id}', [UserController::class, 'updateStaff']); // Update petugas
+    Route::delete('/{id}', [UserController::class, 'destroyStaff']); // Hapus petugas
+});

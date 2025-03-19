@@ -30,5 +30,27 @@ class UserController extends Controller
 
         return response()->json(['message' => 'Petugas berhasil ditambahkan!', 'user' => $petugas], 201);
     }
-}
+
+        public function index()
+        {
+            return response()->json(User::where('role', 'pelanggan')->get());
+        }
+    
+        public function indexStaff()
+        {
+            return response()->json(User::where('role', 'petugas')->get());
+        }
+    
+        public function show($id)
+        {
+            $user = User::where('id', $id)->where('role', 'pelanggan')->first();
+            return $user ? response()->json($user) : response()->json(['message' => 'User tidak ditemukan'], 404);
+        }
+    
+        public function showStaff($id)
+        {
+            $staff = User::where('id', $id)->where('role', 'petugas')->first();
+            return $staff ? response()->json($staff) : response()->json(['message' => 'Petugas tidak ditemukan'], 404);
+        }
+    }
 
