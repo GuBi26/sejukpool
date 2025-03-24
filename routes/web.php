@@ -6,21 +6,15 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\PetugasMiddleware;
 
-<<<<<<< HEAD
-// Route untuk user mendaftar dan login
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/login', [AuthController::class, 'login']);
-=======
 Route::get('/', function () {
     return view('welcome');
 });
 
 // Route untuk user mendaftar dan login
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
->>>>>>> d4929cc (Update Controller baru)
-    Route::post('/logout', [AuthController::class, 'logout']);
-
+Route::post('/register', [AuthController::class, 'register']);
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout']);
 
 // Hanya admin yang bisa menambahkan petugas dan mengakses dashboard admin
     Route::middleware(['auth', AdminMiddleware::class])->group(function () {
