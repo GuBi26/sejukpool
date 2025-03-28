@@ -5,15 +5,19 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\PetugasMiddleware;
+use App\Http\Controllers\TicketController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
 // Route untuk user mendaftar dan login
+Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
+
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
+
 Route::post('/logout', [AuthController::class, 'logout']);
 
 // Hanya admin yang bisa menambahkan petugas dan mengakses dashboard admin
@@ -51,3 +55,5 @@ Route::delete('/users/{id}', [UserController::class, 'destroy']); // Admin mengh
     Route::put('/{id}', [UserController::class, 'updateStaff']); // Update petugas
     Route::delete('/{id}', [UserController::class, 'destroyStaff']); // Hapus petugas
 });
+
+Route::get('/ticket', [TicketController::class, 'showTicketForm'])->name('ticket');

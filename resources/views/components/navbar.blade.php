@@ -27,7 +27,7 @@
                         <a class="nav-link page-scroll" href="#details">GALERI</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link page-scroll" href="#pricing">TIKET</a>
+                        <a class="nav-link page-scroll" href="{{ route('ticket') }}">TIKET</a>
                     </li>
                 </ul>
                 <span class="nav-item">

@@ -7,6 +7,11 @@ use App\Models\Ticket;
 
 class TicketController extends Controller
 {
+    public function showTicketForm()
+    {
+        return view('pages.ticket'); // Pastikan ada file resources/views/ticket.blade.php
+    }    
+
     // Menampilkan semua tiket
     public function index()
     {
