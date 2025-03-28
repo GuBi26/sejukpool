@@ -11,7 +11,7 @@ class UserController extends Controller
     public function addPetugas(Request $request)
     {
         $request->validate([
-            'nama' => 'required|string|max:100',
+            'name' => 'required|string|max:100',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6|confirmed',
         ]);
@@ -22,7 +22,7 @@ class UserController extends Controller
         }
 
         $petugas = User::create([
-            'nama' => $request->nama,
+            'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => 'petugas', // Petugas role

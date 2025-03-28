@@ -13,11 +13,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        //User::factory(10)->create();
 
         User::factory()->create([
-            'name' => 'admin',
-            'email' => 'password',
-        ]);
+            'name' => 'Admin',
+            'email' => 'admin@sejukpool.com',
+            'password' => bcrypt('password123'), // Hash password
+            'role' => 'admin',                   // Tambahkan role (jika ada)
+        ]);        
     }
 }
