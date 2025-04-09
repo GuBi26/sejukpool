@@ -3,6 +3,7 @@
     @include('components.head')
 
 <body>
+    
     <header id="header" class="ex-2-header">
         <div class="container mb-3">
             <div class="row">
@@ -72,6 +73,33 @@
             }
         });
     </script>
+    @if(session('logout-success'))
+    <script>
+        $(document).ready(function () {
+            $('#logoutSuccessModal').modal('show');
+        });
+    </script>
+    @endif
     
+    <!-- Modal Logout Berhasil -->
+<div class="modal fade" id="logoutSuccessModal" tabindex="-1" role="dialog" aria-labelledby="logoutSuccessLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title" id="logoutSuccessLabel">Logout Berhasil</h5>
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body text-dark">
+          Anda telah berhasil logout.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-dismiss="modal">Oke</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
 </body>
 </html>

@@ -10438,6 +10438,11 @@ a:focus {
   overflow: hidden;
 }
 
+.sidebar.toggled .sidebar-text {
+  display: none !important;
+}
+
+
 .sidebar.toggled #sidebarToggle::after {
   content: '\f105';
   font-family: 'Font Awesome 5 Free';
@@ -11279,3 +11284,5 @@ footer.sticky-footer .copyright {
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
 }
+
+/* new */

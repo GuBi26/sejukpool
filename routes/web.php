@@ -18,14 +18,30 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::post('/logout', [AuthController::class, 'logout']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Hanya admin yang bisa menambahkan petugas dan mengakses dashboard admin
 Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::post('/admin/add-petugas', [UserController::class, 'addPetugas']);
+    
     Route::get('/admin/dashboard', function () {
         return view('admin.dashboard');
-    }); 
+    })->name('admin.dashboard');
+
+    // Route ke halaman kelola petugas
+    Route::get('/admin/kelola-petugas', function () {
+        return view('admin.kelola-petugas');
+    })->name('kelola.petugas');
+
+    // Route ke halaman kelola user
+    Route::get('/admin/kelola-user', function () {
+        return view('admin.kelola-user');
+    })->name('kelola.user');
+
+    // Route ke halaman kelola tiket
+    Route::get('/admin/tiket', function () {
+        return view('admin.tiket');
+    })->name('tiket');
 });
 
 // Hanya petugas yang bisa mengakses dashboard petugas
