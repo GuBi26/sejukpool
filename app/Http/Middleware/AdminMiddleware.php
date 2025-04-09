@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AdminMiddleware
@@ -14,6 +13,7 @@ class AdminMiddleware
             return $next($request);
         }
 
-        return redirect('/dashboard'); // Redirect jika bukan admin
+        return redirect('/'); // atau redirect ke login/dashboard umum
     }
-}   
+}
+

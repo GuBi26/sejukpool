@@ -32,10 +32,16 @@
                                 @enderror
                             </div>
 
-                            <div class="form-group">
-                                <input type="password" class="form-control-input" id="spassword" name="password" required>
-                                <label class="label-control" for="spassword">Password</label>
-                                <div class="help-block with-errors"></div>
+                            <div class="form-group position-relative">
+                                <label class="label-control">Password</label>
+                                <div class="input-group">
+                                    <input type="password" class="form-control" name="password" id="password" required>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary" type="button" id="togglePassword" tabindex="-1">
+                                            <i class="bi bi-eye" id="toggleIcon"></i>
+                                        </button>
+                                    </div>
+                                </div>
                                 @error('password')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
@@ -57,5 +63,21 @@
     </header> <!-- end of ex-header -->
 
     @include('components.scripts')
+    <script>
+        document.getElementById('toggleRegisterPassword').addEventListener('click', function () {
+            const passwordInput = document.getElementById('spassword');
+            const icon = document.getElementById('toggleRegisterIcon');
+    
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
+            }
+        });
+    </script>
 </body>
 </html>

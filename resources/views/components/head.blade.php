@@ -25,8 +25,8 @@
     <link href="{{ asset('content/css/fontawesome-all.css') }}" rel="stylesheet">
     <link href="{{ asset('content/css/swiper.css') }}" rel="stylesheet">
 	<link href="{{ asset('content/css/magnific-popup.css') }}" rel="stylesheet">
-
 	<link href="{{ asset('content/css/styles.css') }}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 	
 	<!-- Favicon  -->
     <link rel="icon" href="{{ asset('content/images/favicon.png') }}">
