@@ -7,9 +7,9 @@ use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\PetugasMiddleware;
 use App\Http\Controllers\TicketController;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware('auth');
 
 // Route untuk user mendaftar dan login
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
