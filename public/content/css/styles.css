@@ -862,38 +862,58 @@ input[type='checkbox'] {
 /*     06. Description     */
 /***************************/
 .cards-1 {
-	padding-top: 3.25rem;
-	padding-bottom: 3rem;
-	text-align: center;
+    padding-top: 3.25rem;
+    padding-bottom: 3rem;
+    text-align: left; /* ubah dari center ke left */
 }
 
 .cards-1 .h2-heading {
-	margin-bottom: 3.5rem;
+    margin-bottom: 3.5rem;
+    text-align: center; /* tetap center untuk heading */
 }
 
 .cards-1 .card {
-	max-width: 21rem;
-	margin-right: auto;
-	margin-bottom: 3.5rem;
-	margin-left: auto;
-	padding: 0;
-	border: none;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
 }
 
 .cards-1 .card-image {
-	max-width: 16rem;
-	margin-right: auto;
-	margin-bottom: 2rem;
-	margin-left: auto;
+    width: 100%;
+    max-width: 100%; /* hilangkan pembatas */
+}
+
+.cards-1 .card-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+}
+
+
+.cards-1 .card-body {
+    padding: 0;
 }
 
 .cards-1 .card-title {
-	margin-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
 }
 
-.cards-1 .card-body {
-	padding: 0;
+@media (max-width: 768px) {
+    .cards-1 .card {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .cards-1 {
+        text-align: center;
+    }
+
+    .cards-1 .card-body {
+        padding-top: 1rem;
+    }
 }
+
 
 
 /************************/

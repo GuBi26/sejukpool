@@ -13,9 +13,10 @@
                 <div class="row">
                     <div class="col-lg-6 col-xl-5">
                         <div class="text-container">
-                            <h1>Sejuk Pool</h1>
-                            <p class="p-large">Use Tivo to automate your marketing actions in order to reach a much larger audience</p>
-                            <a class="btn-solid-lg page-scroll" href="sign-up.html">SIGN UP</a>
+                            <h1>E - Tiket</h1>
+                            <h1>SejukPool</h1>
+                            <p class="p-large">Aplikasi Web pemesanan tiket kolam renang hulu cai endah, Bogor</p>
+                            <a class="btn-solid-lg page-scroll" href="sign-up.html">DAFTAR</a>
                         </div> <!-- end of text-container -->
                     </div> <!-- end of col -->
                     <div class="col-lg-6 col-xl-7">
@@ -31,102 +32,47 @@
     </header> <!-- end of header -->
     <svg class="header-frame" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1920 310"><defs><style>.cls-1{fill:#5f4def;}</style></defs><title>header-frame</title><path class="cls-1" d="M0,283.054c22.75,12.98,53.1,15.2,70.635,14.808,92.115-2.077,238.3-79.9,354.895-79.938,59.97-.019,106.17,18.059,141.58,34,47.778,21.511,47.778,21.511,90,38.938,28.418,11.731,85.344,26.169,152.992,17.971,68.127-8.255,115.933-34.963,166.492-67.393,37.467-24.032,148.6-112.008,171.753-127.963,27.951-19.26,87.771-81.155,180.71-89.341,72.016-6.343,105.479,12.388,157.434,35.467,69.73,30.976,168.93,92.28,256.514,89.405,100.992-3.315,140.276-41.7,177-64.9V0.24H0V283.054Z"/></svg>
     <!-- end of header -->
-
-
-    <!-- Customers -->
-    <div class="slider-1">
-        <div class="container">
-            <div class="row">
+<!-- Details -->
+<div class="cards-1">
+    <div class="container">
+        <div id="details" class="basic-1">
+            <div class="row mb-4 text-center">
                 <div class="col-lg-12">
-                    
-                    <!-- Image Slider -->
-                    <div class="slider-container">
-                        <div class="swiper-container image-slider">
-                            <div class="swiper-wrapper">
-                            <div class="swiper-slide">
-                                        <img class="img-fluid" src="{{ asset('content/images/customer-logo-1.png') }}" alt="alternative">
-                                </div>
-                                <div class="swiper-slide">
-                                        <img class="img-fluid" src="{{ asset('content/images/customer-logo-2.png') }}" alt="alternative">
-                                </div>
-                                <div class="swiper-slide">
-                                        <img class="img-fluid" src="{{ asset('content/images/customer-logo-3.png') }}" alt="alternative">
-                                </div>
-                                <div class="swiper-slide">
-                                        <img class="img-fluid" src="{{ asset('content/images/customer-logo-4.png') }}" alt="alternative">
-                                </div>
-                                <div class="swiper-slide">
-                                        <img class="img-fluid" src="{{ asset('content/images/customer-logo-5.png') }}" alt="alternative">
-                                </div>
-                                <div class="swiper-slide">
-                                        <img class="img-fluid" src="{{ asset('content/images/customer-logo-6.png') }}" alt="alternative">
-                                </div>
-                            </div> <!-- end of swiper-wrapper -->
-                        </div> <!-- end of swiper container -->
-                    </div> <!-- end of slider-container -->
-                    <!-- end of image slider -->
-
-                </div> <!-- end of col -->
-            </div> <!-- end of row -->
-        </div> <!-- end of container -->
-    </div> <!-- end of slider-1 -->
-    <!-- end of customers -->
-
-
-    <!-- Description -->
-    <div class="cards-1">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="above-heading">DESCRIPTION</div>
-                    <h2 class="h2-heading">Marketing Automation Will Bring More Qualified Leads</h2>
-                </div> <!-- end of col -->
-            </div> <!-- end of row -->
-            <div class="row">
-                <div class="col-lg-12">
-
-                    <!-- Card -->
-                    <div class="card">
-                        <div class="card-image">
-                            <img class="img-fluid" src="{{ asset('content/images/description-1.png') }}" alt="alternative">
-                        </div>
-                        <div class="card-body">
-                            <h4 class="card-title">Lists Builder</h4>
-                            <p>It's very easy to start creating email lists for your marketing actions. Just create your Tivo account</p>
-                        </div>
+                    <div class="above-heading">TENTANG</div>
+                    <h2 class="h2-heading">Tentang SejukPool</h2>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <!-- Gambar di kiri -->
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <div class="image-container">
+                        <img class="img-fluid" src="{{ asset('content/images/details.png') }}" alt="alternative">
                     </div>
-                    <!-- end of card -->
+                </div>
 
-                    <!-- Card -->
-                    <div class="card">
-                        <div class="card-image">
-                        <img class="img-fluid" src="{{ asset('content/images/description-2.png') }}" alt="alternative">
-
-                        </div>
-                        <div class="card-body">
-                            <h4 class="card-title">Campaign Tracker</h4>
-                            <p>Campaigns is a feature we've developed since the beginning because it's at the core of Tivo's functionalities</p>
-                        </div>
+                <!-- Teks di kanan -->
+                <div class="col-lg-6">
+                    <div class="text-container">
+                        <h2>Now Is The Time To Upgrade Your Marketing Solution</h2>
+                        <p>Target the right customers for your business with the help of Tivo's patented segmentation technology and deploy efficient marketing campaigns. Keep your customers happy and loyal.</p>
+                        <ul class="list-unstyled li-space-lg">
+                            <li class="media">
+                                <i class="fas fa-square"></i>
+                                <div class="media-body">Understand customers and meet their requirements</div>
+                            </li>
+                            <li class="media">
+                                <i class="fas fa-square"></i>
+                                <div class="media-body">Targeted client base with Tivo's efficient technology</div>
+                            </li>
+                        </ul>
+                        <a class="btn-solid-reg page-scroll mt-3" href="sign-up.html">SIGN UP</a>
                     </div>
-                    <!-- end of card -->
-
-                    <!-- Card -->
-                    <div class="card">
-                        <div class="card-image">
-                            <img class="img-fluid" src="{{ asset('content/images/description-3.png') }}" alt="alternative">
-                        </div>
-                        <div class="card-body">
-                            <h4 class="card-title">Analytics Tool</h4>
-                            <p>Tivo collects customer data in order to help you analyse different situations and take required action</p>
-                        </div>
-                    </div>
-                    <!-- end of card -->
-
-                </div> <!-- end of col -->
-            </div> <!-- end of row -->
-        </div> <!-- end of container -->
-    </div> <!-- end of cards-1 -->
-    <!-- end of description -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end of details -->
 
 
     <!-- Features -->
@@ -397,38 +343,6 @@
     <!-- end of details lightboxes -->
 
 
-    <!-- Details -->
-    <div id="details" class="basic-1">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="text-container">
-                        <h2>Now Is The Time To Upgrade Your Marketing Solution</h2>
-                        <p>Target the right customers for your business with the help of Tivo's patented segmentation technology and deploy efficient marketing campaigns. Keep your customers happy and loyal.</p>
-                        <ul class="list-unstyled li-space-lg">
-                            <li class="media">
-                                <i class="fas fa-square"></i>
-                                <div class="media-body">Understand customers and meet their requirements</div>
-                            </li>
-                            <li class="media">
-                                <i class="fas fa-square"></i>
-                                <div class="media-body">Targeted client base with Tivo's efficient technology</div>
-                            </li>
-                        </ul>
-                        <a class="btn-solid-reg page-scroll" href="sign-up.html">SIGN UP</a>
-                    </div> <!-- end of text-container -->
-                </div> <!-- end of col -->
-                <div class="col-lg-6">
-                    <div class="image-container">
-                        <img class="img-fluid" src="{{ asset('content/images/details.png') }}" alt="alternative">
-                    </div> <!-- end of image-container -->
-                </div> <!-- end of col -->
-            </div> <!-- end of row -->
-        </div> <!-- end of container -->
-    </div> <!-- end of basic-1 -->
-    <!-- end of details -->
-
-
     <!-- Video -->
     <div id="video" class="basic-2">
         <div class="container">
@@ -454,127 +368,6 @@
         </div> <!-- end of container -->
     </div> <!-- end of basic-2 -->
     <!-- end of video -->
-
-
-    <!-- Pricing -->
-    <div id="pricing" class="cards-2">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="above-heading">PRICING</div>
-                    <h2 class="h2-heading">Pricing Options Table</h2>
-                </div> <!-- end of col -->
-            </div> <!-- end of row -->
-            <div class="row">
-                <div class="col-lg-12">
-
-                    <!-- Card-->
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="card-title">BASIC</div>
-                            <div class="price"><span class="currency">$</span><span class="value">Free</span></div>
-                            <div class="frequency">14 days trial</div>
-                            <div class="divider"></div>
-                            <ul class="list-unstyled li-space-lg">
-                                <li class="media">
-                                    <i class="fas fa-check"></i><div class="media-body">Email Marketing Module</div>
-                                </li>
-                                <li class="media">
-                                    <i class="fas fa-check"></i><div class="media-body">User Control Management</div>
-                                </li>
-                                <li class="media">
-                                    <i class="fas fa-times"></i><div class="media-body">List Building And Cleaning</div>
-                                </li>
-                                <li class="media">
-                                    <i class="fas fa-times"></i><div class="media-body">Collected Data Reports</div>
-                                </li>
-                                <li class="media">
-                                    <i class="fas fa-times"></i><div class="media-body">Planning And Evaluation</div>
-                                </li>
-                            </ul>
-                            <div class="button-wrapper">
-                                <a class="btn-solid-reg page-scroll" href="sign-up.html">SIGN UP</a>
-                            </div>
-                        </div>
-                    </div> <!-- end of card -->
-                    <!-- end of card -->
-
-    <!-- Testimonials -->
-    <div class="slider-2">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">      
-                    
-                    <!-- Text Slider -->
-                    <div class="slider-container">
-                        <div class="swiper-container text-slider">
-                            <div class="swiper-wrapper">
-                                
-                                <!-- Slide -->
-                                <div class="swiper-slide">
-                                    <div class="image-wrapper">
-                                        <img class="img-fluid" src="{{ asset('/content/images/testimonial-1.jpg') }}" alt="alternative">
-                                    </div> <!-- end of image-wrapper -->
-                                    <div class="text-wrapper">
-                                        <div class="testimonial-text">I started to use Tivo with the free trial about a year ago and never stopped since then. It does all the repeating marketing tasks and allows me to focus on core development activities like new product research and design. I love it and recommend it to everyone.</div>
-                                        <div class="testimonial-author">Jude Thorn - Online Marketer</div>
-                                    </div> <!-- end of text-wrapper -->
-                                </div> <!-- end of swiper-slide -->
-                                <!-- end of slide -->
-
-                                <!-- Slide -->
-                                <div class="swiper-slide">
-                                    <div class="image-wrapper">
-                                        <img class="img-fluid" src="{{ asset('/content/images/testimonial-2.jpg') }}" alt="alternative">
-                                    </div> <!-- end of image-wrapper -->
-                                    <div class="text-wrapper">
-                                        <div class="testimonial-text">Awesome features for the money. I never thought such a low ammount of money would bring me so many leads per month. Before Tivo I used the services of an agency which cost 10x more and delivered far less. Highly recommended to marketers focused on results.</div>
-                                        <div class="testimonial-author">Roy Smith - Developer</div>
-                                    </div> <!-- end of text-wrapper -->
-                                </div> <!-- end of swiper-slide -->
-                                <!-- end of slide -->
-
-                                <!-- Slide -->
-                                <div class="swiper-slide">
-                                    <div class="image-wrapper">
-                                        <img class="img-fluid" src="{{ asset('/content/images/testimonial-3.jpg') }}" alt="alternative">
-                                    </div> <!-- end of image-wrapper -->
-                                    <div class="text-wrapper">
-                                        <div class="testimonial-text">Tivo is the best marketing automation app for small and medium sized business. It understands the mindset of young entrepreneurs and provides the necessary data for wise marketing decisions. Just give it a try and you will definitely not regret spending your time.</div>
-                                        <div class="testimonial-author">Marsha Singer - Online Marketer</div>
-                                    </div> <!-- end of text-wrapper -->
-                                </div> <!-- end of swiper-slide -->
-                                <!-- end of slide -->
-
-                                <!-- Slide -->
-                                <div class="swiper-slide">
-                                    <div class="image-wrapper">
-                                        <img class="img-fluid" src="{{ asset('/content/images/testimonial-4.jpg') }}" alt="alternative">
-                                    </div> <!-- end of image-wrapper -->
-                                    <div class="text-wrapper">
-                                        <div class="testimonial-text">Tivo is one of the greatest marketing automation apps out there. I especially love the Reporting Tools module because it gives me such a great amount of information based on little amounts of input gathered in just few weeks of light weight usage. Recommended!</div>
-                                        <div class="testimonial-author">Ronda Louis - Online Marketer</div>
-                                    </div> <!-- end of text-wrapper -->
-                                </div> <!-- end of swiper-slide -->
-                                <!-- end of slide -->
-
-                            </div> <!-- end of swiper-wrapper -->
-                            
-                            <!-- Add Arrows -->
-                            <div class="swiper-button-next"></div>
-                            <div class="swiper-button-prev"></div>
-                            <!-- end of add arrows -->
-
-                        </div> <!-- end of swiper-container -->
-                    </div> <!-- end of slider-container -->
-                    <!-- end of text slider -->
-
-                </div> <!-- end of col -->
-            </div> <!-- end of row -->
-        </div> <!-- end of container -->
-    </div> <!-- end of slider-2 -->
-    <!-- end of testimonials -->
-
 
     <!-- Newsletter -->
     <div class="form">

@@ -76,30 +76,28 @@
     @if(session('logout-success'))
     <script>
         $(document).ready(function () {
-            $('#logoutSuccessModal').modal('show');
+            $('#logoutToast').toast('show');
         });
     </script>
     @endif
     
-    <!-- Modal Logout Berhasil -->
-<div class="modal fade" id="logoutSuccessModal" tabindex="-1" role="dialog" aria-labelledby="logoutSuccessLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header bg-success text-white">
-          <h5 class="modal-title" id="logoutSuccessLabel">Logout Berhasil</h5>
-          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body text-dark">
-          Anda telah berhasil logout.
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-success" data-dismiss="modal">Oke</button>
-        </div>
+<!-- Toast Logout Berhasil -->
+<div aria-live="polite" aria-atomic="true" style="position: fixed; top: 1rem; right: 1rem; min-width: 250px; z-index: 1050;">
+    <div class="toast" id="logoutToast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
+      <div class="toast-header bg-success text-white">
+        <strong class="mr-auto">Logout</strong>
+        <small class="text-white">Sekarang</small>
+        <button type="button" class="ml-2 mb-1 close text-white" data-dismiss="toast" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="toast-body">
+        Anda telah berhasil logout.
       </div>
     </div>
   </div>
+  
+
   
 </body>
 </html>

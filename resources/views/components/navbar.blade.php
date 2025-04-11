@@ -3,10 +3,10 @@
         <div class="container">
 
             <!-- Text Logo - Use this if you don't have a graphic logo -->
-            <a class="navbar-brand logo-text page-scroll" href="index.html">SejukPool</a> 
+            {{-- <a class="navbar-brand logo-text page-scroll" href="index.html">SejukPool</a>  --}}
 
             <!-- Image Logo -->
-            {{-- <a class="navbar-brand logo-image" href="index.html"><img src="{{ asset('content/images/logo.svg') }}" alt="alternative"></a>  --}}
+            <a class="navbar-brand logo-image" href="index.html"><img src="{{ asset('content/images/logo.svg') }}" alt="alternative"></a>
             
             <!-- Mobile Menu Toggle Button -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,13 +21,10 @@
                         <a class="nav-link page-scroll" href="{{ route('home') }}">BERANDA</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link page-scroll" href="#features">TENTANG</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link page-scroll" href="#details">GALERI</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link page-scroll" href="{{ route('ticket') }}">TIKET</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link page-scroll" href="#features">RIWAYAT</a>
                     </li>
                 </ul>
                 <span class="nav-item">
