@@ -6,5 +6,6 @@
     <script src="{{ asset('content/js/swiper.min.js') }}"></script> <!-- Swiper for image and text sliders -->
     <script src="{{ asset('content/js/jquery.magnific-popup.js') }}"></script> <!-- Magnific Popup for lightboxes -->
     <script src="{{ asset('content/js/validator.min.js') }}"></script> <!-- Validator.js - Bootstrap plugin that validates forms -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
     <script src="{{ asset('content/js/scripts.js') }}"></script> <!-- Custom scripts -->
