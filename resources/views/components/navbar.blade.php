@@ -24,7 +24,7 @@
                         <a class="nav-link page-scroll" href="{{ route('ticket') }}">TIKET</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link page-scroll" href="#features">RIWAYAT</a>
+                        <a class="nav-link page-scroll" href="{{ route('history') }}">RIWAYAT</a>
                     </li>
                 </ul>
                 <span class="nav-item">

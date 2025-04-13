@@ -123,105 +123,60 @@
       </div>
     </div>
   </section>
-  
-  
-    <!-- Video -->
-    <div id="video" class="basic-2">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
 
-                    <!-- Video Preview -->
-                    <div class="image-container">
-                        <div class="video-wrapper">
-                            <a class="popup-youtube" href="https://www.youtube.com/watch?v=fLCjQJCekTs" data-effect="fadeIn">
-                                <img class="img-fluid" src="{{ asset('content/images/video-image.png') }}" alt="alternative">
-                                <span class="video-play-button">
-                                    <span></span>
-                                </span>
-                            </a>
-                        </div> <!-- end of video-wrapper -->
-                    </div> <!-- end of image-container -->
-                    <!-- end of video preview -->
-
-                    <div class="p-heading">What better way to show off Tivo marketing automation saas app than presenting you some great situations of each module and tool available to users in a video</div>        
-                </div> <!-- end of col -->
-            </div> <!-- end of row -->
-        </div> <!-- end of container -->
-    </div> <!-- end of basic-2 -->
-    <!-- end of video -->
-
-    <!-- Newsletter -->
-    <div class="form">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="text-container">
-                        <div class="above-heading">NEWSLETTER</div>
-                        <h2>Stay Updated With The Latest News To Get More Qualified Leads</h2>
-
-                        <!-- Newsletter Form -->
-                        <form id="newsletterForm" data-toggle="validator" data-focus="false">
-                            <div class="form-group">
-                                <input type="email" class="form-control-input" id="nemail" required>
-                                <label class="label-control" for="nemail">Email</label>
-                                <div class="help-block with-errors"></div>
+<!-- Location Map -->
+<div class="map-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="text-container text-center">
+                    <div class="above-heading">LOKASI KAMI</div>
+                    <h2>Kunjungi Kolam Renang Kami</h2>
+                    
+                    <!-- Map Container -->
+                    <div class="map-container">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.2954797156586!2d106.8269113!3d-6.2295736!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f3f03298e7b7%3A0xeb8f0a5184d6e956!2sMonumen%20Nasional!5e0!3m2!1sid!2sid!4v1682048409380!5m2!1sid!2sid" 
+                            width="100%" 
+                            height="450" 
+                            style="border:0; border-radius:8px;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                    
+                    <div class="location-details">
+                        <div class="row mt-4">
+                            <div class="col-md-4">
+                                <div class="location-item">
+                                    <i class="fas fa-map-marker-alt fa-2x mb-2" style="color: #5f4dee;"></i>
+                                    <h4>Alamat</h4>
+                                    <p>Jl. Cihideung</p>
+                                </div>
                             </div>
-                            <div class="form-group checkbox">
-                                <input type="checkbox" id="nterms" value="Agreed-to-Terms" required>I've read and agree to Tivo's written <a href="privacy-policy.html">Privacy Policy</a> and <a href="terms-conditions.html">Terms Conditions</a> 
-                                <div class="help-block with-errors"></div>
+                            <div class="col-md-4">
+                                <div class="location-item">
+                                    <i class="fas fa-clock fa-2x mb-2" style="color: #5f4dee;"></i>
+                                    <h4>Jam Operasional</h4>
+                                    <p>Setiap Hari<br>09.00 - 17.00 WIB</p>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <button type="submit" class="form-control-submit-button">SUBSCRIBE</button>
+                            <div class="col-md-4">
+                                <div class="location-item">
+                                    <i class="fas fa-phone-alt fa-2x mb-2" style="color: #5f4dee;"></i>
+                                    <h4>Kontak</h4>
+                                    <p>Telp: (021) 123-4567<br>Email: info@kolamrenang.id</p>
+                                </div>
                             </div>
-                            <div class="form-message">
-                                <div id="nmsgSubmit" class="h3 text-center hidden"></div>
-                            </div>
-                        </form>
-                        <!-- end of newsletter form -->
-
-                    </div> <!-- end of text-container -->
-                </div> <!-- end of col -->
-            </div> <!-- end of row -->
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="icon-container">
-                        <span class="fa-stack">
-                            <a href="#your-link">
-                                <i class="fas fa-circle fa-stack-2x"></i>
-                                <i class="fab fa-facebook-f fa-stack-1x"></i>
-                            </a>
-                        </span>
-                        <span class="fa-stack">
-                            <a href="#your-link">
-                                <i class="fas fa-circle fa-stack-2x"></i>
-                                <i class="fab fa-twitter fa-stack-1x"></i>
-                            </a>
-                        </span>
-                        <span class="fa-stack">
-                            <a href="#your-link">
-                                <i class="fas fa-circle fa-stack-2x"></i>
-                                <i class="fab fa-pinterest-p fa-stack-1x"></i>
-                            </a>
-                        </span>
-                        <span class="fa-stack">
-                            <a href="#your-link">
-                                <i class="fas fa-circle fa-stack-2x"></i>
-                                <i class="fab fa-instagram fa-stack-1x"></i>
-                            </a>
-                        </span>
-                        <span class="fa-stack">
-                            <a href="#your-link">
-                                <i class="fas fa-circle fa-stack-2x"></i>
-                                <i class="fab fa-linkedin-in fa-stack-1x"></i>
-                            </a>
-                        </span>
-                    </div> <!-- end of col -->
-                </div> <!-- end of col -->
-            </div> <!-- end of row -->
-        </div> <!-- end of container -->
-    </div> <!-- end of form -->
-    <!-- end of newsletter -->
+                        </div>
+                    </div>
+                </div> <!-- end of text-container -->
+            </div> <!-- end of col -->
+        </div> <!-- end of row -->
+    </div> <!-- end of container -->
+</div> <!-- end of map-section -->
+<!-- end of location map -->
 
     @include('components.footer')
 

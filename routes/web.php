@@ -6,6 +6,7 @@ use App\Http\Controllers\TicketController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\PetugasMiddleware;
+use App\Http\Controllers\HistoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -114,6 +115,12 @@ Route::delete('/users/{id}', [UserController::class, 'destroy']); // Hapus user
 */
 Route::get('/ticket', [TicketController::class, 'showTicketForm'])->name('ticket');
 
+/*
+|--------------------------------------------------------------------------
+| Route History (User)
+|--------------------------------------------------------------------------
+*/
+Route::get('/history', [HistoryController::class, 'historyTicket'])->name('history');
 /*
 |--------------------------------------------------------------------------
 | (Optional) Rute Petugas REST (jika diperlukan)

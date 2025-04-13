@@ -2353,3 +2353,50 @@ a:hover.back-to-top {
       margin-bottom: 15px;
     }
   }
+
+  .map-section {
+	padding: 4rem 0;
+	background-color: #f7f9fd;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.above-heading {
+	text-align: center;
+}
+
+.map-container {
+	margin-top: 2rem;
+	box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.location-details {
+	margin-top: 2rem;
+}
+
+.location-item {
+	text-align: center;
+	padding: 1.5rem;
+	background-color: white;
+	border-radius: 8px;
+	box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+	height: 100%;
+	transition: transform 0.3s ease;
+}
+
+.location-item:hover {
+	transform: translateY(-5px);
+}
+
+.location-item h4 {
+	margin: 0.5rem 0;
+	color: #333;
+	font-weight: 600;
+}
+
+.location-item p {
+	color: #666;
+	margin-bottom: 0;
+}
