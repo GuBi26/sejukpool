@@ -3,20 +3,16 @@
 
 <!-- Sidebar - Brand -->
 <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
-    <div class="d-flex align-items-center">
-        <img src="{{ asset('../content/images/undraw_profile.svg') }}" class="rounded-circle" alt="Profile"
-             style="width: 40px; height: 40px; object-fit: cover; margin-right: 8px;">
-             <div class="d-flex flex-column text-left sidebar-text">
-                <span class="text-white font-weight-bold" style="font-size: 12px;">
-                    {{ strtoupper(Auth::user()->role ?? 'ADMINISTRATOR') }}
-                </span>
-                <span class="text-white" style="font-size: 12px;">
-                    {{ strtoupper(Auth::user()->nama ?? 'ADMIN') }}
-                </span>
-            </div>
-            
+    <div class="text-center">
+        <div class="text-white font-weight-bold" style="font-size: 12px;">
+            {{ strtoupper(Auth::user()->role ?? 'ADMINISTRATOR') }}
+        </div>
+        <div class="text-white" style="font-size: 12px;">
+            {{ strtoupper(Auth::user()->nama ?? 'ADMIN') }}
+        </div>
     </div>
 </a>
+
 
 
     <!-- Divider -->
@@ -41,7 +37,7 @@
 <li class="nav-item">
     <a class="nav-link" href="{{ route('admin.petugas.index') }}">
         <i class="fas fa-fw fa-cog"></i>
-        <span>Kelola Petugas</span>
+        <span>Data Petugas</span>
     </a>
 </li>
 
@@ -50,7 +46,7 @@
     <li class="nav-item">
         <a class="nav-link collapsed" href="{{ route('admin.user.index') }}">
             <i class="fas fa-fw fa-wrench"></i>
-            <span>Kelola Pengguna</span>
+            <span>Data Customer</span>
         </a>
     </li>
 
@@ -64,9 +60,9 @@
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ route('tiket') }}">
+        <a class="nav-link collapsed" href="{{ route('admin.tiket.index') }}">
             <i class="fas fa-fw fa-folder"></i>
-            <span>Tiket</span>
+            <span>Data Tiket</span>
         </a>
     </li>
 
@@ -74,31 +70,33 @@
     <li class="nav-item">
         <a class="nav-link" href="{{ route('kelola.transaksi') }}">
             <i class="fas fa-fw fa-chart-area"></i>
-            <span>Transaksi</span></a>
+            <span>Data Transaksi</span></a>
     </li>
 
     <!-- Nav Item - Tables -->
     <li class="nav-item">
         <a class="nav-link" href="{{ route('kelola.voucher') }}">
             <i class="fas fa-fw fa-table"></i>
-            <span>Voucher</span></a>
+            <span>Data Voucher</span></a>
     </li>
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
 
+    <!-- Nav Item - Tables -->
+    <li class="nav-item">
+        <a class="nav-link" href="#">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Laporan</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
     </div>
-
-    <!-- Logout Item (diletakkan paling bawah sidebar) -->
-<li class="nav-item mt-auto">
-    <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">
-        <i class="fas fa-sign-out-alt fa-sm fa-fw text-white mr-2"></i>
-        <span>Logout</span>
-    </a>
-</li>
 </ul>
 <!-- End of Sidebar -->
 

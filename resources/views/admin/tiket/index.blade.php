@@ -38,16 +38,13 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Kelola Tiket</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Data Tiket</h1>
 
                     <!-- Action Buttons -->
                     <div class="d-flex justify-content-end align-items-center mb-4">
-                        <button class="btn btn-primary mr-2">
-                            <i class="fas fa-file-import mr-1"></i> Cetak
-                        </button>
-                        <button class="btn btn-primary">
+                        <a href="{{ route('admin.tiket.add') }}" class="btn btn-primary btn-sm">
                             <i class="fas fa-plus mr-1"></i> Tambah Tiket
-                        </button>
+                        </a>
                     </div>
 
                     <!-- Table -->
@@ -64,33 +61,23 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @foreach ($tikets as $tiket)
                                         <tr>
-                                            <td>1</td>
-                                            <td>Weekday</td>
-                                            <td>25.000</td>
+                                            <td>{{ $tiket->id }}</td>
+                                            <td>{{ $tiket->type }}</td>
+                                            <td>{{ $tiket->formatted_harga }}</td>
                                             <td>
                                                 <button class="btn btn-sm btn-outline-primary">
                                                     <i class="fas fa-edit"></i>
                                                 </button>
-                                                <button class="btn btn-sm btn-outline-danger btn-hapus" data-id="1">
+                                                <button class="btn btn-sm btn-outline-danger btn-hapus" data-id="{{ $tiket->id }}">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Weekend</td>
-                                            <td>30.000</td>
-                                            <td>
-                                                <button class="btn btn-sm btn-outline-primary">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-danger btn-hapus" data-id="1">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
+                                        @endforeach
                                     </tbody>
+                                    
                                 </table>
                             </div>
                         </div>

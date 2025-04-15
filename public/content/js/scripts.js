@@ -407,37 +407,57 @@ $(document).ready(function () {
       $('#galleryModal').modal('show');
     });
   
-    // Swiper init
-    var imageSlider = new Swiper('.image-slider', {
-      autoplay: {
-        delay: 2000,
-        disableOnInteraction: false
+// Swiper init
+var imageSlider = new Swiper('.image-slider', {
+    autoplay: false, // Nonaktifkan autoplay
+    loop: false, // Opsional: matikan loop kalau tidak butuh
+    spaceBetween: 30,
+    navigation: {
+      nextEl: '.swiper-button-next-custom',
+      prevEl: '.swiper-button-prev-custom'
+    },
+    slidesPerView: 5,
+    centeredSlides: true,
+    speed: 700,
+    effect: 'coverflow',
+    coverflowEffect: {
+      rotate: 0,
+      stretch: 0,
+      depth: 100,
+      modifier: 1,
+      slideShadows: false
+    },
+    breakpoints: {
+      580: {
+        slidesPerView: 1,
+        spaceBetween: 10
       },
-      loop: true,
-      spaceBetween: 30,
-      navigation: {
-        nextEl: '.swiper-button-next-custom',
-        prevEl: '.swiper-button-prev-custom'
+      768: {
+        slidesPerView: 2,
+        spaceBetween: 20
       },
-      slidesPerView: 5,
-      breakpoints: {
-        580: {
-          slidesPerView: 1,
-          spaceBetween: 10
-        },
-        768: {
-          slidesPerView: 2,
-          spaceBetween: 20
-        },
-        992: {
-          slidesPerView: 3,
-          spaceBetween: 20
-        },
-        1200: {
-          slidesPerView: 4,
-          spaceBetween: 20
-        }
+      992: {
+        slidesPerView: 3,
+        spaceBetween: 20
+      },
+      1200: {
+        slidesPerView: 4,
+        spaceBetween: 20
       }
-    });
+    },
+    on: {
+      slideChange: function () {
+        $('.gallery-item').removeClass('slide-focus');
+        setTimeout(function () {
+          $('.swiper-slide-active .gallery-item').addClass('slide-focus');
+        }, 100);
+      }
+    }
   });
   
+    
+    // Tambahkan fokus awal pada slide aktif
+    setTimeout(function() {
+      $('.swiper-slide-active .gallery-item').addClass('slide-focus');
+    }, 500);
+  });

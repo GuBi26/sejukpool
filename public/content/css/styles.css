@@ -1308,65 +1308,6 @@ input[type='checkbox'] {
 }
 
 
-/****************************/
-/*     12. Testimonials     */
-/****************************/
-.slider-2 {
-	padding-top: 2.75rem;
-	padding-bottom: 4rem;
-}
-
-.slider-2 .slider-container {
-	position: relative;
-}
-
-.slider-2 .swiper-container {
-	position: static;
-	width: 82%;
-	text-align: center;
-}
-
-.slider-2 .image-wrapper {
-	width: 6rem;
-	margin-right: auto;
-	margin-bottom: 1rem;
-	margin-left: auto;
-}
-
-.slider-2 .image-wrapper img {
-	border-radius: 50%;
-}
-
-.slider-2 .testimonial-text {
-	margin-bottom: 0.5rem;
-}
-
-.slider-2 .testimonial-author {
-	color: #333;
-}
-
-.slider-2 .swiper-button-prev,
-.slider-2 .swiper-button-next {
-	width: 1.125rem;
-}
-
-.slider-2 .swiper-button-prev:focus,
-.slider-2 .swiper-button-next:focus {
-	/* even if you can't see it chrome you can see it on mobile device */
-	outline: none;
-}
-
-.slider-2 .swiper-button-prev {
-	left: -0.375rem;
-	background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2028%2044'%3E%3Cpath%20d%3D'M0%2C22L22%2C0l2.1%2C2.1L4.2%2C22l19.9%2C19.9L22%2C44L0%2C22L0%2C22L0%2C22z'%20fill%3D'%23505c67'%2F%3E%3C%2Fsvg%3E");
-	background-size: 1.125rem 1.75rem;
-}
-
-.slider-2 .swiper-button-next {
-	right: -0.375rem;
-	background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2028%2044'%3E%3Cpath%20d%3D'M27%2C22L27%2C22L5%2C44l-2.1-2.1L22.8%2C22L2.9%2C2.1L5%2C0L27%2C22L27%2C22z'%20fill%3D'%23505c67'%2F%3E%3C%2Fsvg%3E");
-	background-size: 1.125rem 1.75rem;
-}
 
 
 /**************************/
@@ -1718,19 +1659,6 @@ a:hover.back-to-top {
 	/* end of header */
 
 
-	/* Testimonials */
-	.slider-2 .swiper-button-prev {
-		width: 1.375rem;
-		background-size: 1.375rem 2.125rem;
-	}
-	
-	.slider-2 .swiper-button-next {
-		width: 1.375rem;
-		background-size: 1.375rem 2.125rem;
-	}
-	/* end of testimonials */
-
-
 	/* Newsletter */
 	.form .text-container {
 		padding: 4rem 2.5rem 3rem 2.5rem;
@@ -1966,44 +1894,6 @@ a:hover.back-to-top {
 	/* end of video */
 
 
-	/* Pricing */
-	.cards-2 .card {
-		display: inline-block;
-		margin-right: 0.5rem;
-		margin-left: 0.5rem;
-		vertical-align: top;
-	}
-	/* end of pricing */
-
-
-	/* Testimonials */
-	.slider-2 .swiper-container {
-		width: 92%;
-		text-align: left;
-	}
-
-	.slider-2 .image-wrapper {
-		float: left;
-		width: 10rem;
-		margin-bottom: 0;
-	}
-
-	.slider-2 .text-wrapper {
-		max-width: 100%;
-		margin-top: 1.25rem;
-		margin-left: 13rem;
-	}
-
-	.slider-2 .swiper-button-prev {
-		left: -0.75rem;
-	}
-	
-	.slider-2 .swiper-button-next {
-		right: -0.75rem;
-	}
-	/* end of testimonials */
-
-
 	/* Newsletter */
 	.form .text-container {
 		width: 55rem;
@@ -2207,9 +2097,11 @@ a:hover.back-to-top {
 /* end of min-width width 1200px */
 
 /* new */
-  /* Gallery Styling */
-  .gallery-item {
+/* Gallery Styling */
+.gallery-item {
 	cursor: pointer;
+	transform: scale(0.9); /* Semua foto awalnya sedikit lebih kecil */
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   
   .swiper {
@@ -2219,6 +2111,13 @@ a:hover.back-to-top {
   
   .swiper-slide {
 	width: auto;
+	transition: all 0.3s ease;
+  }
+  
+  .swiper-slide-active .gallery-item {
+	transform: scale(1.05); /* Foto aktif diperbesar 5% */
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Tambahkan bayangan untuk efek "melayang" */
+	z-index: 2; /* Letakkan di atas foto lain */
   }
   
   .swiper-nav button {
@@ -2229,29 +2128,41 @@ a:hover.back-to-top {
   }  
   
   .gallery-container {
-    transition: transform 0.5s ease;
-    margin-left: 0;
+	transition: transform 0.5s ease;
+	margin-left: 0;
   }
   
   .gallery-item {
-    position: relative;
-    cursor: pointer;
-    overflow: hidden;
-    transition: transform 0.3s ease;
-    border-radius: 0.5rem;
+	position: relative;
+	cursor: pointer;
+	overflow: hidden;
+	border-radius: 0.5rem;
   }
   
   .gallery-item:hover {
-    transform: scale(1.02);
+	transform: scale(1.02);
+  }
+  
+  /* Tambahkan efek batas fokus untuk slide aktif */
+  .swiper-slide-active .gallery-item::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	border: 3px solid #4E73DF;
+	border-radius: 0.5rem;
+	pointer-events: none;
   }
   
   /* 9:16 Aspect Ratio Container */
   .img-container {
-    position: relative;
-    width: 100%;
-    padding-top: 177.78%; /* 16:9 Aspect Ratio (9/16 = 0.5625 = 56.25%, but inverted for 9:16 it's 16/9 = 1.778 = 177.78%) */
-    overflow: hidden;
-    border-radius: 0.5rem;
+	position: relative;
+	width: 100%;
+	padding-top: 177.78%; /* 16:9 Aspect Ratio (9/16 = 0.5625 = 56.25%, but inverted for 9:16 it's 16/9 = 1.778 = 177.78%) */
+	overflow: hidden;
+	border-radius: 0.5rem;
   }
   
   .img-container img {
@@ -2264,96 +2175,105 @@ a:hover.back-to-top {
 	filter: brightness(0.75); /* Angka 1 = normal, makin kecil makin gelap */
   }
   
+  /* Jadikan slide aktif lebih terang */
+  .swiper-slide-active .img-container img {
+	filter: brightness(0.9);
+  }
   
   .gallery-info {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: transparent;
-    color: #fff;
-    font-size: 0.8rem;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: transparent;
+	color: #fff;
+	font-size: 0.8rem;
   }
   
   .gallery-info i {
-    color: #fff;
+	color: #fff;
   }
   
   /* Navigation Buttons */
   .gallery-navigation {
-    display: inline-flex;
-    gap: 10px;
+	display: inline-flex;
+	gap: 10px;
   }
   
   .navigation-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 4px;
-    background-color: #e9ecef;
-    color: #6c757d;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
+	width: 40px;
+	height: 40px;
+	border-radius: 4px;
+	background-color: #e9ecef;
+	color: #6c757d;
+	border: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition: all 0.3s ease;
   }
   
   /* Only apply blue color on hover */
   .navigation-btn:hover {
-    background-color: #4e73df; /* Blue color */
-    color: white;
+	background-color: #4e73df; /* Blue color */
+	color: white;
   }
   
   /* Modal Styling */
   .modal-content {
-    background-color: transparent;
-    border: none;
+	background-color: transparent;
+	border: none;
   }
   
   #galleryModal .close {
-    font-size: 28px;
-    text-shadow: 0 1px 0 #000;
+	font-size: 28px;
+	text-shadow: 0 1px 0 #000;
   }
   
   /* Animation for slide transition */
   @keyframes slideIn {
-    from {
-      transform: translateX(100%);
-    }
-    to {
-      transform: translateX(0);
-    }
+	from {
+	  transform: translateX(100%);
+	}
+	to {
+	  transform: translateX(0);
+	}
   }
   
   @keyframes slideOut {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(-100%);
-    }
+	from {
+	  transform: translateX(0);
+	}
+	to {
+	  transform: translateX(-100%);
+	}
   }
   
   .slide-in {
-    animation: slideIn 0.5s forwards;
+	animation: slideIn 0.5s forwards;
   }
   
   .slide-out {
-    animation: slideOut 0.5s forwards;
+	animation: slideOut 0.5s forwards;
   }
   
   /* For mobile responsiveness */
   @media (max-width: 767px) {
-    .gallery-container {
-      margin: 0 -10px;
-    }
-    
-    .gallery-item {
-      margin-bottom: 15px;
-    }
+	.gallery-container {
+	  margin: 0 -10px;
+	}
+	
+	.gallery-item {
+	  margin-bottom: 15px;
+	}
+	
+	.swiper-slide-active .gallery-item {
+	  transform: scale(1.03); /* Lebih kecil di mobile untuk tidak memotong slide */
+	}
   }
 
+  
   .map-section {
 	padding: 4rem 0;
 	background-color: #f7f9fd;
