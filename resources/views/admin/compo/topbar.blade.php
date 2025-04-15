@@ -57,24 +57,25 @@
 
 
 <!-- Logout Modal -->
-<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="logoutModalLabel">Yakin ingin keluar?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body text-dark">Klik "Logout" jika kamu yakin ingin keluar dari sesi ini.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
-                    <button class="btn btn-danger" type="submit">Logout</button>
-                </div>
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="top: 50%; transform: translateY(-50%);">
+      <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        <div class="modal-content rounded-lg p-4">
+          <div class="d-flex justify-content-end">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size: 24px;">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body text-center">
+            <h5 class="font-weight-bold text-primary mb-4" style="color: #4e73df;">Yakin ingin logout?</h5>
+            <div class="d-flex justify-content-center">
+              <button type="button" class="btn btn-outline-secondary mr-2 px-4" data-dismiss="modal">No, cancel</button>
+              <button type="submit" class="btn text-white px-4" style="background-color: #4e73df;">Yes, confirm</button>
             </div>
-        </form>
+          </div>
+        </div>
+      </form>
     </div>
-</div>
+  </div>
+    

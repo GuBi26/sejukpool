@@ -398,3 +398,46 @@
 	});
 
 })(jQuery);
+
+$(document).ready(function () {
+    // Modal lightbox image preview
+    $('.gallery-item').on('click', function () {
+      var imgSrc = $(this).find('img').attr('src');
+      $('#galleryModalImage').attr('src', imgSrc);
+      $('#galleryModal').modal('show');
+    });
+  
+    // Swiper init
+    var imageSlider = new Swiper('.image-slider', {
+      autoplay: {
+        delay: 2000,
+        disableOnInteraction: false
+      },
+      loop: true,
+      spaceBetween: 30,
+      navigation: {
+        nextEl: '.swiper-button-next-custom',
+        prevEl: '.swiper-button-prev-custom'
+      },
+      slidesPerView: 5,
+      breakpoints: {
+        580: {
+          slidesPerView: 1,
+          spaceBetween: 10
+        },
+        768: {
+          slidesPerView: 2,
+          spaceBetween: 20
+        },
+        992: {
+          slidesPerView: 3,
+          spaceBetween: 20
+        },
+        1200: {
+          slidesPerView: 4,
+          spaceBetween: 20
+        }
+      }
+    });
+  });
+  

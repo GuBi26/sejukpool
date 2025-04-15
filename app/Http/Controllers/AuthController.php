@@ -16,10 +16,11 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+
         $request->validate([
             'name' => 'required|string|max:100',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6',
+            'password' => 'required|string|min:6|confirmed',
         ]);
     
         $user = User::create([
@@ -55,14 +56,13 @@ public function login(Request $request)
     if (Auth::attempt($credentials)) {
         $request->session()->regenerate();
         $user = Auth::user();
-
         // Tentukan redirect berdasarkan role
         if ($user->role === 'admin') {
             return redirect('/admin/dashboard');
         } elseif ($user->role === 'petugas') {
             return redirect('/petugas/dashboard');
         } else {
-            return redirect('/home');
+            return redirect('/');
         }
     }
 

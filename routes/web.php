@@ -2,16 +2,32 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TicketController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\PetugasMiddleware;
-use App\Http\Controllers\TicketController;
+use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware('auth');
 
-// Route untuk user mendaftar dan login
+/*
+|--------------------------------------------------------------------------
+| Halaman Awal
+|--------------------------------------------------------------------------
+*/
+Route::get('/', function () {
+    return view('welcome');
+})->name('home');
+
+
+/*
+|--------------------------------------------------------------------------
+| Autentikasi (Login, Register, Logout)
+|--------------------------------------------------------------------------
+*/
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 
@@ -20,56 +36,111 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Hanya admin yang bisa menambahkan petugas dan mengakses dashboard admin
+/*
+|--------------------------------------------------------------------------
+| Route untuk Admin (Hanya Bisa Diakses Jika Login sebagai Admin)
+|--------------------------------------------------------------------------
+*/
 Route::middleware(['auth', AdminMiddleware::class])->group(function () {
+
+Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+
+    // // Dashboard Admin
+    // Route::get('/admin/dashboard', function () {
+    //     return view('admin.dashboard');
+    // })->name('admin.dashboard');
+
+    // Kelola Petugas
+    Route::get('/admin/petugas/index', [UserController::class, 'viewStaff'])->name('admin.petugas.index');
+    Route::get('/admin/petugas/add', [UserController::class, 'createStaff'])->name('admin.petugas.add');
+    Route::post('/admin/petugas/add', [UserController::class, 'storeStaffView'])->name('admin.petugas.store');
+    Route::get('/admin/petugas/{id}/edit', [UserController::class, 'editStaff'])->name('admin.petugas.edit');
+    Route::put('/admin/petugas/{id}', [UserController::class, 'updateStaff'])->name('admin.petugas.update');
+    Route::delete('/admin/petugas/{id}', [UserController::class, 'destroyStaff'])->name('admin.petugas.destroy');
+
+    // Tambah Petugas via Form Admin (bukan dari halaman khusus)
     Route::post('/admin/add-petugas', [UserController::class, 'addPetugas']);
-    
-    Route::get('/admin/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
 
-    // Route ke halaman kelola petugas
-    Route::get('/admin/kelola-petugas', function () {
-        return view('admin.kelola-petugas');
-    })->name('kelola.petugas');
-
-    // Route ke halaman kelola user
-    Route::get('/admin/kelola-user', function () {
-        return view('admin.kelola-user');
-    })->name('kelola.user');
-
-    // Route ke halaman kelola tiket
-    Route::get('/admin/tiket', function () {
-        return view('admin.tiket');
+    Route::get('/admin/tiket/index', function () {
+        return view('admin.tiket.index');
     })->name('tiket');
+
+    Route::get('/admin/transaksi/index', function () {
+        return view('admin.transaksi.index');
+    })->name('kelola.transaksi');
+
+    Route::get('/admin/voucher/index', function () {
+        return view('admin.voucher.index');
+    })->name('kelola.voucher');
+
+    // Kelola Pengguna/Pelanggan
+    Route::get('/admin/user/index', [UserController::class, 'index'])->name('admin.user.index');
+    Route::get('/admin/user/add', [UserController::class, 'create'])->name('admin.user.add');
+    Route::post('/admin/user/add', [UserController::class, 'store'])->name('admin.user.store');
+    Route::get('/admin/user/{id}/edit', [UserController::class, 'edit'])->name('admin.user.edit');
+    Route::put('/admin/user/{id}', [UserController::class, 'update'])->name('admin.user.update');
+    Route::delete('/admin/user/{id}', [UserController::class, 'destroy'])->name('admin.user.destroy');
+
+    // Tambah Petugas via Form Admin (bukan dari halaman khusus)
+    Route::post('/admin/add-user', [UserController::class, 'addUser']);    
+
 });
 
-// Hanya petugas yang bisa mengakses dashboard petugas
+/*
+|--------------------------------------------------------------------------
+| Route untuk Petugas (Hanya Bisa Diakses Jika Login sebagai Petugas)
+|--------------------------------------------------------------------------
+*/
 Route::middleware(['auth', PetugasMiddleware::class])->group(function () {
     Route::get('/petugas/dashboard', function () {
         return view('petugas.dashboard');
     });
 });
 
-// Halaman home hanya bisa diakses oleh user yang sudah login
-    Route::get('/home', function () {
+/*
+|--------------------------------------------------------------------------
+| Halaman Home Setelah Login (Semua User)
+|--------------------------------------------------------------------------
+*/
+Route::get('/home', function () {
     return view('home');
 })->middleware('auth');
 
+/*
+|--------------------------------------------------------------------------
+| Route untuk User (CRUD oleh Admin)
+|--------------------------------------------------------------------------
+*/
+Route::get('/users', [UserController::class, 'index']); // Lihat semua user
+Route::get('/users/{id}', [UserController::class, 'show']); // Detail user
+Route::put('/users/{id}', [UserController::class, 'update']); // Update user
+Route::delete('/users/{id}', [UserController::class, 'destroy']); // Hapus user
 
-// Rute untuk User (Pelanggan)
-Route::get('/users', [UserController::class, 'index']); // Admin melihat daftar user
-Route::get('/users/{id}', [UserController::class, 'show']); // Admin melihat detail user
-Route::put('/users/{id}', [UserController::class, 'update']); // Admin mengupdate user
-Route::delete('/users/{id}', [UserController::class, 'destroy']); // Admin menghapus user
-
-// Rute untuk petugas (Admin/Petugas)
-    Route::prefix('staff')->group(function () {
-    Route::get('/', [UserController::class, 'indexStaff']);  // Ambil semua petugas
-    Route::get('/{id}', [UserController::class, 'showStaff']); // Detail petugas
-    Route::post('/', [UserController::class, 'storeStaff']);  // Buat petugas baru
-    Route::put('/{id}', [UserController::class, 'updateStaff']); // Update petugas
-    Route::delete('/{id}', [UserController::class, 'destroyStaff']); // Hapus petugas
-});
-
+/*
+|--------------------------------------------------------------------------
+| Route Tiket (User)
+|--------------------------------------------------------------------------
+*/
 Route::get('/ticket', [TicketController::class, 'showTicketForm'])->name('ticket');
+
+/*
+|--------------------------------------------------------------------------
+| Route History (User)
+|--------------------------------------------------------------------------
+*/
+Route::get('/history', [HistoryController::class, 'historyTicket'])->name('history');
+/*
+|--------------------------------------------------------------------------
+| (Optional) Rute Petugas REST (jika diperlukan)
+|--------------------------------------------------------------------------
+| Sudah di-comment karena fungsinya sudah ditangani di atas.
+*/
+
+
+// Route::prefix('staff')->group(function () {
+//     Route::get('/', [UserController::class, 'indexStaff']);
+//     Route::get('/{id}', [UserController::class, 'showStaff']);
+//     Route::post('/', [UserController::class, 'storeStaff']);
+//     Route::put('/{id}', [UserController::class, 'updateStaff']);
+//     Route::delete('/{id}', [UserController::class, 'destroyStaff']);
+// });

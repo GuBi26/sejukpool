@@ -36,18 +36,19 @@
 
                 <!-- Page Content -->
                 <div class="container-fluid">
+                    <div id="alertBox" class="alert d-none" role="alert"></div>
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Kelola Pengguna</h1>
 
                     <!-- Action Buttons -->
                     <div class="d-flex justify-content-end align-items-center mb-4">
-                        <button class="btn btn-primary mr-2">
+                        <a href="#" class="btn btn-primary btn-sm me-2">
                             <i class="fas fa-file-import mr-1"></i> Cetak
-                        </button>
-                        <button class="btn btn-primary">
+                        </a>
+                        <a href="{{ route('admin.user.add') }}" class="btn btn-primary btn-sm">
                             <i class="fas fa-plus mr-1"></i> Tambah Pengguna
-                        </button>
+                        </a>
                     </div>
 
                     <!-- Table -->
@@ -58,25 +59,32 @@
                                     <thead>
                                         <tr>
                                             <th>ID</th>
+                                            <th>Nama</th>
                                             <th>Email</th>
                                             <th>Tanggal Dibuat</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        
+                                        @foreach($users as $us)
                                         <tr>
-                                            <td>#1</td>
-                                            <td>contoh</td>
-                                            <td>13/05/2022</td>
+                                        <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $us->nama }}</td>
+                                            <td>{{ $us->email }}</td>
+                                            <td>{{ $us->created_at->format('d/m/Y') }}</td>
                                             <td>
-                                                <button class="btn btn-sm btn-outline-primary">
+                                                <a href="{{ route('admin.user.edit', $us->id) }}" class="btn btn-sm btn-outline-primary">
                                                     <i class="fas fa-edit"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-danger">
+                                                </a>
+                                                <button class="btn btn-sm btn-outline-danger btn-hapus" data-id="{{ $us->id }}">
                                                     <i class="fas fa-trash"></i>
-                                                </button>
+                                                </button>                                           
                                             </td>
                                         </tr>
+                                    @endforeach
+                                    
+                                    
                                     </tbody>
                                 </table>
                             </div>
@@ -141,6 +149,51 @@
                 }
             });
         });
+
+        $(document).ready(function () {
+    let userIdToDelete = null;
+
+    $('.btn-hapus').on('click', function () {
+        userIdToDelete = $(this).data('id');
+        $('#modalHapusPengguna').modal('show');
+    });
+
+    $('#btnConfirmHapusPengguna').on('click', function () {
+        if (userIdToDelete !== null) {
+            $.ajax({
+                url: '/admin/user/' + userIdToDelete,
+                type: 'DELETE',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function (response) {
+                    $('#modalHapusPengguna').modal('hide');
+                    showToast('Pengguna berhasil dihapus', 'success');
+                    setTimeout(() => location.reload(), 3000);
+                },
+                error: function (xhr) {
+                    showToast('Gagal menghapus pengguna', 'danger');
+                }
+            });
+        }
+    });
+
+    function showToast(message, type = 'success') {
+        let bgClass = type === 'success' ? 'bg-success' : 'bg-danger';
+
+        $('#toastHeader')
+            .removeClass('bg-success bg-danger')
+            .addClass(bgClass);
+
+        $('#toastBody').text(message);
+
+        $('#toastNotif').toast({ delay: 3000 });
+        $('#toastNotif').toast('show');
+    }
+
+
+
+});
     </script>
 
     <!-- Custom CSS -->
@@ -292,6 +345,45 @@
             border-bottom: 1px solid #e3e6f0;
         }
     </style>
+
+<!-- Modal Konfirmasi Hapus Pengguna -->
+<div class="modal fade" id="modalHapusPengguna" tabindex="-1" role="dialog" aria-labelledby="modalHapusLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title" id="modalHapusLabel">Konfirmasi Hapus</h5>
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Apakah Anda yakin ingin menghapus pengguna ini?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+          <button type="button" class="btn btn-danger" id="btnConfirmHapusPengguna">Hapus</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+<!-- Toast Notifikasi -->
+<div aria-live="polite" aria-atomic="true" style="position: fixed; top: 1rem; right: 1rem; min-width: 250px; z-index: 1050;">
+    <div class="toast" id="toastNotif" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
+      <div id="toastHeader" class="toast-header bg-success text-white">
+        <strong class="mr-auto">Notifikasi</strong>
+        <button type="button" class="ml-2 mb-1 close text-white" data-dismiss="toast" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div id="toastBody" class="toast-body">
+        Pengguna berhasil dihapus.
+      </div>
+    </div>
+  </div>
+  
+  
 
 </body>
 

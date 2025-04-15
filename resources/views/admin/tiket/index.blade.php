@@ -58,18 +58,29 @@
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Email</th>
-                                            <th>Tanggal Dibuat</th>
-                                            <th>Pesan Untuk Tanggal</th>
+                                            <th>Tipe</th>
+                                            <th>Harga</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>#1</td>
-                                            <td>contoh</td>
-                                            <td>13/05/2022</td>
-                                            <td>13/05/2022</td>
+                                            <td>1</td>
+                                            <td>Weekday</td>
+                                            <td>25.000</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger btn-hapus" data-id="1">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Weekend</td>
+                                            <td>30.000</td>
                                             <td>
                                                 <button class="btn btn-sm btn-outline-primary">
                                                     <i class="fas fa-edit"></i>

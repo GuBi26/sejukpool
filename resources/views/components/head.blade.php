@@ -27,6 +27,8 @@
 	<link href="{{ asset('content/css/magnific-popup.css') }}" rel="stylesheet">
 	<link href="{{ asset('content/css/styles.css') }}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
 	
 	<!-- Favicon  -->
     <link rel="icon" href="{{ asset('content/images/favicon.png') }}">
