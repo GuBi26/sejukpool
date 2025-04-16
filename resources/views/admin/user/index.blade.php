@@ -39,7 +39,7 @@
                     <div id="alertBox" class="alert d-none" role="alert"></div>
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Kelola Pengguna</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Data Customer</h1>
 
                     <!-- Action Buttons -->
                     <div class="d-flex justify-content-end align-items-center mb-4">

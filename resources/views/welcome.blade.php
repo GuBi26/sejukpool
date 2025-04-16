@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <body data-spy="scroll" data-target=".fixed-top">
 
     @include('components.head')
@@ -13,8 +13,9 @@
                 <div class="row">
                     <div class="col-lg-6 col-xl-5">
                         <div class="text-container">
-                            <h1>E - Tiket</h1>
-                            <h1>SejukPool</h1>
+                            <h1>E - Tiket
+                                SejukPool
+                            </h1>
                             <p class="p-large">Aplikasi Web pemesanan tiket kolam renang hulu cai endah, Bogor</p>
                         </div> <!-- end of text-container -->
                     </div> <!-- end of col -->
@@ -37,7 +38,6 @@
         <div id="details" class="basic-1">
             <div class="row mb-4 text-center">
                 <div class="col-lg-12">
-                    <div class="above-heading">TENTANG</div>
                     <h2 class="h2-heading">Tentang SejukPool</h2>
                 </div>
             </div>
@@ -53,7 +53,7 @@
                 <div class="col-lg-6">
                     <div class="text-container">
                         <h2>SejukPool?</h2>
-                        <p>Selamat datang di e-Ticket SejukPool, website resmi penjualan tiket online untuk kolam renang Hulu Cai Endah! 
+                        <p class="text-justify">Selamat datang di e-Ticket SejukPool, website resmi penjualan tiket online untuk kolam renang Hulu Cai Endah! 
                             Nikmati kemudahan dalam merencanakan liburan Anda bersama keluarga dengan membeli tiket secara praktis, cepat, dan aman 
                             hanya melalui genggaman tangan. Melalui e-Ticket SejukPool, Anda bisa melihat informasi lengkap seputar harga tiket, jam operasional, 
                             hingga promo menarik yang tersedia. Tak perlu antre, cukup pesan tiket dari rumah dan langsung menikmati kesejukan alami kolam renang Hulu Cai Endah yang asri dan menyegarkan!</p>
@@ -73,8 +73,8 @@
       <div class="mb-5">
         <h2 class="font-weight-bold mb-3">GALLERY</h2>
         <p class="text-muted mb-0 mx-auto" style="max-width: 600px;">
-          Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; 
-          Proin sodales ultrices nulla blandit volutpat.
+            Melalui halaman Galeri ini, kamu bisa melihat berbagai momen seru 
+            dan fasilitas lengkap yang tersedia di tempat kami.
         </p>
       </div>
   
@@ -86,16 +86,6 @@
         <div class="gallery-item">
           <div class="img-container">
             <img src="{{ asset('content/images/landing-1.png') }}" class="img-fluid rounded shadow-sm" alt="Gallery Image">
-          </div>
-          <div class="gallery-info d-flex justify-content-between align-items-center px-3 py-2">
-            <div class="location">
-              <i class="fas fa-map-marker-alt mr-1"></i>
-              <span>Bogor</span>
-            </div>
-            <div class="price">
-              <i class="fas fa-ticket-alt mr-1"></i>
-              <span>12000</span>
-            </div>
           </div>
         </div>
       </div>
@@ -129,13 +119,12 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="text-container text-center">
-                    <div class="above-heading">LOKASI KAMI</div>
-                    <h2>Kunjungi Kolam Renang Kami</h2>
+                    <h2>LOKASI KAMI</h2>
                     
                     <!-- Map Container -->
                     <div class="map-container">
                         <iframe 
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.2954797156586!2d106.8269113!3d-6.2295736!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f3f03298e7b7%3A0xeb8f0a5184d6e956!2sMonumen%20Nasional!5e0!3m2!1sid!2sid!4v1682048409380!5m2!1sid!2sid" 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3963.605250789945!2d106.71488677410142!3d-6.571402564237241!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69dbcc6cd45bcb%3A0x993405b063eccca!2sKOLAM%20RENANG%20HULU%20CAI%20ENDAH!5e0!3m2!1sid!2sid!4v1744692709771!5m2!1sid!2sid" 
                             width="100%" 
                             height="450" 
                             style="border:0; border-radius:8px;" 
@@ -151,21 +140,21 @@
                                 <div class="location-item">
                                     <i class="fas fa-map-marker-alt fa-2x mb-2" style="color: #5f4dee;"></i>
                                     <h4>Alamat</h4>
-                                    <p>Jl. Cihideung</p>
+                                    <p>Taman Dramaga Permai 3 Blok F7, Cihideung Udik, Kec. Ciampea, Kabupaten Bogor, Jawa Barat 16620</p>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="location-item">
                                     <i class="fas fa-clock fa-2x mb-2" style="color: #5f4dee;"></i>
                                     <h4>Jam Operasional</h4>
-                                    <p>Setiap Hari<br>09.00 - 17.00 WIB</p>
+                                    <p>Setiap Hari<br>07.00 - 17.00 WIB</p>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="location-item">
                                     <i class="fas fa-phone-alt fa-2x mb-2" style="color: #5f4dee;"></i>
                                     <h4>Kontak</h4>
-                                    <p>Telp: (021) 123-4567<br>Email: info@kolamrenang.id</p>
+                                    <p>Telp: +62 899-076-4770</p>
                                 </div>
                             </div>
                         </div>

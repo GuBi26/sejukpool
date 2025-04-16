@@ -23,11 +23,10 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700&display=swap&subset=latin-ext" rel="stylesheet">
     <link href="{{ asset('content/css/bootstrap.css') }}" rel="stylesheet">
     <link href="{{ asset('content/css/fontawesome-all.css') }}" rel="stylesheet">
-    <link href="{{ asset('content/css/swiper.css') }}" rel="stylesheet">
 	<link href="{{ asset('content/css/magnific-popup.css') }}" rel="stylesheet">
 	<link href="{{ asset('content/css/styles.css') }}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
 	
 	<!-- Favicon  -->

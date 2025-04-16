@@ -42,7 +42,7 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Kelola Transaksi</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Data Transaksi</h1>
                     
                     <div class="d-flex justify-content-end align-items-center mb-4">
                         <button class="btn btn-primary mr-2">

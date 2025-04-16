@@ -61,10 +61,6 @@ Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('adm
     // Tambah Petugas via Form Admin (bukan dari halaman khusus)
     Route::post('/admin/add-petugas', [UserController::class, 'addPetugas']);
 
-    Route::get('/admin/tiket/index', function () {
-        return view('admin.tiket.index');
-    })->name('tiket');
-
     Route::get('/admin/transaksi/index', function () {
         return view('admin.transaksi.index');
     })->name('kelola.transaksi');
@@ -82,7 +78,16 @@ Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('adm
     Route::delete('/admin/user/{id}', [UserController::class, 'destroy'])->name('admin.user.destroy');
 
     // Tambah Petugas via Form Admin (bukan dari halaman khusus)
-    Route::post('/admin/add-user', [UserController::class, 'addUser']);    
+    Route::post('/admin/add-user', [UserController::class, 'addUser']);
+
+    // CRUD TIKET
+    Route::get('/admin/tiket/index', [TicketController::class, 'index'])->name('admin.tiket.index');
+    Route::get('/admin/tiket/add', [TicketController::class, 'create'])->name('admin.tiket.add');
+    Route::post('/admin/tiket/add', [TicketController::class, 'store'])->name('admin.tiket.store');
+    Route::get('/admin/tiket/{id}/edit', [TicketController::class, 'edit'])->name('admin.tiket.edit');
+    Route::put('/admin/tiket/{id}', [TicketController::class, 'update'])->name('admin.tiket.update');
+    Route::delete('/admin/tiket/{id}', [TicketController::class, 'destroy'])->name('admin.tiket.destroy');
+
 
 });
 

@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Keloa Petugas</title>
+    <title>Data Petugas</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset('content/css/all.min.css') }}" rel="stylesheet" type="text/css">
@@ -43,7 +43,7 @@
                 <div id="alertBox" class="alert d-none" role="alert"></div>
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Kelola Petugas</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Data Petugas</h1>
                     
                     <div class="d-flex justify-content-end align-items-center mb-4">
                         <a href="#" class="btn btn-primary btn-sm me-2">
