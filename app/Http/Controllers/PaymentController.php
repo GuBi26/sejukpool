@@ -27,6 +27,8 @@ class PaymentController extends Controller
         return response()->json($payment);
     }
 
+
+
     // Menambahkan pembayaran baru
     public function store(Request $request)
     {
@@ -43,6 +45,9 @@ class PaymentController extends Controller
             return response()->json(['message' => 'Transaksi tidak ditemukan'], 404);
         }
 
+       
+
+        $snapToken = Snap::getSnapToken($params);
         $payment = Payment::create($request->all());
 
         return response()->json(['message' => 'Pembayaran berhasil dibuat', 'payment' => $payment], 201);
