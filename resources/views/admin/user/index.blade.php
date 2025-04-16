@@ -43,9 +43,6 @@
 
                     <!-- Action Buttons -->
                     <div class="d-flex justify-content-end align-items-center mb-4">
-                        <a href="#" class="btn btn-primary btn-sm me-2">
-                            <i class="fas fa-file-import mr-1"></i> Cetak
-                        </a>
                         <a href="{{ route('admin.user.add') }}" class="btn btn-primary btn-sm">
                             <i class="fas fa-plus mr-1"></i> Tambah Pengguna
                         </a>
@@ -53,10 +50,10 @@
 
                     <!-- Table -->
                     <div class="card shadow mb-4">
-                        <div class="card-body p-0">
+                        <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
+                                    <thead class="thead-light">
                                         <tr>
                                             <th>ID</th>
                                             <th>Nama</th>
@@ -66,10 +63,9 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        
                                         @foreach($users as $us)
                                         <tr>
-                                        <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $loop->iteration }}</td>
                                             <td>{{ $us->nama }}</td>
                                             <td>{{ $us->email }}</td>
                                             <td>{{ $us->created_at->format('d/m/Y') }}</td>
@@ -82,9 +78,7 @@
                                                 </button>                                           
                                             </td>
                                         </tr>
-                                    @endforeach
-                                    
-                                    
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -151,118 +145,160 @@
         });
 
         $(document).ready(function () {
-    let userIdToDelete = null;
+            let userIdToDelete = null;
 
-    $('.btn-hapus').on('click', function () {
-        userIdToDelete = $(this).data('id');
-        $('#modalHapusPengguna').modal('show');
-    });
+            // Event handler for delete button
+            $('.btn-hapus').on('click', function () {
+                userIdToDelete = $(this).data('id');
+                $('#modalHapusPengguna').modal('show');
+            });
 
-    $('#btnConfirmHapusPengguna').on('click', function () {
-        if (userIdToDelete !== null) {
-            $.ajax({
-                url: '/admin/user/' + userIdToDelete,
-                type: 'DELETE',
-                data: {
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function (response) {
-                    $('#modalHapusPengguna').modal('hide');
-                    showToast('Pengguna berhasil dihapus', 'success');
-                    setTimeout(() => location.reload(), 3000);
-                },
-                error: function (xhr) {
-                    showToast('Gagal menghapus pengguna', 'danger');
+            // Confirm delete action
+            $('#btnConfirmHapusPengguna').on('click', function () {
+                if (userIdToDelete !== null) {
+                    $.ajax({
+                        url: '/admin/user/' + userIdToDelete,
+                        type: 'DELETE',
+                        data: {
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function (response) {
+                            $('#modalHapusPengguna').modal('hide');
+                            showToast('Pengguna berhasil dihapus', 'success');
+                            setTimeout(() => location.reload(), 3000); // Reload after 3 seconds
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Delete failed: ", error);  // Log error for debugging
+                            showToast('Gagal menghapus pengguna', 'danger');
+                        }
+                    });
                 }
             });
-        }
-    });
 
-    function showToast(message, type = 'success') {
-        let bgClass = type === 'success' ? 'bg-success' : 'bg-danger';
+            // Show toast notification
+            function showToast(message, type = 'success') {
+                let bgClass = type === 'success' ? 'bg-success' : 'bg-danger';
+                $('#toastHeader')
+                    .removeClass('bg-success bg-danger')
+                    .addClass(bgClass);
 
-        $('#toastHeader')
-            .removeClass('bg-success bg-danger')
-            .addClass(bgClass);
-
-        $('#toastBody').text(message);
-
-        $('#toastNotif').toast({ delay: 3000 });
-        $('#toastNotif').toast('show');
-    }
-
-
-
-});
+                $('#toastBody').text(message);
+                $('#toastNotif').toast({ delay: 3000 });
+                $('#toastNotif').toast('show');
+            }
+        });
     </script>
 
     <!-- Custom CSS -->
     <style>
-        .badge-success {
-            background-color: #d1e7dd;
-            color: #0f5132;
-            font-weight: 600;
+        /* Table Styling */
+        .table {
+            width: 100%;
+            margin-bottom: 1rem;
+            color: #212529;
+            border-collapse: collapse;
         }
-
-        .badge-warning {
-            background-color: #fff3cd;
-            color: #856404;
-            font-weight: 600;
-        }
-
-        .badge-danger {
-            background-color: #f8d7da;
-            color: #842029;
-            font-weight: 600;
-        }
-
-        .table th,
-        .table td {
-            vertical-align: middle;
-        }
-
-        .dataTables_wrapper .dataTables_paginate {
-            display: flex;
-            justify-content: flex-end;
-            padding: 1rem;
-        }
-
-        .dataTables_wrapper .dataTables_info {
-            text-align: left;
-            padding: 0.5rem 0;
-            margin-top: 1rem;
-        }
-
-        .btn {
-            font-size: 0.875rem;
-            font-weight: 600;
-        }
-
+        
         .table thead {
             background-color: #f8f9fc;
         }
-
+        
         .table thead th {
             color: #4e73df;
             font-weight: bold;
             text-transform: uppercase;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+            padding: 12px 15px;
+            border-bottom: 2px solid #e3e6f0;
+            vertical-align: middle;
         }
-
+        
+        .table tbody td {
+            padding: 12px 15px;
+            border-top: 1px solid #e3e6f0;
+            vertical-align: middle;
+        }
+        
+        .table tbody tr:hover {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+        
+        /* Badge Styling */
+        .badge {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.35em 0.65em;
+        }
+        
+        .badge-success {
+            background-color: #d1e7dd;
+            color: #0f5132;
+        }
+        
+        .badge-danger {
+            background-color: #f8d7da;
+            color: #842029;
+        }
+        
+        .badge-warning {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        /* Button Styling */
+        .btn-sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            border-radius: 0.2rem;
+            margin: 0 3px;
+        }
+        
+        /* Card Styling */
+        .card {
+            border: none;
+            border-radius: 0.35rem;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+        }
+        
+        .card-body {
+            padding: 1.25rem;
+        }
+        
+        /* DataTables Custom Styling */
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            padding: 0.25rem 0.5rem;
+            margin-left: 0.25rem;
+            border-radius: 0.2rem;
+        }
+        
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+            background: #4e73df;
+            color: white !important;
+            border: none;
+        }
+        
+        .dataTables_wrapper .dataTables_info {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+        
+        /* DataTables controls */
         .dataTables_length {
             display: flex;
             align-items: center;
             margin-bottom: 1rem;
         }
-
+        
         .dataTables_length label {
             display: flex;
             align-items: center;
             font-size: 0.875rem;
             color: #6e707e;
             font-weight: 600;
+            margin-bottom: 0;
         }
-
+        
         .dataTables_length select {
             margin: 0 0.5rem;
             width: 80px !important;
@@ -275,115 +311,31 @@
             background-size: 16px 12px;
             appearance: none;
         }
-
-        .dataTables_length select:focus {
-            border-color: #bac8f3;
-            box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
-        }
-
+        
         .dataTables_filter {
             display: flex;
             justify-content: flex-end;
             margin-bottom: 1rem;
         }
-
+        
         .dataTables_filter label {
             display: flex;
             align-items: center;
             font-size: 0.875rem;
             color: #6e707e;
             font-weight: 600;
+            margin-bottom: 0;
         }
-
+        
         .dataTables_filter input {
             margin-left: 0.5rem !important;
             border: 1px solid #d1d3e2;
             border-radius: 0.35rem;
-            padding: 0.375rem 0.75rem 0.375rem 2.25rem;
+            padding: 0.25rem 0.5rem;
             background-color: #fff;
-            background-position: left 0.75rem center;
-            background-size: 16px 16px;
-        }
-
-        .dataTables_filter input:focus {
-            border-color: #bac8f3;
-            box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
-        }
-
-        .dataTables-control-icon {
-            color: #6e707e;
-            margin-right: 0.5rem;
-            font-size: 0.9rem;
-        }
-
-        .card.shadow.mb-4 {
-            padding: 20px;
-            border-radius: 8px;
-        }
-
-        .table-responsive {
-            margin-top: 15px;
-        }
-
-        .table thead th {
-            padding: 12px 15px;
-            border-bottom: 2px solid #e3e6f0;
-        }
-
-        .table td {
-            padding: 12px 15px;
-            border-top: 1px solid #e3e6f0;
-        }
-
-        .btn-sm {
-            margin: 0 3px;
-        }
-
-        .card-header {
-            padding: 15px 20px;
-            background-color: #f8f9fc !important;
-            border-bottom: 1px solid #e3e6f0;
+            width: 200px;
         }
     </style>
-
-<!-- Modal Konfirmasi Hapus Pengguna -->
-<div class="modal fade" id="modalHapusPengguna" tabindex="-1" role="dialog" aria-labelledby="modalHapusLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header bg-danger text-white">
-          <h5 class="modal-title" id="modalHapusLabel">Konfirmasi Hapus</h5>
-          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          Apakah Anda yakin ingin menghapus pengguna ini?
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-          <button type="button" class="btn btn-danger" id="btnConfirmHapusPengguna">Hapus</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-
-<!-- Toast Notifikasi -->
-<div aria-live="polite" aria-atomic="true" style="position: fixed; top: 1rem; right: 1rem; min-width: 250px; z-index: 1050;">
-    <div class="toast" id="toastNotif" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
-      <div id="toastHeader" class="toast-header bg-success text-white">
-        <strong class="mr-auto">Notifikasi</strong>
-        <button type="button" class="ml-2 mb-1 close text-white" data-dismiss="toast" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div id="toastBody" class="toast-body">
-        Pengguna berhasil dihapus.
-      </div>
-    </div>
-  </div>
-  
-  
 
 </body>
 

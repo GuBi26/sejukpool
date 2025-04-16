@@ -8,6 +8,8 @@ use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\PetugasMiddleware;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\VoucherController;
+use App\Http\Controllers\ReportController;
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -28,8 +30,9 @@ Route::get('/', function () {
 | Autentikasi (Login, Register, Logout)
 |--------------------------------------------------------------------------
 */
-Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
-Route::post('/register', [AuthController::class, 'register']);
+Route::get('/register',  [AuthController::class,'showRegisterForm'])->name('register');
+Route::post('/register', [AuthController::class,'register'])->name('register.post');
+
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -65,10 +68,6 @@ Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('adm
         return view('admin.transaksi.index');
     })->name('kelola.transaksi');
 
-    Route::get('/admin/voucher/index', function () {
-        return view('admin.voucher.index');
-    })->name('kelola.voucher');
-
     // Kelola Pengguna/Pelanggan
     Route::get('/admin/user/index', [UserController::class, 'index'])->name('admin.user.index');
     Route::get('/admin/user/add', [UserController::class, 'create'])->name('admin.user.add');
@@ -88,7 +87,18 @@ Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('adm
     Route::put('/admin/tiket/{id}', [TicketController::class, 'update'])->name('admin.tiket.update');
     Route::delete('/admin/tiket/{id}', [TicketController::class, 'destroy'])->name('admin.tiket.destroy');
 
+    // VOUCHER
+    Route::get('/admin/voucher/index', [VoucherController::class, 'index'])->name('admin.voucher.index');
+    Route::get('/admin/voucher/add', [VoucherController::class, 'create'])->name('admin.voucher.add');
+    Route::post('/admin/voucher/add', [VoucherController::class, 'store'])->name('admin.voucher.store');
+    Route::get('/admin/voucher/{id}/edit', [VoucherController::class, 'edit'])->name('admin.voucher.edit');
+    Route::put('/admin/voucher/{id}', [VoucherController::class, 'update'])->name('admin.voucher.update');
+    Route::delete('/admin/voucher/{id}', [VoucherController::class, 'destroy'])->name('admin.voucher.destroy');
 
+    // REPORT
+    Route::get('/admin/report', [ReportController::class, 'showReport'])->name('show.report');
+    Route::get('/admin/report/download', [ReportController::class, 'downloadPDF'])->name('download.report');
+    
 });
 
 /*

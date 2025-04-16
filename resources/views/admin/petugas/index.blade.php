@@ -46,9 +46,6 @@
                     <h1 class="h3 mb-2 text-gray-800">Data Petugas</h1>
                     
                     <div class="d-flex justify-content-end align-items-center mb-4">
-                        <a href="#" class="btn btn-primary btn-sm me-2">
-                            <i class="fas fa-file-import mr-1"></i> Cetak
-                        </a>
                         <a href="{{ route('admin.petugas.add') }}" class="btn btn-primary btn-sm">
                             <i class="fas fa-plus mr-1"></i> Tambah Petugas
                         </a>
@@ -57,10 +54,10 @@
                 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
-                        <div class="card-body p-0">
+                        <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
+                                    <thead class="thead-light">
                                         <tr>
                                             <th>ID</th>
                                             <th>Nama</th>
@@ -120,225 +117,170 @@
 
             <!-- Custom styles for status badges -->
             <style>
-                .badge-success {
-                    background-color: #d1e7dd;
-                    color: #0f5132;
-                    font-weight: 600;
+                /* Table Styling */
+                .table {
+                    width: 100%;
+                    margin-bottom: 1rem;
+                    color: #212529;
+                    border-collapse: collapse;
                 }
-            
-                .badge-warning {
-                    background-color: #fff3cd;
-                    color: #856404;
-                    font-weight: 600;
-                }
-            
-                .badge-danger {
-                    background-color: #f8d7da;
-                    color: #842029;
-                    font-weight: 600;
-                }
-            
-                .table th, .table td {
-                    vertical-align: middle;
-                }
-            
-                .dataTables_wrapper .dataTables_paginate {
-                    display: flex;
-                    justify-content: right;
-                    padding: 1rem;
-                }
-            
-            
-                .dataTables_wrapper .dataTables_info {
-                    text-align: left;
-                    padding: 0.5rem 0;
-                    margin-top: 1rem;
-                }
-            
-                .btn {
-                    font-size: 0.875rem;
-                    font-weight: 600;
-                }
-            
+                
                 .table thead {
                     background-color: #f8f9fc;
                 }
-            
+                
                 .table thead th {
                     color: #4e73df;
                     font-weight: bold;
                     text-transform: uppercase;
-                    font-size: 0.85rem;
+                    font-size: 0.75rem;
+                    letter-spacing: 0.5px;
+                    padding: 12px 15px;
+                    border-bottom: 2px solid #e3e6f0;
+                    vertical-align: middle;
                 }
-                    /* Custom styles for the length menu */
-    .dataTables_length {
-        display: flex;
-        align-items: center;
-        margin-bottom: 1rem;
-    }
-    
-    .dataTables_length label {
-        display: flex;
-        align-items: center;
-        margin-bottom: 0;
-        font-size: 0.875rem;
-        color: #6e707e;
-        font-weight: 600;
-    }
-    
-    .dataTables_length select {
-        margin: 0 0.5rem;
-        width: 80px !important;
-        border: 1px solid #d1d3e2;
-        border-radius: 0.35rem;
-        padding: 0.25rem 0.5rem;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-        background-color: #fff;
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%233a3b45' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
-        background-repeat: no-repeat;
-        background-position: right 0.5rem center;
-        background-size: 16px 12px;
-        appearance: none;
-    }
-    
-    .dataTables_length select:focus {
-        border-color: #bac8f3;
-        outline: 0;
-        box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
-    }
-        /* Custom styles for the DataTables controls */
-    .dataTables_wrapper .dataTables_length {
-        display: flex;
-        align-items: center;
-        margin-bottom: 1rem;
-    }
-    .dataTables_wrapper .dataTables_filter {
-        display: flex;
-        justify-content: right;
-        margin-bottom: 1rem;
-    }
-    
-    /* Show entries styling */
-    .dataTables_length label {
-        display: flex;
-        align-items: center;
-        margin-bottom: 0;
-        font-size: 0.875rem;
-        color: #6e707e;
-        font-weight: 600;
-    }
-    
-    .dataTables_length select {
-        margin: 0 0.5rem;
-        width: 80px !important;
-        border: 1px solid #d1d3e2;
-        border-radius: 0.35rem;
-        padding: 0.25rem 0.5rem;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-        background-color: #fff;
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%233a3b45' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
-        background-repeat: no-repeat;
-        background-position: right 0.5rem center;
-        background-size: 16px 12px;
-        appearance: none;
-    }
-    
-    .dataTables_length select:focus {
-        border-color: #bac8f3;
-        outline: 0;
-        box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
-    }
-    
-    /* Search box styling */
-    .dataTables_filter {
-        float: none !important;
-        margin-left: 0 !important;
-    }
-    
-    .dataTables_filter label {
-        position: relative;
-        display: flex;
-        align-items: center;
-        margin-bottom: 0;
-        font-size: 0.875rem;
-        color: #6e707e;
-        font-weight: 600;
-    }
-    
-    .dataTables_filter input {
-        margin-left: 0.5rem !important;
-        border: 1px solid #d1d3e2;
-        border-radius: 0.35rem;
-        padding: 0.375rem 0.75rem 0.375rem 2.25rem;
-        height: calc(1.5em + 0.75rem + 2px);
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-        background-color: #fff;
-        background-repeat: no-repeat;
-        background-position: left 0.75rem center;
-        background-size: 16px 16px;
-    }
-    
-    .dataTables_filter input:focus {
-        border-color: #bac8f3;
-        outline: 0;
-        box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
-    }
-    
-    /* Container alignment */
-    .dataTables_wrapper .row:first-child {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-    
-    /* Icon styling */
-    .dataTables-control-icon {
-        color: #6e707e;
-        margin-right: 0.5rem;
-        font-size: 0.9rem;
-    }
-        /* Tambahkan padding untuk card dan table */
-        .card.shadow.mb-4 {
-        padding: 20px;
-        border-radius: 8px;
-    }
-
-    .table-responsive {
-        margin-top: 15px;
-    }
-
-    /* Atur header table */
-    .table thead th {
-        padding: 12px 15px;
-        background-color: #f8f9fc;
-        border-bottom: 2px solid #e3e6f0;
-    }
-
-    /* Atur cell table */
-    .table td {
-        padding: 12px 15px;
-        border-top: 1px solid #e3e6f0;
-    }
-
-    /* Atur tampilan "Tampilkan data" */
-    .dataTables_length {
-        margin-bottom: 20px;
-    }
-
-    /* Beri jarak untuk action buttons */
-    .btn-sm {
-        margin: 0 3px;
-    }
-
-    /* Header card */
-    .card-header {
-        padding: 15px 20px;
-        background-color: #f8f9fc !important;
-        border-bottom: 1px solid #e3e6f0;
-    }
+                
+                .table tbody td {
+                    padding: 12px 15px;
+                    border-top: 1px solid #e3e6f0;
+                    vertical-align: middle;
+                }
+                
+                .table tbody tr:hover {
+                    background-color: rgba(0, 0, 0, 0.02);
+                }
+                
+                /* Badge Styling */
+                .badge {
+                    font-size: 0.75rem;
+                    font-weight: 600;
+                    padding: 0.35em 0.65em;
+                }
+                
+                .badge-success {
+                    background-color: #d1e7dd;
+                    color: #0f5132;
+                }
+                
+                .badge-danger {
+                    background-color: #f8d7da;
+                    color: #842029;
+                }
+                
+                .badge-warning {
+                    background-color: #fff3cd;
+                    color: #856404;
+                }
+                
+                /* Button Styling */
+                .btn-sm {
+                    padding: 0.25rem 0.5rem;
+                    font-size: 0.75rem;
+                    border-radius: 0.2rem;
+                    margin: 0 3px;
+                }
+                
+                /* Card Styling */
+                .card {
+                    border: none;
+                    border-radius: 0.35rem;
+                    box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+                }
+                
+                .card-body {
+                    padding: 1.25rem;
+                }
+                
+                /* DataTables Custom Styling */
+                .dataTables_wrapper .dataTables_paginate .paginate_button {
+                    padding: 0.25rem 0.5rem;
+                    margin-left: 0.25rem;
+                    border-radius: 0.2rem;
+                }
+                
+                .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+                    background: #4e73df;
+                    color: white !important;
+                    border: none;
+                }
+                
+                .dataTables_wrapper .dataTables_info {
+                    font-size: 0.8rem;
+                    color: #6c757d;
+                }
+                
+                /* DataTables controls */
+                .dataTables_length {
+                    display: flex;
+                    align-items: center;
+                    margin-bottom: 1rem;
+                }
+                
+                .dataTables_length label {
+                    display: flex;
+                    align-items: center;
+                    font-size: 0.875rem;
+                    color: #6e707e;
+                    font-weight: 600;
+                    margin-bottom: 0;
+                }
+                
+                .dataTables_length select {
+                    margin: 0 0.5rem;
+                    width: 80px !important;
+                    border: 1px solid #d1d3e2;
+                    border-radius: 0.35rem;
+                    padding: 0.25rem 0.5rem;
+                    background-color: #fff;
+                    background-repeat: no-repeat;
+                    background-position: right 0.5rem center;
+                    background-size: 16px 12px;
+                    appearance: none;
+                }
+                
+                .dataTables_filter {
+                    display: flex;
+                    justify-content: flex-end;
+                    margin-bottom: 1rem;
+                }
+                
+                .dataTables_filter label {
+                    display: flex;
+                    align-items: center;
+                    font-size: 0.875rem;
+                    color: #6e707e;
+                    font-weight: 600;
+                    margin-bottom: 0;
+                }
+                
+                .dataTables_filter input {
+                    margin-left: 0.5rem !important;
+                    border: 1px solid #d1d3e2;
+                    border-radius: 0.35rem;
+                    padding: 0.375rem 0.75rem 0.375rem 2.25rem;
+                    background-color: #fff;
+                }
+                
+                .dataTables-control-icon {
+                    color: #6e707e;
+                    margin-right: 0.5rem;
+                    font-size: 0.9rem;
+                }
+                
+                /* Make the card padding consistent */
+                .card.shadow.mb-4 {
+                    padding: 0; /* Remove padding to let card-body handle it */
+                }
+                
+                /* Responsive Adjustments */
+                @media (max-width: 768px) {
+                    .table-responsive {
+                        display: block;
+                        width: 100%;
+                        overflow-x: auto;
+                        -webkit-overflow-scrolling: touch;
+                    }
+                }
             </style>
             
 
@@ -374,60 +316,55 @@
                             $('div.dataTables_filter label').contents().filter(function() {
                                 return this.nodeType === 3 && this.nodeValue.trim() === 'Cari:';
                             }).remove();
-                                            // Tambahkan margin untuk search box
-                $('.dataTables_filter input').css({
-                    'margin-left': '10px',
-                    'padding': '8px 15px'
-                });
-
+                            // Tambahkan margin untuk search box
+                            $('.dataTables_filter input').css({
+                                'margin-left': '10px',
+                                'padding': '8px 15px'
+                            });
                         }
                     });
                 });
                 $(document).ready(function () {
-    let petugasIdToDelete = null;
+                    let petugasIdToDelete = null;
 
-    $('.btn-hapus').on('click', function () {
-        petugasIdToDelete = $(this).data('id');
-        $('#modalHapusPetugas').modal('show');
-    });
+                    $('.btn-hapus').on('click', function () {
+                        petugasIdToDelete = $(this).data('id');
+                        $('#modalHapusPetugas').modal('show');
+                    });
 
-    $('#btnConfirmHapusPetugas').on('click', function () {
-        if (petugasIdToDelete !== null) {
-            $.ajax({
-                url: '/admin/petugas/' + petugasIdToDelete,
-                type: 'DELETE',
-                data: {
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function (response) {
-    $('#modalHapusPetugas').modal('hide');
-    showToast('Petugas berhasil dihapus', 'success');
-    setTimeout(() => location.reload(), 3000);
-},
+                    $('#btnConfirmHapusPetugas').on('click', function () {
+                        if (petugasIdToDelete !== null) {
+                            $.ajax({
+                                url: '/admin/petugas/' + petugasIdToDelete,
+                                type: 'DELETE',
+                                data: {
+                                    _token: '{{ csrf_token() }}'
+                                },
+                                success: function (response) {
+                                    $('#modalHapusPetugas').modal('hide');
+                                    showToast('Petugas berhasil dihapus', 'success');
+                                    setTimeout(() => location.reload(), 3000);
+                                },
+                                error: function (xhr) {
+                                    showToast('Gagal menghapus petugas', 'danger');
+                                }
+                            });
+                        }
+                    });
+                    
+                    function showToast(message, type = 'success') {
+                        let bgClass = type === 'success' ? 'bg-success' : 'bg-danger';
 
-error: function (xhr) {
-    showToast('Gagal menghapus petugas', 'danger');
-}
+                        $('#toastHeader')
+                            .removeClass('bg-success bg-danger')
+                            .addClass(bgClass);
 
-            });
-        }
-    });
-    function showToast(message, type = 'success') {
-    let bgClass = type === 'success' ? 'bg-success' : 'bg-danger';
+                        $('#toastBody').text(message);
 
-    $('#toastHeader')
-        .removeClass('bg-success bg-danger')
-        .addClass(bgClass);
-
-    $('#toastBody').text(message);
-
-    $('#toastNotif').toast({ delay: 3000 });
-    $('#toastNotif').toast('show');
-}
-
-
-});
-
+                        $('#toastNotif').toast({ delay: 3000 });
+                        $('#toastNotif').toast('show');
+                    }
+                });
             </script>
             
   

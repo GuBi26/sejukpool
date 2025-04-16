@@ -11,7 +11,7 @@ class VoucherController extends Controller
     public function index()
     {
         $vouchers = Voucher::all();
-        return response()->json($vouchers);
+        return view('admin.voucher.index', compact('vouchers'));
     }
 
     // Menampilkan voucher berdasarkan ID
@@ -26,7 +26,12 @@ class VoucherController extends Controller
         return response()->json($voucher);
     }
 
-    // Menambahkan voucher baru
+    // Menampilkan form tambah tiket
+    public function create()
+    {
+        return view('admin.voucher.add');
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -37,10 +42,12 @@ class VoucherController extends Controller
             'tanggal_expired' => 'required|date|after:tanggal_berlaku',
             'status' => 'required|in:active,expired'
         ]);
-
+    
         $voucher = Voucher::create($request->all());
-
-        return response()->json(['message' => 'Voucher berhasil dibuat', 'voucher' => $voucher], 201);
+    
+        // Ganti dari response JSON ke redirect
+        return redirect()->route('admin.voucher.index')
+        ->with('success', 'Voucher berhasil dibuat');
     }
 
     // Mengupdate voucher
@@ -63,7 +70,13 @@ class VoucherController extends Controller
 
         $voucher->update($request->all());
 
-        return response()->json(['message' => 'Voucher berhasil diperbarui', 'voucher' => $voucher]);
+        return redirect()->route('admin.voucher.index');
+    }
+    public function edit($id)
+    {
+        $voucher = Voucher::findOrFail($id);
+        return view('admin.voucher.update', compact('voucher'));
+        
     }
 
     // Menghapus voucher

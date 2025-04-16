@@ -16,28 +16,22 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-
         $request->validate([
-            'name' => 'required|string|max:100',
-            'email' => 'required|email|unique:users,email',
+            'nama'     => 'required|string|max:100',
+            'email'    => 'required|email|unique:users,email',
             'password' => 'required|string|min:6|confirmed',
-        ]);
+        ]);                
     
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
+            'nama'     => $request->nama,
+            'email'    => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'pelanggan', // Default role pelanggan
+            'role'     => 'pelanggan',
         ]);
-    
-        // Jika request berasal dari API, kirim JSON response
-        if ($request->wantsJson()) {
-            return response()->json(['message' => 'Pendaftaran berhasil!', 'user' => $user], 201);
-        }
     
         // Jika request dari web, langsung login & redirect
         Auth::login($user);
-        return redirect('/home')->with('success', 'Pendaftaran berhasil! Selamat datang.');
+        return redirect('/')->with('success', 'Pendaftaran berhasil! Selamat datang.');
     }
     
 

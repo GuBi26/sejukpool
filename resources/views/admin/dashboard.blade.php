@@ -48,50 +48,52 @@
 
                     <!-- Content Row -->
                     <div class="row">
-
-                        <!-- Earnings (Monthly) Card Example -->
+                        <!-- Total Customer Card -->
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                TOTAL CUSTOMER</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $totalUser }}</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                            <a href="{{ route('admin.user.index') }}" class="card-link" style="text-decoration: none;">
+                                <div class="card border-left-primary shadow h-100 py-2 hover-effect">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    TOTAL CUSTOMER</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $totalUser }}</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-users fa-2x text-gray-300"></i>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
-
-                        <!-- Earnings (Monthly) Card Example -->
+                    
+                        <!-- Total Tickets Sold Card -->
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-success shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                TOTAL TIKET TERJUAL </div>
+                                                TOTAL TIKET TERJUAL</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">10</div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                            <i class="fas fa-ticket-alt fa-2x text-gray-300"></i> <!-- Changed to ticket icon -->
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Earnings (Monthly) Card Example -->
+                    
+                        <!-- Successful Transactions Card -->
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-info shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">TRANSAKSI BERHASIL
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                TRANSAKSI BERHASIL
                                             </div>
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
@@ -100,7 +102,7 @@
                                             </div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                            <i class="fas fa-check-circle fa-2x text-gray-300"></i> <!-- Changed to check-circle icon -->
                                         </div>
                                     </div>
                                 </div>

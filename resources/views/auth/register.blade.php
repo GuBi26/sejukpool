@@ -86,6 +86,20 @@
         .confirm-password-group {
             margin-top: -15px;
         }
+        /* Password match indicator */
+        .password-match {
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+        .password-match.valid {
+            color: #28a745;
+            display: block;
+        }
+        .password-match.invalid {
+            color: #dc3545;
+            display: block;
+        }
     </style>
 </head>
 
@@ -114,62 +128,57 @@
                                             <p class="mb-4" style="font-size: 1rem;">Sudah punya akun? <a href="{{ route('login') }}">Masuk disini</a></p>
                                         </div>
                                         
-                                        <form class="user" action="{{ route('register') }}" method="POST">
+                                        <form class="user" action="{{ route('register.post') }}" method="POST">
                                             @csrf
-                                            <!-- Name Field -->
-                                            <div class="form-group mb-4 position-relative">
+
+                                            <!-- Nama Input -->
+                                            <div class="form-group mb-4">
                                                 <input type="text" class="form-control form-control-user" 
-                                                       name="name" id="sname" 
-                                                       placeholder=" "
-                                                       value="{{ old('name') }}" required>
-                                                <label class="form-label" for="sname">Nama Lengkap</label>
-                                                @error('name')
+                                                       name="nama" value="{{ old('nama') }}" 
+                                                       id="exampleInputName" aria-describedby="nameHelp"
+                                                       placeholder="Nama" required autofocus>
+                                                @error('nama')
                                                     <small class="text-danger">{{ $message }}</small>
                                                 @enderror
                                             </div>
-
-                                            <!-- Email Field -->
-                                            <div class="form-group mb-4 position-relative">
+    
+                                            <!-- Email Input -->
+                                            <div class="form-group mb-4">
                                                 <input type="email" class="form-control form-control-user" 
-                                                       name="email" id="semail" 
-                                                       placeholder=" "
-                                                       value="{{ old('email') }}" required>
-                                                <label class="form-label" for="semail">Email</label>
+                                                       name="email" value="{{ old('email') }}" 
+                                                       id="exampleInputEmail" aria-describedby="emailHelp"
+                                                       placeholder="Email" required>
                                                 @error('email')
                                                     <small class="text-danger">{{ $message }}</small>
                                                 @enderror
                                             </div>
-
-                                            <!-- Password Field -->
-                                            <div class="form-group mb-4 position-relative">
+    
+                                            <!-- Password Input with Toggle -->
+                                            <div class="form-group position-relative mb-4">
                                                 <input type="password" class="form-control form-control-user"
-                                                       name="password" id="spassword"
-                                                       placeholder=" " required>
-                                                <label class="form-label" for="spassword">Password</label>
-                                                <span class="password-toggle" id="toggleRegisterPassword">
-                                                    <i class="fas fa-eye" id="toggleRegisterIcon"></i>
+                                                       name="password" id="password"
+                                                       placeholder="Password" required>
+                                                <span class="password-toggle" id="togglePassword">
+                                                    <i class="fas fa-eye" id="toggleIcon"></i>
                                                 </span>
                                                 @error('password')
                                                     <small class="text-danger">{{ $message }}</small>
                                                 @enderror
                                             </div>
-
-                                            <!-- Confirm Password Field -->
-                                            <div class="form-group mb-4 position-relative confirm-password-group">
+    
+                                            <!-- Confirm Password Input with Toggle -->
+                                            <div class="form-group position-relative confirm-password-group">
                                                 <input type="password" class="form-control form-control-user"
-                                                    name="password_confirmation" id="password_confirmation"
-                                                    placeholder=" " required>
-                                                <label class="form-label" for="password_confirmation">Konfirmasi Password</label>
+                                                       name="password_confirmation" id="confirmPassword"
+                                                       placeholder="Konfirmasi Password" required>
                                                 <span class="password-toggle" id="toggleConfirmPassword">
                                                     <i class="fas fa-eye" id="toggleConfirmIcon"></i>
                                                 </span>
-                                                @error('password_confirmation')
-                                                    <small class="text-danger">{{ $message }}</small>
-                                                @enderror
-                                            </div>                                           
-
+                                                <div id="passwordMatchMessage" class="password-match"></div>
+                                            </div>
+    
                                             <!-- Submit Button -->
-                                            <button type="submit" class="btn btn-primary btn-user btn-block mb-3">
+                                            <button type="submit" class="btn btn-primary btn-user btn-block mb-3 mt-4">
                                                 Daftar
                                             </button>
                                         </form>
@@ -201,9 +210,9 @@
 
     <script>
         // Password toggle functionality
-        document.getElementById('toggleRegisterPassword').addEventListener('click', function () {
-            const password = document.getElementById('spassword');
-            const icon = document.getElementById('toggleRegisterIcon');
+        document.getElementById('togglePassword').addEventListener('click', function () {
+            const password = document.getElementById('password');
+            const icon = document.getElementById('toggleIcon');
             
             if (password.type === 'password') {
                 password.type = 'text';
@@ -216,21 +225,60 @@
             }
         });
 
+        // Confirm Password toggle functionality
+        document.getElementById('toggleConfirmPassword').addEventListener('click', function () {
+            const confirmPassword = document.getElementById('confirmPassword');
+            const icon = document.getElementById('toggleConfirmIcon');
+            
+            if (confirmPassword.type === 'password') {
+                confirmPassword.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                confirmPassword.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+
+        // Password match validation
+        const password = document.getElementById('password');
+        const confirmPassword = document.getElementById('confirmPassword');
+        const message = document.getElementById('passwordMatchMessage');
+
+        function validatePassword() {
+            if (password.value !== confirmPassword.value) {
+                message.textContent = 'Password tidak cocok!';
+                message.classList.remove('valid');
+                message.classList.add('invalid');
+            } else if (password.value && confirmPassword.value) {
+                message.textContent = 'Password cocok!';
+                message.classList.remove('invalid');
+                message.classList.add('valid');
+            } else {
+                message.textContent = '';
+                message.classList.remove('valid', 'invalid');
+            }
+        }
+
+        password.addEventListener('input', validatePassword);
+        confirmPassword.addEventListener('input', validatePassword);
+
         // Initialize floating labels
         document.querySelectorAll('.form-control-user').forEach(input => {
             // Trigger the label effect if there's existing value
             if(input.value) {
-                input.nextElementSibling.classList.add('active');
+                input.nextElementSibling?.classList.add('active');
             }
             
             // Add focus/blur events
             input.addEventListener('focus', function() {
-                this.nextElementSibling.classList.add('active');
+                this.nextElementSibling?.classList.add('active');
             });
             
             input.addEventListener('blur', function() {
                 if(!this.value) {
-                    this.nextElementSibling.classList.remove('active');
+                    this.nextElementSibling?.classList.remove('active');
                 }
             });
         });

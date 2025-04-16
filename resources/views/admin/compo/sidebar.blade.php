@@ -2,7 +2,7 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
 <!-- Sidebar - Brand -->
-<a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+<a class="sidebar-brand d-flex align-items-center justify-content-center">
     <div class="text-center">
         <div class="text-white font-weight-bold" style="font-size: 12px;">
             {{ strtoupper(Auth::user()->role ?? 'ADMINISTRATOR') }}
@@ -12,8 +12,6 @@
         </div>
     </div>
 </a>
-
-
 
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
@@ -36,19 +34,19 @@
 <!-- Nav Item - Kelola Petugas -->
 <li class="nav-item">
     <a class="nav-link" href="{{ route('admin.petugas.index') }}">
-        <i class="fas fa-fw fa-cog"></i>
+        <i class="fas fa-fw fa-user-shield"></i>
         <span>Data Petugas</span>
     </a>
 </li>
 
 
-    <!-- Nav Item - Utilities Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ route('admin.user.index') }}">
-            <i class="fas fa-fw fa-wrench"></i>
-            <span>Data Customer</span>
-        </a>
-    </li>
+<!-- Nav Item - Data Customer -->
+<li class="nav-item">
+    <a class="nav-link collapsed" href="{{ route('admin.user.index') }}">
+        <i class="fas fa-fw fa-users"></i>
+        <span>Data Customer</span>
+    </a>
+</li>
 
     <!-- Divider -->
     <hr class="sidebar-divider">
@@ -58,37 +56,40 @@
         Fitur
     </div>
 
-    <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ route('admin.tiket.index') }}">
-            <i class="fas fa-fw fa-folder"></i>
-            <span>Data Tiket</span>
-        </a>
-    </li>
+<!-- Nav Item - Data Tiket -->
+<li class="nav-item">
+    <a class="nav-link collapsed" href="{{ route('admin.tiket.index') }}">
+        <i class="fas fa-fw fa-ticket-alt"></i>
+        <span>Data Tiket</span>
+    </a>
+</li>
 
-    <!-- Nav Item - Charts -->
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('kelola.transaksi') }}">
-            <i class="fas fa-fw fa-chart-area"></i>
-            <span>Data Transaksi</span></a>
-    </li>
+<!-- Nav Item - Data Transaksi -->
+<li class="nav-item">
+    <a class="nav-link" href="{{ route('kelola.transaksi') }}">
+        <i class="fas fa-fw fa-exchange-alt"></i>
+        <span>Data Transaksi</span>
+    </a>
+</li>
 
-    <!-- Nav Item - Tables -->
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('kelola.voucher') }}">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Data Voucher</span></a>
-    </li>
+<!-- Nav Item - Data Voucher -->
+<li class="nav-item">
+    <a class="nav-link" href="{{ route('admin.voucher.index') }}">
+        <i class="fas fa-fw fa-gift"></i>
+        <span>Data Voucher</span>
+    </a>
+</li>
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
 
-    <!-- Nav Item - Tables -->
-    <li class="nav-item">
-        <a class="nav-link" href="#">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Laporan</span></a>
-    </li>
+<!-- Nav Item - Laporan -->
+<li class="nav-item">
+    <a class="nav-link" href="{{ route ('show.report') }}">
+        <i class="fas fa-fw fa-file-alt"></i> <!-- Changed to file-alt for reports -->
+        <span>Laporan</span>
+    </a>
+</li>
 
     <!-- Divider -->
     <hr class="sidebar-divider">

@@ -8,23 +8,23 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Data Tiket</title>
+    <title>Data Voucher</title>
 
-    <!-- Custom fonts -->
-    <link href="{{ asset('content/css/all.min.css') }}" rel="stylesheet">
+    <!-- Custom fonts for this template-->
+    <link href="{{ asset('content/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700,800,900" rel="stylesheet">
 
-    <!-- Custom styles -->
+    <!-- Custom styles for this template-->
     <link href="{{ asset('content/css/sb-admin-2.css') }}" rel="stylesheet">
     <link href="{{ asset('content/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 </head>
 
 <body id="page-top">
-    <!-- Wrapper -->
+    <!-- Page Wrapper -->
     <div id="wrapper">
         <!-- Sidebar -->
         @include('admin.compo.sidebar')
-
+        
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
             <!-- Main Content -->
@@ -37,48 +37,60 @@
                     </button>
                 </div>
                 @endif
-                
-                <!-- Topbar -->
                 @include('admin.compo.topbar')
 
-                <!-- Page Content -->
+                <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Data Tiket</h1>
-
-                    <!-- Action Buttons -->
+                    <h1 class="h3 mb-2 text-gray-800">Data Voucher</h1>
+                    
+                    <!-- Add Voucher Button -->
                     <div class="d-flex justify-content-end align-items-center mb-4">
-                        <a href="{{ route('admin.tiket.add') }}" class="btn btn-primary btn-sm">
-                            <i class="fas fa-plus mr-1"></i> Tambah Tiket
+                        <a href="{{ route('admin.voucher.add') }}" class="btn btn-primary btn-sm">
+                            <i class="fas fa-plus mr-1"></i> Tambah Voucher
                         </a>
                     </div>
-
-                    <!-- Table Card -->
+                
+                    <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
+                                <table class="table" id="dataTable" width="100%" cellspacing="0">
                                     <thead class="thead-light">
                                         <tr>
                                             <th>ID</th>
-                                            <th>Tipe</th>
-                                            <th>Harga</th>
+                                            <th>Kode</th>
+                                            <th>Nilai Diskon</th>
+                                            <th>Kuota</th>
+                                            <th>Tanggal Berlaku</th>
+                                            <th>Tanggal Kadaluarsa</th>
+                                            <th>Status</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($tikets as $tiket)
+                                        @foreach($vouchers as $voucher)
                                         <tr>
-                                            <td>{{ $tiket->id }}</td>
-                                            <td>{{ $tiket->type }}</td>
-                                            <td>{{ $tiket->formatted_harga }}</td>
+                                            <td>{{ $voucher->id }}</td>
+                                            <td>{{ $voucher->kode }}</td>
+                                            <td>{{ number_format($voucher->nilai_diskon, 0, ',', '.') }}%</td>
+                                            <td>{{ $voucher->kuota }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($voucher->tanggal_berlaku)->format('d/m/Y') }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($voucher->tanggal_expired)->format('d/m/Y') }}</td>
                                             <td>
-                                                <a href="{{ route('admin.tiket.edit', $tiket->id) }}" class="btn btn-sm btn-outline-primary">
+                                                @if($voucher->status == 'active')
+                                                    <span class="badge badge-success px-3 py-1">Aktif</span>
+                                                @else
+                                                    <span class="badge badge-danger px-3 py-1">Kadaluarsa</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('admin.voucher.edit', $voucher->id) }}" class="btn btn-sm btn-outline-primary">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                                <button class="btn btn-sm btn-outline-danger btn-hapus" data-id="{{ $tiket->id }}">
+                                                <button class="btn btn-sm btn-outline-danger btn-hapus" data-id="{{ $voucher->id }}">
                                                     <i class="fas fa-trash"></i>
-                                                </button>
+                                                </button>                                           
                                             </td>
                                         </tr>
                                         @endforeach
@@ -90,7 +102,7 @@
                 </div>
                 <!-- /.container-fluid -->
             </div>
-            <!-- End Main Content -->
+            <!-- End of Main Content -->
 
             <!-- Delete Confirmation Modal -->
             <div class="modal fade" id="modalHapus" tabindex="-1" role="dialog" aria-labelledby="modalHapusLabel" aria-hidden="true">
@@ -103,7 +115,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            Apakah Anda yakin ingin menghapus tiket ini?
+                            Apakah Anda yakin ingin menghapus voucher ini?
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
@@ -120,20 +132,23 @@
         </div>
         <!-- End Content Wrapper -->
     </div>
-    <!-- End Wrapper -->
+    <!-- End Page Wrapper -->
 
-    <!-- Core JavaScript -->
+    <!-- Bootstrap core JavaScript-->
     <script src="{{ asset('content/js/jquery.min.js') }}"></script>
     <script src="{{ asset('content/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- Core plugin JavaScript-->
     <script src="{{ asset('content/js/jquery.easing.min.js') }}"></script>
+
+    <!-- Custom scripts for all pages-->
     <script src="{{ asset('content/js/sb-admin-2.min.js') }}"></script>
+
     <script src="{{ asset('content/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('content/js/dataTables.bootstrap4.min.js') }}"></script>
 
-    <!-- Custom Scripts -->
     <script>
         $(document).ready(function () {
-            // Initialize DataTable with custom settings
+            // Initialize DataTable
             $('#dataTable').DataTable({
                 "lengthMenu": [5, 10, 25, 50, 100],
                 "pageLength": 5,
@@ -164,17 +179,17 @@
             });
 
             // Delete functionality
-            let tiketIdToDelete = null;
+            let voucherIdToDelete = null;
 
-            $(document).on('click', '.btn-hapus', function () {
-                tiketIdToDelete = $(this).data('id');
+            $('.btn-hapus').on('click', function () {
+                voucherIdToDelete = $(this).data('id');
                 $('#modalHapus').modal('show');
             });
 
             $('#btnConfirmHapus').on('click', function () {
-                if (tiketIdToDelete !== null) {
+                if (voucherIdToDelete !== null) {
                     $.ajax({
-                        url: '/admin/tiket/' + tiketIdToDelete,
+                        url: '/admin/voucher/' + voucherIdToDelete,
                         type: 'DELETE',
                         data: {
                             _token: '{{ csrf_token() }}'
@@ -184,7 +199,7 @@
                             location.reload();
                         },
                         error: function (xhr) {
-                            alert('Gagal menghapus tiket.');
+                            alert('Gagal menghapus voucher.');
                         }
                     });
                 }
@@ -192,7 +207,6 @@
         });
     </script>
 
-    <!-- Custom CSS -->
     <style>
         /* Table Styling */
         .table {
@@ -223,8 +237,25 @@
             vertical-align: middle;
         }
         
-        .table-hover tbody tr:hover {
+        .table tbody tr:hover {
             background-color: rgba(0, 0, 0, 0.02);
+        }
+        
+        /* Badge Styling */
+        .badge {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.35em 0.65em;
+        }
+        
+        .badge-success {
+            background-color: #d1e7dd;
+            color: #0f5132;
+        }
+        
+        .badge-danger {
+            background-color: #f8d7da;
+            color: #842029;
         }
         
         /* Button Styling */
@@ -263,7 +294,7 @@
             color: #6c757d;
         }
         
-        /* Modal Styling */
+        /* Modal Header Styling */
         .modal-header {
             border-bottom: none;
             padding: 1rem 1.5rem;
@@ -276,18 +307,6 @@
                 width: 100%;
                 overflow-x: auto;
                 -webkit-overflow-scrolling: touch;
-            }
-            
-            .dataTables_wrapper .dataTables_length,
-            .dataTables_wrapper .dataTables_filter {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .dataTables_wrapper .dataTables_filter input {
-                margin-left: 0 !important;
-                margin-top: 10px;
-                width: 100% !important;
             }
         }
     </style>
