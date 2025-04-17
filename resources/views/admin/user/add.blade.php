@@ -65,8 +65,8 @@
                                 @csrf
 
                                 <div class="form-group">
-                                    <label for="nama">Nama Pengguna</label>
-                                    <input type="text" name="nama" class="form-control" id="nama" placeholder="Masukkan nama pengguna" required>
+                                    <label for="name">Nama Pengguna</label>
+                                    <input type="text" name="name" class="form-control" id="nama" placeholder="Masukkan nama pengguna" required>
                                 </div>
 
                                 <div class="form-group">
