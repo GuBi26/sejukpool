@@ -46,13 +46,6 @@
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Data Tiket</h1>
 
-                    <!-- Action Buttons -->
-                    <div class="d-flex justify-content-end align-items-center mb-4">
-                        <a href="{{ route('admin.tiket.add') }}" class="btn btn-primary btn-sm">
-                            <i class="fas fa-plus mr-1"></i> Tambah Tiket
-                        </a>
-                    </div>
-
                     <!-- Table Card -->
                     <div class="card shadow mb-4">
                         <div class="card-body">
@@ -76,9 +69,6 @@
                                                 <a href="{{ route('admin.tiket.edit', $tiket->id) }}" class="btn btn-sm btn-outline-primary">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                                <button class="btn btn-sm btn-outline-danger btn-hapus" data-id="{{ $tiket->id }}">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
                                             </td>
                                         </tr>
                                         @endforeach

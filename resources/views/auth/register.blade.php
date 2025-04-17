@@ -131,13 +131,13 @@
                                         <form class="user" action="{{ route('register.post') }}" method="POST">
                                             @csrf
 
-                                            <!-- Nama Input -->
+                                            <!-- name Input -->
                                             <div class="form-group mb-4">
                                                 <input type="text" class="form-control form-control-user" 
-                                                       name="nama" value="{{ old('nama') }}" 
+                                                       name="name" value="{{ old('name') }}" 
                                                        id="exampleInputName" aria-describedby="nameHelp"
-                                                       placeholder="Nama" required autofocus>
-                                                @error('nama')
+                                                       placeholder="name" required autofocus>
+                                                @error('name')
                                                     <small class="text-danger">{{ $message }}</small>
                                                 @enderror
                                             </div>

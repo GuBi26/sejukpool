@@ -64,24 +64,32 @@ class TicketController extends Controller
         return response()->json($ticket);
     }
 
+    public function edit($id)
+    {
+        $tickets = Ticket::findOrFail($id); // ambil 1 tiket berdasarkan ID
+    
+        return view('admin.tiket.update', compact('tickets')); // gunakan nama tunggal
+    }
+    
     // Mengupdate data tiket
     public function update(Request $request, $id)
     {
-        $ticket = Ticket::find($id);
-
-        if (!$ticket) {
+        $tickets = Ticket::find($id);
+    
+        if (!$tickets) {
             return response()->json(['message' => 'Tiket tidak ditemukan'], 404);
         }
-
+    
         $request->validate([
             'type' => 'in:weekday,weekend',
             'harga' => 'numeric|min:0'
         ]);
-
-        $ticket->update($request->all());
-
-        return response()->json(['message' => 'Tiket berhasil diperbarui', 'ticket' => $ticket]);
+    
+        $tickets->update($request->all());
+    
+        return redirect()->route('admin.tiket.index')->with('success', 'Tiket berhasil diperbarui');
     }
+    
 
     // Menghapus tiket
     public function destroy($id)

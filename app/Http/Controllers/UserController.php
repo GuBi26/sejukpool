@@ -31,20 +31,20 @@ class UserController extends Controller
 
     public function create()
 {
-    return view('admin.user.add'); // atau nama file Blade kamu untuk form tambah
+    return view('admin.user.add'); // atau name file Blade kamu untuk form tambah
 }
 
 
     public function store(Request $request)
 {
     $request->validate([
-        'nama' => 'required|string|max:100',
+        'name' => 'required|string|max:100',
         'email' => 'required|email|unique:users,email',
         'password' => 'required|string|min:6|confirmed',
     ]);
 
     $user = User::create([
-        'nama' => $request->nama,
+        'name' => $request->name,
         'email' => $request->email,
         'password' => Hash::make($request->password),
         'role' => 'pelanggan',
@@ -64,12 +64,12 @@ class UserController extends Controller
         }
     
         $request->validate([
-            'nama' => 'sometimes|required|string|max:100',
+            'name' => 'sometimes|required|string|max:100',
             'email' => 'sometimes|required|email|unique:users,email,' . $id,
             'password' => 'nullable|string|min:6|confirmed',
         ]);
     
-        $user->nama = $request->nama ?? $user->nama;
+        $user->name = $request->name ?? $user->name;
         $user->email = $request->email ?? $user->email;
     
         if ($request->filled('password')) {
@@ -140,13 +140,13 @@ public function destroy($id)
     {
         
         $request->validate([
-            'nama' => 'required|string|max:100',
+            'name' => 'required|string|max:100',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6|confirmed',
         ]);
     
         User::create([
-            'name' => $request->nama,
+            'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => 'petugas',
@@ -176,12 +176,12 @@ public function destroy($id)
         }
     
         $request->validate([
-            'nama' => 'required|string|max:100',
+            'name' => 'required|string|max:100',
             'email' => 'required|email|unique:users,email,' . $id,
             'password' => 'nullable|string|min:6|confirmed',
         ]);
     
-        $staff->name = $request->nama;
+        $staff->name = $request->name;
         $staff->email = $request->email;
     
         if ($request->filled('password')) {

@@ -66,7 +66,7 @@
                                         @foreach($users as $us)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $us->nama }}</td>
+                                            <td>{{ $us->name }}</td>
                                             <td>{{ $us->email }}</td>
                                             <td>{{ $us->created_at->format('d/m/Y') }}</td>
                                             <td>
