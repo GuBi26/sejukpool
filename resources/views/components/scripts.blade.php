@@ -6,5 +6,5 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="{{ asset('content/js/jquery.magnific-popup.js') }}"></script> <!-- Magnific Popup for lightboxes -->
     <script src="{{ asset('content/js/validator.min.js') }}"></script> <!-- Validator.js - Bootstrap plugin that validates forms -->
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('content/js/scripts.js') }}"></script> <!-- Custom scripts -->

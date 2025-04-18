@@ -7,6 +7,9 @@ use App\Models\Transaction;
 use App\Models\TransactionItem;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Midtrans\Snap;
+use Midtrans\Config;
+
 
 
 
@@ -47,6 +50,11 @@ class TransactionController extends Controller
         $transaction = Transaction::create($request->only(['user_id', 'tanggal_pesan', 'total_harga', 'status']));
 
         foreach ($request->items as $item) {
+
+            $jumlah = $item['jumlah'];
+            $ticket = \App\Models\Ticket::find($item['ticket_id']);
+            $hargaPerItem = $ticket->harga;
+            
             TransactionItem::create([
                 'transaction_id' => $transaction->id,
                 'ticket_id' => $item['ticket_id'],
@@ -73,6 +81,9 @@ class TransactionController extends Controller
         ];
 
         $snapToken = \Midtrans\Snap::getSnapToken($params);
+
+        $transaction->snap_token = $snapToken;  
+        $transaction->save();
 
         DB::commit();
 

@@ -29,6 +29,18 @@ class UserController extends Controller
         return response()->json($user);
     }
 
+        
+    public function register(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:100',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+
+
+    }
+
     public function create()
 {
     return view('admin.user.add'); // atau name file Blade kamu untuk form tambah

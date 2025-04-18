@@ -17,23 +17,22 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'name'     => 'required|string|max:100',
+            'nama'     => 'required|string|max:100',
             'email'    => 'required|email|unique:users,email',
             'password' => 'required|string|min:6|confirmed',
         ]);                
     
         $user = User::create([
-            'name'     => $request->name,
+            'nama'     => $request->nama,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
             'role'     => 'pelanggan',
         ]);
     
-        // Jika request dari web, langsung login & redirect
+        // Login otomatis setelah daftar hanya untuk user publik
         Auth::login($user);
         return redirect('/')->with('success', 'Pendaftaran berhasil! Selamat datang.');
-    }
-    
+    }    
 
     public function showLoginForm()
 {

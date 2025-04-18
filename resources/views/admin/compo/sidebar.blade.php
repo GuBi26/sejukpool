@@ -66,7 +66,7 @@
 
 <!-- Nav Item - Data Transaksi -->
 <li class="nav-item">
-    <a class="nav-link" href="{{ route('kelola.transaksi') }}">
+    <a class="nav-link" href="{{ route('admin.transaksi') }}">
         <i class="fas fa-fw fa-exchange-alt"></i>
         <span>Data Transaksi</span>
     </a>
@@ -85,7 +85,7 @@
 
 <!-- Nav Item - Laporan -->
 <li class="nav-item">
-    <a class="nav-link" href="{{ route ('show.report') }}">
+    <a class="nav-link" href="{{ route ('admin.report') }}">
         <i class="fas fa-fw fa-file-alt"></i> <!-- Changed to file-alt for reports -->
         <span>Laporan</span>
     </a>

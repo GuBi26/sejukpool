@@ -62,21 +62,27 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse ($histories as $index => $history)
-                    <tr>
-                        <td>{{ $index + 1 }}</td>
-                        <td>{{ \Carbon\Carbon::parse($history->booking_date)->format('d M Y') }}</td>
-                        <td>{{ ucfirst($history->type) }}</td>
-                        <td>{{ $history->jumlah_tiket }}</td>
-                        <td>Rp {{ number_format($history->subtotal_harga, 0, ',', '.') }}</td>
-                        <td><span style="color: green;">{{ ucfirst($history->status ?? 'berhasil') }}</span></td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="6">Belum ada pemesanan tiket.</td>
-                    </tr>
-                @endforelse
-            </tbody>
+    @forelse($histories as $index => $history)
+        <tr>
+            <td>{{ $index + 1 }}</td>
+            <td>{{ \Carbon\Carbon::parse($history->tanggal_pemesanan)->format('d M Y') }}</td>
+            <td>{{ $history->ticket->jenis ?? '-' }}</td>
+            <td>{{ $history->jumlah }}</td>
+            <td>
+                @php
+                    $harga = $history->ticket->harga ?? 0;
+                    $total = $history->jumlah * $harga;
+                @endphp
+                Rp {{ number_format($total, 0, ',', '.') }}
+            </td>
+            <td><span style="color: green;">{{ ucfirst($history->status ?? 'berhasil') }}</span></td>
+        </tr>
+    @empty
+        <tr>
+            <td colspan="6">Belum ada pemesanan tiket.</td>
+        </tr>
+    @endforelse
+</tbody>
         </table>
     </div>
 

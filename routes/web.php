@@ -1,104 +1,114 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TicketController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Middleware\AdminMiddleware;
-use App\Http\Middleware\PetugasMiddleware;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\ReportController;
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware('auth');
+use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\PetugasMiddleware;
 
 /*
 |--------------------------------------------------------------------------
-| Halaman Awal
+| Halaman Awal & Dashboard
 |--------------------------------------------------------------------------
 */
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware('auth');
+
+Route::get('/home', function () {
+    return view('home');
+})->middleware('auth');
 
 /*
 |--------------------------------------------------------------------------
 | Autentikasi (Login, Register, Logout)
 |--------------------------------------------------------------------------
 */
-Route::get('/register',  [AuthController::class,'showRegisterForm'])->name('register');
-Route::post('/register', [AuthController::class,'register'])->name('register.post');
-
+Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+Route::post('/register', [AuthController::class, 'register'])->name('register.post');
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
-
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+/*
+|--------------------------------------------------------------------------
+| Route untuk User yang Sudah Login
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/home', function () { return view('home'); })->name('home.auth');
+    
+    // Pemesanan Tiket
+    Route::get('/ticket', [TicketController::class, 'showTicketForm'])->name('ticket');
+    Route::post('/tickets/order', [TicketController::class, 'storeOrder'])->name('tickets.order');
+    
+    // History
+    Route::get('/history', [HistoryController::class, 'history'])->name('history');
+});
 
 /*
 |--------------------------------------------------------------------------
 | Route untuk Admin (Hanya Bisa Diakses Jika Login sebagai Admin)
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth', AdminMiddleware::class])->group(function () {
+Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admin.')->group(function () {
 
-Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-
-    // // Dashboard Admin
-    // Route::get('/admin/dashboard', function () {
-    //     return view('admin.dashboard');
-    // })->name('admin.dashboard');
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Kelola Petugas
-    Route::get('/admin/petugas/index', [UserController::class, 'viewStaff'])->name('admin.petugas.index');
-    Route::get('/admin/petugas/add', [UserController::class, 'createStaff'])->name('admin.petugas.add');
-    Route::post('/admin/petugas/add', [UserController::class, 'storeStaffView'])->name('admin.petugas.store');
-    Route::get('/admin/petugas/{id}/edit', [UserController::class, 'editStaff'])->name('admin.petugas.edit');
-    Route::put('/admin/petugas/{id}', [UserController::class, 'updateStaff'])->name('admin.petugas.update');
-    Route::delete('/admin/petugas/{id}', [UserController::class, 'destroyStaff'])->name('admin.petugas.destroy');
+    Route::get('/petugas/index', [UserController::class, 'viewStaff'])->name('petugas.index');
+    Route::get('/petugas/add', [UserController::class, 'createStaff'])->name('petugas.add');
+    Route::post('/petugas/add', [UserController::class, 'storeStaffView'])->name('petugas.store');
+    Route::get('/petugas/{id}/edit', [UserController::class, 'editStaff'])->name('petugas.edit');
+    Route::put('/petugas/{id}', [UserController::class, 'updateStaff'])->name('petugas.update');
+    Route::delete('/petugas/{id}', [UserController::class, 'destroyStaff'])->name('petugas.destroy');
+    Route::post('/add-petugas', [UserController::class, 'addPetugas']);
 
-    // Tambah Petugas via Form Admin (bukan dari halaman khusus)
-    Route::post('/admin/add-petugas', [UserController::class, 'addPetugas']);
+    // Kelola Pengguna (User)
+    Route::get('/user/index', [UserController::class, 'index'])->name('user.index');
+    Route::get('/user/add', [UserController::class, 'create'])->name('user.add');
+    Route::post('/user/add', [UserController::class, 'store'])->name('user.store');
+    Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
+    Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
+    Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+    Route::post('/add-user', [UserController::class, 'addUser']);
 
-    Route::get('/admin/transaksi/index', function () {
+    // Kelola Tiket
+    Route::get('/tiket/index', [TicketController::class, 'index'])->name('tiket.index');
+    Route::get('/tiket/add', [TicketController::class, 'create'])->name('tiket.add');
+    Route::post('/tiket/add', [TicketController::class, 'store'])->name('tiket.store');
+    Route::get('/tiket/{id}/edit', [TicketController::class, 'edit'])->name('tiket.edit');
+    Route::put('/tiket/{id}', [TicketController::class, 'update'])->name('tiket.update');
+    Route::delete('/tiket/{id}', [TicketController::class, 'destroy'])->name('tiket.destroy');
+
+    // Kelola Voucher
+    Route::get('/voucher/index', [VoucherController::class, 'index'])->name('voucher.index');
+    Route::get('/voucher/add', [VoucherController::class, 'create'])->name('voucher.add');
+    Route::post('/voucher/add', [VoucherController::class, 'store'])->name('voucher.store');
+    Route::get('/voucher/{id}/edit', [VoucherController::class, 'edit'])->name('voucher.edit');
+    Route::put('/voucher/{id}', [VoucherController::class, 'update'])->name('voucher.update');
+    Route::delete('/voucher/{id}', [VoucherController::class, 'destroy'])->name('voucher.destroy');
+
+    // Report
+    Route::get('/report', [ReportController::class, 'showReport'])->name('report');
+    Route::get('/report/download', [ReportController::class, 'downloadPDF'])->name('report.download');
+
+    // Transaksi (Jika perlu)
+    Route::get('/transaksi/index', function () {
         return view('admin.transaksi.index');
-    })->name('kelola.transaksi');
-
-    // Kelola Pengguna/Pelanggan
-    Route::get('/admin/user/index', [UserController::class, 'index'])->name('admin.user.index');
-    Route::get('/admin/user/add', [UserController::class, 'create'])->name('admin.user.add');
-    Route::post('/admin/user/add', [UserController::class, 'store'])->name('admin.user.store');
-    Route::get('/admin/user/{id}/edit', [UserController::class, 'edit'])->name('admin.user.edit');
-    Route::put('/admin/user/{id}', [UserController::class, 'update'])->name('admin.user.update');
-    Route::delete('/admin/user/{id}', [UserController::class, 'destroy'])->name('admin.user.destroy');
-
-    // Tambah Petugas via Form Admin (bukan dari halaman khusus)
-    Route::post('/admin/add-user', [UserController::class, 'addUser']);
-
-    // CRUD TIKET
-    Route::get('/admin/tiket/index', [TicketController::class, 'index'])->name('admin.tiket.index');
-    Route::get('/admin/tiket/add', [TicketController::class, 'create'])->name('admin.tiket.add');
-    Route::post('/admin/tiket/add', [TicketController::class, 'store'])->name('admin.tiket.store');
-    Route::get('/admin/tiket/{id}/edit', [TicketController::class, 'edit'])->name('admin.tiket.edit');
-    Route::put('/admin/tiket/{id}', [TicketController::class, 'update'])->name('admin.tiket.update');
-    Route::delete('/admin/tiket/{id}', [TicketController::class, 'destroy'])->name('admin.tiket.destroy');
-
-    // VOUCHER
-    Route::get('/admin/voucher/index', [VoucherController::class, 'index'])->name('admin.voucher.index');
-    Route::get('/admin/voucher/add', [VoucherController::class, 'create'])->name('admin.voucher.add');
-    Route::post('/admin/voucher/add', [VoucherController::class, 'store'])->name('admin.voucher.store');
-    Route::get('/admin/voucher/{id}/edit', [VoucherController::class, 'edit'])->name('admin.voucher.edit');
-    Route::put('/admin/voucher/{id}', [VoucherController::class, 'update'])->name('admin.voucher.update');
-    Route::delete('/admin/voucher/{id}', [VoucherController::class, 'destroy'])->name('admin.voucher.destroy');
-
-    // REPORT
-    Route::get('/admin/report', [ReportController::class, 'showReport'])->name('show.report');
-    Route::get('/admin/report/download', [ReportController::class, 'downloadPDF'])->name('download.report');
-    
+    })->name('transaksi');
 });
 
 /*
@@ -106,56 +116,18 @@ Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('adm
 | Route untuk Petugas (Hanya Bisa Diakses Jika Login sebagai Petugas)
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth', PetugasMiddleware::class])->group(function () {
-    Route::get('/petugas/dashboard', function () {
+Route::middleware(['auth', PetugasMiddleware::class])->prefix('petugas')->group(function () {
+    Route::get('/dashboard', function () {
         return view('petugas.dashboard');
     });
 });
 
 /*
 |--------------------------------------------------------------------------
-| Halaman Home Setelah Login (Semua User)
+| Route REST untuk User (CRUD oleh Admin)
 |--------------------------------------------------------------------------
 */
-Route::get('/home', function () {
-    return view('home');
-})->middleware('auth');
-
-/*
-|--------------------------------------------------------------------------
-| Route untuk User (CRUD oleh Admin)
-|--------------------------------------------------------------------------
-*/
-Route::get('/users', [UserController::class, 'index']); // Lihat semua user
-Route::get('/users/{id}', [UserController::class, 'show']); // Detail user
-Route::put('/users/{id}', [UserController::class, 'update']); // Update user
-Route::delete('/users/{id}', [UserController::class, 'destroy']); // Hapus user
-
-/*
-|--------------------------------------------------------------------------
-| Route Tiket (User)
-|--------------------------------------------------------------------------
-*/
-Route::get('/ticket', [TicketController::class, 'showTicketForm'])->name('ticket');
-
-/*
-|--------------------------------------------------------------------------
-| Route History (User)
-|--------------------------------------------------------------------------
-*/
-Route::get('/history', [HistoryController::class, 'historyTicket'])->name('history');
-/*
-|--------------------------------------------------------------------------
-| (Optional) Rute Petugas REST (jika diperlukan)
-|--------------------------------------------------------------------------
-| Sudah di-comment karena fungsinya sudah ditangani di atas.
-*/
-
-
-// Route::prefix('staff')->group(function () {
-//     Route::get('/', [UserController::class, 'indexStaff']);
-//     Route::get('/{id}', [UserController::class, 'showStaff']);
-//     Route::post('/', [UserController::class, 'storeStaff']);
-//     Route::put('/{id}', [UserController::class, 'updateStaff']);
-//     Route::delete('/{id}', [UserController::class, 'destroyStaff']);
-// });
+Route::get('/users', [UserController::class, 'index']);
+Route::get('/users/{id}', [UserController::class, 'show']);
+Route::put('/users/{id}', [UserController::class, 'update']);
+Route::delete('/users/{id}', [UserController::class, 'destroy']);
