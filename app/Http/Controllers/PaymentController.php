@@ -3,87 +3,34 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Payment;
-use App\Models\Transaction;
+use App\Models\Order;
+use Illuminate\Support\Facades\Log;
 
 class PaymentController extends Controller
 {
-    // Menampilkan semua pembayaran
-    public function index()
-    {
-        $payments = Payment::all();
-        return response()->json($payments);
+    // Tambahkan di PaymentController untuk debugging
+public function handleCallback(Request $request)
+{
+    Log::info('Callback Received:', $request->all());
+    
+    // Simpan raw content ke log
+    Log::info('Raw callback:', [file_get_contents('php://input')]);
+
+    $payload = $request->all();
+    $order = Order::find($payload['order_id'] ?? null);
+
+    if (!$order) {
+        Log::error('Order not found in callback');
+        return response()->json(['status' => 'error'], 404);
     }
 
-    // Menampilkan pembayaran berdasarkan ID
-    public function show($id)
-    {
-        $payment = Payment::find($id);
-
-        if (!$payment) {
-            return response()->json(['message' => 'Pembayaran tidak ditemukan'], 404);
-        }
-
-        return response()->json($payment);
+    // Update status berdasarkan callback
+    if (in_array($payload['transaction_status'] ?? null, ['capture', 'settlement'])) {
+        $order->status = 'paid';
+        $order->save();
+        Log::info('Status updated to paid');
     }
 
-
-
-    // Menambahkan pembayaran baru
-    public function store(Request $request)
-    {
-        $request->validate([
-            'transaction_id' => 'required|exists:transactions,id',
-            'payment_method' => 'required|in:bank_transfer,e-wallet,credit_card',
-            'payment_status' => 'required|in:pending,confirmed,failed',
-            'dibayar_pada' => 'nullable|date'
-        ]);
-
-        // Cek apakah transaksi yang dikaitkan ada
-        $transaction = Transaction::find($request->transaction_id);
-        if (!$transaction) {
-            return response()->json(['message' => 'Transaksi tidak ditemukan'], 404);
-        }
-
-       
-
-        $snapToken = Snap::getSnapToken($params);
-        $payment = Payment::create($request->all());
-
-        return response()->json(['message' => 'Pembayaran berhasil dibuat', 'payment' => $payment], 201);
-    }
-
-    // Mengupdate pembayaran
-    public function update(Request $request, $id)
-    {
-        $payment = Payment::find($id);
-
-        if (!$payment) {
-            return response()->json(['message' => 'Pembayaran tidak ditemukan'], 404);
-        }
-
-        $request->validate([
-            'payment_method' => 'in:bank_transfer,e-wallet,credit_card',
-            'payment_status' => 'in:pending,confirmed,failed',
-            'dibayar_pada' => 'nullable|date'
-        ]);
-
-        $payment->update($request->all());
-
-        return response()->json(['message' => 'Pembayaran berhasil diperbarui', 'payment' => $payment]);
-    }
-
-    // Menghapus pembayaran
-    public function destroy($id)
-    {
-        $payment = Payment::find($id);
-
-        if (!$payment) {
-            return response()->json(['message' => 'Pembayaran tidak ditemukan'], 404);
-        }
-
-        $payment->delete();
-
-        return response()->json(['message' => 'Pembayaran berhasil dihapus']);
-    }
+    return response()->json(['status' => 'success']);
+}
 }

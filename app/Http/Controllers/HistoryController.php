@@ -7,8 +7,6 @@ use App\Models\TicketHistory;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 
-
-
 class HistoryController extends Controller
 {
     public function history()

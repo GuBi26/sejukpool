@@ -7,4 +7,5 @@
     <script src="{{ asset('content/js/jquery.magnific-popup.js') }}"></script> <!-- Magnific Popup for lightboxes -->
     <script src="{{ asset('content/js/validator.min.js') }}"></script> <!-- Validator.js - Bootstrap plugin that validates forms -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ env('MIDTRANS_SERVER_KEY') }}"></script>
     <script src="{{ asset('content/js/scripts.js') }}"></script> <!-- Custom scripts -->

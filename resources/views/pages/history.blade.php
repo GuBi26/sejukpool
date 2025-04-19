@@ -142,7 +142,7 @@
     </style>
 </head>
 <body data-spy="scroll" data-target=".fixed-top">
-
+    
     @include('components.head')
     @include('components.navbar')
 
@@ -188,12 +188,18 @@
                     <td>{{ $order->jumlah }}</td>
                     <td>Rp {{ number_format($order->total_harga, 0, ',', '.') }}</td>
                     <td>
-                        @if ($order->status === 'pending')
-                            <span class="status-pending">Pending</span><br>
-                            <a href="#" class="pay-button">Bayar</a>
-                        @else
-                            <span class="status-success">Paid</span>
-                        @endif
+                    @if ($order->status === 'pending')
+    <span class="status-pending">Pending</span><br>
+    <a href="#" class="pay-button" 
+       data-order-id="{{ $order->id }}" 
+       data-snap-token="{{ $order->snap_token }}">
+       Bayar
+    </a>
+@elseif ($order->status === 'paid')
+    <span class="status-success">Paid</span>
+@else
+    <span class="status-failed">Cancelled</span>
+@endif
                     </td>
                 </tr>
                 @empty
@@ -208,5 +214,48 @@
     @include('components.footer')
     @include('components.scripts')
 
+    <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.pay-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const orderId = this.getAttribute('data-order-id');
+                const snapToken = this.getAttribute('data-snap-token');
+                
+                snap.pay(snapToken, {
+                    onSuccess: function(result) {
+    fetch('/update-payment-status', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+        },
+        body: JSON.stringify({
+            order_id: orderId,
+            status: 'paid'
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            window.location.reload();
+        }
+    });
+},
+                    onPending: function(result) {
+                        // Tidak perlu reload, status masih pending
+                        console.log(result);
+                    },
+                    onError: function(result) {
+                        console.error(result);
+                    },
+                    onClose: function() {
+                        // Aksi ketika popup ditutup
+                    }
+                });
+            });
+        });
+    });
+</script>
 </body>
 </html>

@@ -133,9 +133,33 @@ public function storeOrder(Request $request)
             'status' => 'pending',
         ]);
 
+             // Set Midtrans Config
+        \Midtrans\Config::$serverKey = config('midtrans.serverKey');
+        \Midtrans\Config::$isProduction = config('midtrans.isProduction');
+        \Midtrans\Config::$isSanitized = true;
+        \Midtrans\Config::$is3ds = true;
+
+
+        // Buat snap token setelah order dibuat
+        $params = [
+            'transaction_details' => [
+                'order_id' => $order->id,
+                'gross_amount' => $order->total_harga,
+            ],
+            'customer_details' => [
+                'first_name' => Auth::user()->name,
+                'email' => Auth::user()->email,
+            ],
+        ];
+
+        $snapToken = \Midtrans\Snap::getSnapToken($params);
+        $order->snap_token = $snapToken;
+        $order->save();
+
         return response()->json([
             'success' => true,
             'order_id' => $order->id,
+            'snap_token' => $snapToken,
             'message' => 'Pemesanan berhasil dibuat'
         ], 201);
 

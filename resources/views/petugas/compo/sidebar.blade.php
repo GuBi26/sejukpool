@@ -8,7 +8,7 @@
             {{ strtoupper(Auth::user()->role ?? 'ADMINISTRATOR') }}
         </div>
         <div class="text-white" style="font-size: 12px;">
-            {{ strtoupper(Auth::user()->name ?? 'ADMIN') }}
+            {{ strtoupper(Auth::user()->name ?? 'PETUGAS') }}
         </div>
     </div>
 </a>
@@ -26,28 +26,6 @@
     <!-- Divider -->
     <hr class="sidebar-divider">
 
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Kelola
-    </div>
-
-<!-- Nav Item - Kelola Petugas -->
-<li class="nav-item">
-    <a class="nav-link" href="{{ route('admin.petugas.index') }}">
-        <i class="fas fa-fw fa-user-shield"></i>
-        <span>Data Petugas</span>
-    </a>
-</li>
-
-
-<!-- Nav Item - Data Customer -->
-<li class="nav-item">
-    <a class="nav-link collapsed" href="{{ route('admin.user.index') }}">
-        <i class="fas fa-fw fa-users"></i>
-        <span>Data Customer</span>
-    </a>
-</li>
-
     <!-- Divider -->
     <hr class="sidebar-divider">
 
@@ -56,19 +34,11 @@
         Fitur
     </div>
 
-<!-- Nav Item - Data Tiket -->
-<li class="nav-item">
-    <a class="nav-link collapsed" href="{{ route('admin.tiket.index') }}">
-        <i class="fas fa-fw fa-ticket-alt"></i>
-        <span>Data Tiket</span>
-    </a>
-</li>
-
 <!-- Nav Item - Data Transaksi -->
 <li class="nav-item">
     <a class="nav-link" href="{{ route('admin.transaksi') }}">
         <i class="fas fa-fw fa-exchange-alt"></i>
-        <span>Data Transaksi</span>
+        <span>Verifikasi Tiket</span>
     </a>
 </li>
 
@@ -76,18 +46,7 @@
 <li class="nav-item">
     <a class="nav-link" href="{{ route('admin.voucher.index') }}">
         <i class="fas fa-fw fa-gift"></i>
-        <span>Data Voucher</span>
-    </a>
-</li>
-
-    <!-- Divider -->
-    <hr class="sidebar-divider d-none d-md-block">
-
-<!-- Nav Item - Laporan -->
-<li class="nav-item">
-    <a class="nav-link" href="{{ route ('admin.report') }}">
-        <i class="fas fa-fw fa-file-alt"></i> <!-- Changed to file-alt for reports -->
-        <span>Laporan</span>
+        <span>Data Transaksi</span>
     </a>
 </li>
 

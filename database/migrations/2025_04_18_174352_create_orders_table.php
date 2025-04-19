@@ -19,6 +19,7 @@ return new class extends Migration
         $table->integer('jumlah');
         $table->bigInteger('total_harga');
         $table->enum('status', ['pending', 'paid', 'cancelled'])->default('pending');
+        $table->string('snap_token', 255)->nullable();
         $table->timestamps();
     });
 }

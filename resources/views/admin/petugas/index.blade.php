@@ -71,7 +71,7 @@
                                         @foreach($staff as $p)
                                         <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $p->nama }}</td>
+                                            <td>{{ $p->name }}</td>
                                             <td>{{ $p->email }}</td>
                                             <td>{{ $p->created_at->format('d/m/Y') }}</td>
                                             <td>
