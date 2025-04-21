@@ -13,7 +13,7 @@ class HistoryController extends Controller
     {
         $histories = Order::with('ticket')
             ->where('user_id', Auth::id())
-            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'asc')
             ->get();
 
         return view('pages.history', compact('histories'));

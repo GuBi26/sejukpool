@@ -370,82 +370,84 @@
                 <h1>Pemesanan Tiket</h1>
             </div>
             <form id="bookingForm">
-                <div class="form-group">
-                    <label for="booking_date">Tanggal Kunjungan</label>
-                    <input 
-                        type="date" 
-                        id="booking_date" 
-                        name="booking_date" 
-                        required
-                        min="<?php echo date('Y-m-d'); ?>"
-                    >
-                </div>
+    @csrf
+    <div class="form-group">
+        <label for="booking_date">Tanggal Kunjungan</label>
+        <input 
+            type="date" 
+            id="booking_date" 
+            name="booking_date" 
+            required
+            min="{{ date('Y-m-d') }}"
+        >
+    </div>
 
-                <div class="form-group">
-                    <label for="ticket_type">Jenis Tiket</label>
-                    <input 
-                        type="text" 
-                        id="ticket_type" 
-                        name="ticket_type" 
-                        readonly
-                        placeholder="Akan terisi otomatis"
-                    >
-                </div>
+    <div class="form-group">
+        <label for="ticket_type">Jenis Tiket</label>
+        <input 
+            type="text" 
+            id="ticket_type" 
+            name="ticket_type" 
+            readonly
+            placeholder="Akan terisi otomatis"
+        >
+    </div>
 
-                <div class="form-group">
-                    <label for="jumlah_tiket">Jumlah Tiket</label>
-                    <input 
-                        type="number" 
-                        id="jumlah_tiket" 
-                        name="jumlah_tiket" 
-                        min="1" 
-                        max="10" 
-                        required
-                        placeholder="Masukkan jumlah tiket"
-                    >
-                </div>
+    <div class="form-group">
+        <label for="jumlah_tiket">Jumlah Tiket</label>
+        <input 
+            type="number" 
+            id="jumlah_tiket" 
+            name="jumlah_tiket" 
+            min="1" 
+            max="10" 
+            required
+            placeholder="Masukkan jumlah tiket"
+        >
+    </div>
 
-                <div class="form-group">
-                    <label for="harga">Harga Tiket Satuan</label>
-                    <input 
-                        type="text" 
-                        id="harga" 
-                        name="harga" 
-                        readonly
-                        placeholder="Harga akan dihitung otomatis"
-                    >
-                </div>
+    <div class="form-group">
+        <label for="harga">Harga Tiket Satuan</label>
+        <input 
+            type="text" 
+            id="harga" 
+            name="harga" 
+            readonly
+            placeholder="Harga akan dihitung otomatis"
+        >
+    </div>
 
-                <div class="voucher-section">
-                    <div class="form-group">
-                        <label for="voucher_code">Kode Voucher (Opsional)</label>
-                        <div style="display: flex;">
-                            <input 
-                                type="text" 
-                                id="voucher_code" 
-                                name="voucher_code" 
-                                placeholder="Masukkan kode voucher"
-                                style="flex-grow: 1; margin-right: 10px;"
-                            >
-                            <button type="button" id="apply-voucher">Gunakan</button>
-                        </div>
-                    </div>
-                    <div id="voucher-result"></div>
-                </div>
+    <div class="voucher-section">
+        <div class="form-group">
+            <label for="voucher_code">Kode Voucher (Opsional)</label>
+            <div style="display: flex;">
+                <input 
+                    type="text" 
+                    id="voucher_code" 
+                    name="voucher_code" 
+                    placeholder="Masukkan kode voucher"
+                    style="flex-grow: 1; margin-right: 10px;"
+                >
+                <button type="button" id="apply-voucher">Gunakan</button>
+            </div>
+        </div>
+        <div id="voucher-result"></div>
+    </div>
 
-                <div class="form-group">
-                    <label for="subtotal_harga">Total Harga</label>
-                    <input 
-                        type="text" 
-                        id="subtotal_harga" 
-                        name="subtotal_harga" 
-                        readonly
-                        placeholder="Total akan dihitung otomatis"
-                    >
-                </div>
+    <div class="form-group">
+        <label for="subtotal_harga">Total Harga</label>
+        <input 
+            type="text" 
+            id="subtotal_harga" 
+            name="subtotal_harga" 
+            readonly
+            placeholder="Total akan dihitung otomatis"
+        >
+    </div>
 
-                <button type="submit" id="submit-booking">Pesan Tiket</button>
-            </form>
+    <button type="submit" id="submit-booking">Pesan Tiket</button>
+</form>
+
         </div>
     </div>
 
@@ -496,193 +498,220 @@
     </div>
 
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Harga tiket
-        const ticketPrices = {
-            weekday: 50000,
-            weekend: 75000
-        };
+document.addEventListener('DOMContentLoaded', function() {
+    // Elemen form
+    const form = document.getElementById('bookingForm');
+    const bookingDateInput = document.getElementById('booking_date');
+    const ticketTypeInput = document.getElementById('ticket_type');
+    const jumlahTiketInput = document.getElementById('jumlah_tiket');
+    const hargaInput = document.getElementById('harga');
+    const subtotalHargaInput = document.getElementById('subtotal_harga');
+    const voucherCodeInput = document.getElementById('voucher_code');
+    const applyVoucherButton = document.getElementById('apply-voucher');
+    const voucherResultDiv = document.getElementById('voucher-result');
 
-        // Elemen form
-        const form = document.getElementById('bookingForm');
-        const bookingDateInput = document.getElementById('booking_date');
-        const ticketTypeInput = document.getElementById('ticket_type');
-        const jumlahTiketInput = document.getElementById('jumlah_tiket');
-        const hargaInput = document.getElementById('harga');
-        const subtotalHargaInput = document.getElementById('subtotal_harga');
-        const voucherCodeInput = document.getElementById('voucher_code');
-        const applyVoucherButton = document.getElementById('apply-voucher');
-        const voucherResultDiv = document.getElementById('voucher-result');
-
-        // Fungsi untuk menentukan jenis tiket berdasarkan tanggal
-        function determineTicketType(dateString) {
-            const date = new Date(dateString);
-            const dayOfWeek = date.getDay(); // 0 = Minggu, 6 = Sabtu
-            
-            if (dayOfWeek === 0 || dayOfWeek === 6) {
-                return { type: 'weekend', name: 'Tiket Akhir Pekan' };
-            } else {
-                return { type: 'weekday', name: 'Tiket Hari Kerja' };
-            }
-        }
-
-        // Fungsi untuk menghitung total
-        function calculateTotal() {
-            if (!bookingDateInput.value) return;
-            
-            const ticketInfo = determineTicketType(bookingDateInput.value);
-            const jumlahTiket = parseInt(jumlahTiketInput.value) || 0;
-
-            if (jumlahTiket > 0) {
-                const unitPrice = ticketPrices[ticketInfo.type];
-                const total = unitPrice * jumlahTiket;
-
-                ticketTypeInput.value = ticketInfo.name;
-                hargaInput.value = `Rp ${unitPrice.toLocaleString('id-ID')}`;
-                subtotalHargaInput.value = `Rp ${total.toLocaleString('id-ID')}`;
-            } else {
-                hargaInput.value = '';
-                subtotalHargaInput.value = '';
-            }
-        }
-
-        // Event listeners untuk perhitungan otomatis
-        bookingDateInput.addEventListener('change', function() {
-            if (this.value) {
-                const ticketInfo = determineTicketType(this.value);
-                ticketTypeInput.value = ticketInfo.name;
-                calculateTotal();
-            }
-        });
+    // Fungsi untuk menentukan jenis tiket berdasarkan tanggal
+    function determineTicketType(dateString) {
+        const date = new Date(dateString);
+        const dayOfWeek = date.getDay(); // 0 = Minggu, 6 = Sabtu
         
-        jumlahTiketInput.addEventListener('input', calculateTotal);
-
-        // Handler voucher
-        applyVoucherButton.addEventListener('click', function() {
-            const voucherCode = voucherCodeInput.value.trim();
-            
-            if (voucherCode === 'DISKON10') {
-                let currentTotal = parseFloat(subtotalHargaInput.value.replace(/[^\d]/g, '')) || 0;
-                
-                if (currentTotal > 0) {
-                    const discountedTotal = currentTotal * 0.9;
-                    voucherResultDiv.innerHTML = '<p style="color: green;">Voucher berhasil digunakan!</p>';
-                    subtotalHargaInput.value = `Rp ${discountedTotal.toLocaleString('id-ID')}`;
-                }
-            } else {
-                voucherResultDiv.innerHTML = '<p style="color: red;">Kode voucher tidak valid.</p>';
-            }
-        });
-
-        // Handler submit form
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Validasi form
-            if (!validateForm()) return;
-
-            // Isi data modal konfirmasi
-            document.getElementById('confirm-date').textContent = formatDate(bookingDateInput.value);
-            document.getElementById('confirm-type').textContent = ticketTypeInput.value;
-            document.getElementById('confirm-quantity').textContent = jumlahTiketInput.value;
-            document.getElementById('confirm-price').textContent = hargaInput.value;
-            document.getElementById('confirm-voucher').textContent = voucherCodeInput.value || '-';
-            document.getElementById('confirm-total').textContent = subtotalHargaInput.value;
-
-            // Tampilkan modal
-            $('#confirmationModal').modal('show');
-        });
-
-        // Handler konfirmasi pemesanan
-        document.getElementById('confirm-booking').addEventListener('click', async function() {
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-            const ticketInfo = determineTicketType(bookingDateInput.value);
-            
-            // Hitung total harga
-            const ticketPrice = ticketPrices[ticketInfo.type];
-            const jumlahTiket = parseInt(jumlahTiketInput.value) || 0;
-            let totalHarga = ticketPrice * jumlahTiket;
-
-            // Apply voucher jika ada
-            if (voucherCodeInput.value.trim() === 'DISKON10') {
-                totalHarga = totalHarga * 0.9;
-            }
-
-            // Siapkan data untuk dikirim
-            const requestData = {
-                booking_date: bookingDateInput.value,
-                ticket_type: ticketInfo.type,
-                jumlah_tiket: jumlahTiket,
-                voucher_code: voucherCodeInput.value || null,
-                total_harga: totalHarga
-            };
-
-            try {
-                const response = await fetch('/tickets/order', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': csrfToken,
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify(requestData)
-                });
-
-                const responseData = await response.json();
-
-                if (!response.ok) {
-                    throw new Error(responseData.message || 'Terjadi kesalahan saat memproses pemesanan');
-                }
-
-                // Tampilkan pesan sukses
-                Swal.fire({
-                    title: 'Pemesanan Berhasil!',
-                    text: `ID Pemesanan: ${responseData.order_id}`,
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                }).then(() => {
-                    // Reset form
-                    form.reset();
-                    ticketTypeInput.value = '';
-                    hargaInput.value = '';
-                    subtotalHargaInput.value = '';
-                    voucherResultDiv.innerHTML = '';
-                    
-                    // Redirect ke halaman history
-                    window.location.href = '/history';
-                });
-
-            } catch (error) {
-                console.error('Error:', error);
-                Swal.fire({
-                    title: 'Error!',
-                    text: error.message,
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-            }
-        });
-
-        // Fungsi validasi form
-        function validateForm() {
-            if (!bookingDateInput.value) {
-                alert('Harap pilih tanggal kunjungan');
-                return false;
-            }
-            if (!jumlahTiketInput.value || parseInt(jumlahTiketInput.value) < 1) {
-                alert('Harap masukkan jumlah tiket yang valid');
-                return false;
-            }
-            return true;
+        if (dayOfWeek === 0 || dayOfWeek === 6) {
+            return { type: 'weekend', name: 'Tiket Akhir Pekan' };
+        } else {
+            return { type: 'weekday', name: 'Tiket Hari Kerja' };
         }
-        
-        // Fungsi helper untuk format tanggal
-        function formatDate(dateString) {
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            const date = new Date(dateString);
-            return date.toLocaleDateString('id-ID', options);
+    }
+
+// Fungsi untuk menghitung total harga
+async function calculateTotal() {
+    if (!bookingDateInput.value) return;
+    
+    const ticketInfo = determineTicketType(bookingDateInput.value);
+    const jumlahTiket = parseInt(jumlahTiketInput.value) || 0;
+
+    if (jumlahTiket > 0) {
+        const unitPrice = await fetchTicketPrice(ticketInfo.type);
+
+        if (unitPrice !== null) {
+            // Pastikan unitPrice adalah number, bukan string
+            const price = typeof unitPrice === 'string' ? parseFloat(unitPrice) : unitPrice;
+            const total = price * jumlahTiket;
+
+            ticketTypeInput.value = ticketInfo.name;
+            // Format harga dengan 0 di belakang koma hanya jika perlu
+            hargaInput.value = `Rp ${price.toLocaleString('id-ID', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            })}`;
+            subtotalHargaInput.value = `Rp ${total.toLocaleString('id-ID', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            })}`;
+        }
+    } else {
+        hargaInput.value = '';
+        subtotalHargaInput.value = '';
+    }
+}
+
+    // Fungsi untuk mengambil harga tiket dari backend
+    async function fetchTicketPrice(ticketType) {
+        try {
+            const response = await fetch(`/tickets/price?ticket_type=${ticketType}`);
+            const data = await response.json();
+            
+            if (!data.success) {
+                throw new Error(data.message || 'Gagal mendapatkan harga tiket');
+            }
+
+            return data.price; // Kembalikan harga tiket
+        } catch (error) {
+            console.error('Error fetching ticket price:', error);
+            alert(error.message);
+            return null;
+        }
+    }
+
+    // Event listeners untuk perhitungan otomatis
+    bookingDateInput.addEventListener('change', function() {
+        if (this.value) {
+            const ticketInfo = determineTicketType(this.value);
+            ticketTypeInput.value = ticketInfo.name; // Set jenis tiket secara otomatis
+            calculateTotal();
         }
     });
+    
+    jumlahTiketInput.addEventListener('input', calculateTotal);
+
+    // Handler voucher
+    applyVoucherButton.addEventListener('click', function() {
+        const voucherCode = voucherCodeInput.value.trim();
+        
+        if (voucherCode === 'DISKON10') {
+            let currentTotal = parseFloat(subtotalHargaInput.value.replace(/[^\d]/g, '')) || 0;
+            
+            if (currentTotal > 0) {
+                const discountedTotal = currentTotal * 0.9;
+                voucherResultDiv.innerHTML = '<p style="color: green;">Voucher berhasil digunakan!</p>';
+                subtotalHargaInput.value = `Rp ${discountedTotal.toLocaleString('id-ID')}`;
+            }
+        } else {
+            voucherResultDiv.innerHTML = '<p style="color: red;">Kode voucher tidak valid.</p>';
+        }
+    });
+
+    // Handler submit form
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Validasi form
+        if (!validateForm()) return;
+
+        // Isi data modal konfirmasi
+        document.getElementById('confirm-date').textContent = formatDate(bookingDateInput.value);
+        document.getElementById('confirm-type').textContent = ticketTypeInput.value;
+        document.getElementById('confirm-quantity').textContent = jumlahTiketInput.value;
+        document.getElementById('confirm-price').textContent = hargaInput.value;
+        document.getElementById('confirm-voucher').textContent = voucherCodeInput.value || '-';
+        document.getElementById('confirm-total').textContent = subtotalHargaInput.value;
+
+        // Tampilkan modal
+        $('#confirmationModal').modal('show');
+    });
+
+    // Handler konfirmasi pemesanan
+    document.getElementById('confirm-booking').addEventListener('click', async function() {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+        const ticketInfo = determineTicketType(bookingDateInput.value);
+        
+        // Hitung total harga
+        const jumlahTiket = parseInt(jumlahTiketInput.value) || 0;
+        let unitPrice = await fetchTicketPrice(ticketInfo.type);
+        
+        if (unitPrice === null) return; // Jika gagal mendapatkan harga, batalkan
+
+        let totalHarga = unitPrice * jumlahTiket;
+
+        // Apply voucher jika ada
+        if (voucherCodeInput.value.trim() === 'DISKON10') {
+            totalHarga = totalHarga * 0.9;
+        }
+
+        // Siapkan data untuk dikirim
+        const requestData = {
+            booking_date: bookingDateInput.value,
+            ticket_type: ticketInfo.type,
+            jumlah_tiket: jumlahTiket,
+            voucher_code: voucherCodeInput.value || null,
+            total_harga: totalHarga
+        };
+
+        try {
+            const response = await fetch('/tickets/order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(requestData)
+            });
+
+            const responseData = await response.json();
+
+            if (!response.ok) {
+                throw new Error(responseData.message || 'Terjadi kesalahan saat memproses pemesanan');
+            }
+
+            // Tampilkan pesan sukses
+            Swal.fire({
+                title: 'Pemesanan Berhasil!',
+                text: `ID Pemesanan: ${responseData.order_id}`,
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                // Reset form
+                form.reset();
+                ticketTypeInput.value = '';
+                hargaInput.value = '';
+                subtotalHargaInput.value = '';
+                voucherResultDiv.innerHTML = '';
+                
+                // Redirect ke halaman history
+                window.location.href = '/history';
+            });
+
+        } catch (error) {
+            console.error('Error:', error);
+            Swal.fire({
+                title: 'Error!',
+                text: error.message,
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        }
+    });
+
+    // Fungsi validasi form
+    function validateForm() {
+        if (!bookingDateInput.value) {
+            alert('Harap pilih tanggal kunjungan');
+            return false;
+        }
+        if (!jumlahTiketInput.value || parseInt(jumlahTiketInput.value) < 1) {
+            alert('Harap masukkan jumlah tiket yang valid');
+            return false;
+        }
+        return true;
+    }
+    
+    // Fungsi helper untuk format tanggal
+    function formatDate(dateString) {
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const date = new Date(dateString);
+        return date.toLocaleDateString('id-ID', options);
+    }
+});
 </script>
 
     @include('components.footer')

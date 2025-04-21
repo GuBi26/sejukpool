@@ -52,6 +52,8 @@ Route::middleware(['auth'])->group(function () {
     // Pemesanan Tiket
     Route::get('/ticket', [TicketController::class, 'showTicketForm'])->name('ticket');
     Route::post('/tickets/order', [TicketController::class, 'storeOrder'])->name('tickets.order');
+    Route::get('/tickets/price', [TicketController::class, 'getTicketPrice'])->name('tickets.price');
+
     
     // History
     Route::get('/history', [HistoryController::class, 'history'])->name('history');

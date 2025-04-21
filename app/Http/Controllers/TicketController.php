@@ -103,6 +103,7 @@ class TicketController extends Controller
         return response()->json(['message' => 'Tiket berhasil dihapus']);
     }
 
+
 // ✅ Fungsi untuk memproses pemesanan tiket dari user (API)
 public function storeOrder(Request $request)
 {
@@ -115,7 +116,7 @@ public function storeOrder(Request $request)
     ]);
 
     try {
-        $ticket = Ticket::where('type', $request->ticket_type)->first();
+        $ticket = Ticket::where('type', ucfirst($request->ticket_type))->first();
 
         if (!$ticket) {
             return response()->json([
@@ -124,27 +125,43 @@ public function storeOrder(Request $request)
             ], 404);
         }
 
+// Hitung total harga
+$totalHarga = $ticket->price * $request->jumlah_tiket;
+
+// Jika voucher digunakan
+if ($request->voucher_code === 'DISKON10') {
+    $totalHarga *= 0.9; // Diskon 10%
+}
+
+// Pastikan total harga minimal 0.01
+if ($totalHarga < 0.01) {
+    return response()->json([
+        'success' => false,
+        'message' => 'Total harga tidak valid'
+    ], 400);
+}
+
+
         $order = Order::create([
             'user_id' => Auth::id(),
             'ticket_id' => $ticket->id,
             'tanggal_kunjungan' => $request->booking_date,
             'jumlah' => $request->jumlah_tiket,
-            'total_harga' => $request->total_harga,
+            'total_harga' => $totalHarga,
             'status' => 'pending',
-        ]);
+        ]);        
 
-             // Set Midtrans Config
+        // Set Midtrans Config
         \Midtrans\Config::$serverKey = config('midtrans.serverKey');
         \Midtrans\Config::$isProduction = config('midtrans.isProduction');
         \Midtrans\Config::$isSanitized = true;
         \Midtrans\Config::$is3ds = true;
 
-
         // Buat snap token setelah order dibuat
         $params = [
             'transaction_details' => [
                 'order_id' => $order->id,
-                'gross_amount' => $order->total_harga,
+                'gross_amount' => $totalHarga,
             ],
             'customer_details' => [
                 'first_name' => Auth::user()->name,
@@ -160,6 +177,7 @@ public function storeOrder(Request $request)
             'success' => true,
             'order_id' => $order->id,
             'snap_token' => $snapToken,
+            'total_harga' => $totalHarga,  // Kembalikan total_harga ke frontend
             'message' => 'Pemesanan berhasil dibuat'
         ], 201);
 
@@ -170,4 +188,25 @@ public function storeOrder(Request $request)
         ], 500);
     }
 }
+
+public function getTicketPrice(Request $request)
+{
+    $ticketType = $request->query('ticket_type');
+    
+    $ticket = Ticket::where('type', ucfirst($ticketType))->first();
+
+    if (!$ticket) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Jenis tiket tidak ditemukan'
+        ], 404);
+    }
+
+    return response()->json([
+        'success' => true,
+        'price' => $ticket->harga,
+    ]);
+}
+
+
 }
