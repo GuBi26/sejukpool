@@ -85,7 +85,7 @@
 
 <!-- Nav Item - Laporan -->
 <li class="nav-item">
-    <a class="nav-link" href="{{ route ('admin.report') }}">
+    <a class="nav-link" href="{{ route ('admin.report.report') }}">
         <i class="fas fa-fw fa-file-alt"></i> <!-- Changed to file-alt for reports -->
         <span>Laporan</span>
     </a>

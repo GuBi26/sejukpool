@@ -55,6 +55,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/ticket', [TicketController::class, 'showTicketForm'])->name('ticket');
     Route::post('/tickets/order', [TicketController::class, 'storeOrder'])->name('tickets.order');
     Route::get('/tickets/price', [TicketController::class, 'getTicketPrice'])->name('tickets.price');
+    Route::post('/vouchers/validate', [VoucherController::class, 'validateVoucher'])->name('vouchers.validate');
 
     // Midtrans routes
     Route::post('/payment/notification', [PaymentController::class, 'handleNotification']);
@@ -64,6 +65,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/history', [HistoryController::class, 'history'])->name('history');
     Route::post('/update-status/{id}', [HistoryController::class, 'updateStatus'])->name('updateStatus');
     Route::post('/payment/update-status', [PaymentController::class, 'updateStatus']);
+    Route::get('/orders/{order}/download', [HistoryController::class, 'download'])->name('orders.download');
 
 
 });
@@ -113,7 +115,7 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
     Route::delete('/voucher/{id}', [VoucherController::class, 'destroy'])->name('voucher.destroy');
 
     // Report
-    Route::get('/report', [ReportController::class, 'showReport'])->name('report');
+    Route::get('/report', [ReportController::class, 'showReport'])->name('report.report');
     Route::get('/report/download', [ReportController::class, 'downloadPDF'])->name('report.download');
 
     // Transaksi (Jika perlu)

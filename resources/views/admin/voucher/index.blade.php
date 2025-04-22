@@ -78,10 +78,12 @@
                                             <td>{{ \Carbon\Carbon::parse($voucher->tanggal_berlaku)->format('d/m/Y') }}</td>
                                             <td>{{ \Carbon\Carbon::parse($voucher->tanggal_expired)->format('d/m/Y') }}</td>
                                             <td>
-                                                @if($voucher->status == 'active')
-                                                    <span class="badge badge-success px-3 py-1">Aktif</span>
+                                                    @if ($voucher->status == 'habis')
+                                                    <span class="badge bg-danger">Habis</span>
+                                                @elseif ($voucher->status == 'expired')
+                                                    <span class="badge bg-secondary">Kadaluarsa</span>
                                                 @else
-                                                    <span class="badge badge-danger px-3 py-1">Kadaluarsa</span>
+                                                    <span class="badge bg-success">Aktif</span>
                                                 @endif
                                             </td>
                                             <td>

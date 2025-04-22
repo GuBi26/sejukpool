@@ -212,16 +212,20 @@
                         @endif
                     </td>
                     <td>
-                        <div class="action-buttons">
-                            @if ($order->status === 'pending')
-                            <a href="#" class="pay-button" 
-                               data-order-id="{{ $order->id }}" 
-                               data-snap-token="{{ $order->snap_token }}">
-                               Bayar
-                            </a>
-                            @endif
-                        </div>
-                    </td>
+    <div class="action-buttons">
+        @if ($order->status === 'pending')
+        <a href="#" class="pay-button" 
+           data-order-id="{{ $order->id }}" 
+           data-snap-token="{{ $order->snap_token }}">
+           Bayar
+        </a>
+        @elseif ($order->status === 'paid')
+        <a href="{{ route('orders.download', $order->id) }}" class="pay-button" style="background-color: #28a745;">
+            <i class="fas fa-file-pdf"></i> Bukti
+        </a>
+        @endif
+    </div>
+</td>
                 </tr>
                 @empty
                 <tr>
@@ -237,11 +241,16 @@
 
     <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.pay-button').forEach(button => {
+    document.querySelectorAll('.pay-button[data-snap-token]').forEach(button => {
         button.addEventListener('click', function(e) {
             e.preventDefault();
             const orderId = this.getAttribute('data-order-id');
             const snapToken = this.getAttribute('data-snap-token');
+            
+            if (!snapToken) {
+                console.error('Snap token tidak tersedia');
+                return;
+            }
             
             snap.pay(snapToken, {
                 onSuccess: function(result) {
@@ -259,6 +268,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     });
+
 
     // Fungsi untuk update status
     async function updatePaymentStatus(orderId, status) {

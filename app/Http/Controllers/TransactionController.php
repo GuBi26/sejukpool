@@ -9,16 +9,18 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Midtrans\Snap;
 use Midtrans\Config;
+use App\Models\Order;  // Add this import statement
 
 class TransactionController extends Controller
 {
     public function index()
     {
-        $transaksi = Transaction::with(['user' => function ($query) {
-            $query->where('role', 'pelanggan');
-        }])->get();        
-    
-        return view('admin.transaksi.index', compact('transaksi'));
+        // Get all orders with user and ticket information
+        $orders = Order::with(['user', 'ticket'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('admin.transaksi.index', compact('orders'));
     }
     
 
@@ -130,11 +132,13 @@ class TransactionController extends Controller
     
     public function getTransactionData()
 {
-    $transactions = Transaction::with(['user:id,name'])
-        ->select('transactions.*')
-        ->whereHas('user', function($q) {
-            $q->where('role', 'pelanggan'); 
-        });
+    {
+        $orders = Order::with(['user', 'ticket'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json($orders);
+    }
 
     return datatables()->eloquent($transactions)
         ->editColumn('created_at', fn($t) => $t->created_at->format('d/m/Y H:i'))

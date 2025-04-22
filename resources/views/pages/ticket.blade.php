@@ -583,26 +583,63 @@ async function calculateTotal() {
     
     jumlahTiketInput.addEventListener('input', calculateTotal);
 
-    // Handler voucher
-    applyVoucherButton.addEventListener('click', function() {
-        const voucherCode = voucherCodeInput.value.trim();
-        
-        if (voucherCode === 'DISKON10') {
-            let currentTotal = parseFloat(subtotalHargaInput.value.replace(/[^\d]/g, '')) || 0;
-            
-            if (currentTotal > 0) {
-                const discountedTotal = currentTotal * 0.9;
-                voucherResultDiv.innerHTML = '<p style="color: green;">Voucher berhasil digunakan!</p>';
-                subtotalHargaInput.value = `Rp ${discountedTotal.toLocaleString('id-ID')}`;
-            }
-        } else {
-            voucherResultDiv.innerHTML = '<p style="color: red;">Kode voucher tidak valid.</p>';
+// Handler voucher
+applyVoucherButton.addEventListener('click', async function() {
+
+    const voucherCode = voucherCodeInput.value.trim();
+    const currentTotal = parseFloat(subtotalHargaInput.value.replace(/[^\d]/g, '')) || 0;
+    
+    if (!voucherCode) {
+        voucherResultDiv.innerHTML = '<p style="color: red;">Harap masukkan kode voucher</p>';
+        return;
+    }
+
+    if (currentTotal <= 0) {
+        voucherResultDiv.innerHTML = '<p style="color: red;">Harap isi form pemesanan terlebih dahulu</p>';
+        return;
+    }
+
+    try {
+        const response = await fetch('/vouchers/validate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                voucher_code: voucherCode,
+                total_amount: currentTotal
+            })
+        });
+
+        const data = await response.json();
+
+        if (!data.success) {
+            voucherUsed = true;
+            applyVoucherButton.disabled = true;
+            voucherResultDiv.innerHTML = `<p style="color: red;">${data.message}</p>`;
+            return;
         }
-    });
+
+        // Jika voucher valid
+        voucherResultDiv.innerHTML = `
+            <p style="color: green;">Voucher berhasil digunakan! Diskon ${data.discount_percentage}%</p>
+        `;
+        subtotalHargaInput.value = `Rp ${data.discounted_amount.toLocaleString('id-ID', {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        })}`;
+
+    } catch (error) {
+        console.error('Error validating voucher:', error);
+        voucherResultDiv.innerHTML = '<p style="color: red;">Terjadi kesalahan saat memvalidasi voucher</p>';
+    }
+});
 
     // Handler submit form
     form.addEventListener('submit', function(e) {
-        e.preventDefault();
+    e.preventDefault();
         
         // Validasi form
         if (!validateForm()) return;
@@ -621,75 +658,100 @@ async function calculateTotal() {
 
     // Handler konfirmasi pemesanan
     document.getElementById('confirm-booking').addEventListener('click', async function() {
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-        const ticketInfo = determineTicketType(bookingDateInput.value);
-        
-        // Hitung total harga
-        const jumlahTiket = parseInt(jumlahTiketInput.value) || 0;
-        let unitPrice = await fetchTicketPrice(ticketInfo.type);
-        
-        if (unitPrice === null) return; // Jika gagal mendapatkan harga, batalkan
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+    const ticketInfo = determineTicketType(bookingDateInput.value);
+    
+    // Hitung total harga
+    const jumlahTiket = parseInt(jumlahTiketInput.value) || 0;
+    let unitPrice = await fetchTicketPrice(ticketInfo.type);
+    
+    if (unitPrice === null) return; // Jika gagal mendapatkan harga, batalkan
 
-        let totalHarga = unitPrice * jumlahTiket;
+    let totalHarga = unitPrice * jumlahTiket;
+    let voucherCode = voucherCodeInput.value.trim();
+    let discountApplied = 0;
 
-        // Apply voucher jika ada
-        if (voucherCodeInput.value.trim() === 'DISKON10') {
-            totalHarga = totalHarga * 0.9;
-        }
-
-        // Siapkan data untuk dikirim
-        const requestData = {
-            booking_date: bookingDateInput.value,
-            ticket_type: ticketInfo.type,
-            jumlah_tiket: jumlahTiket,
-            voucher_code: voucherCodeInput.value || null,
-            total_harga: totalHarga
-        };
-
+    // Apply voucher jika ada dan valid
+    if (voucherCode) {
         try {
-            const response = await fetch('/tickets/order', {
+            const voucherResponse = await fetch('/vouchers/validate', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': csrfToken,
                     'Accept': 'application/json'
                 },
-                body: JSON.stringify(requestData)
+                body: JSON.stringify({
+                    voucher_code: voucherCode,
+                    total_amount: totalHarga
+                })
             });
 
-            const responseData = await response.json();
+            const voucherData = await voucherResponse.json();
 
-            if (!response.ok) {
-                throw new Error(responseData.message || 'Terjadi kesalahan saat memproses pemesanan');
+            if (voucherData.success) {
+                totalHarga = voucherData.discounted_amount;
+                discountApplied = voucherData.discount_percentage;
             }
-
-            // Tampilkan pesan sukses
-            Swal.fire({
-                title: 'Pemesanan Berhasil!',
-                icon: 'success',
-                confirmButtonText: 'OK'
-            }).then(() => {
-                // Reset form
-                form.reset();
-                ticketTypeInput.value = '';
-                hargaInput.value = '';
-                subtotalHargaInput.value = '';
-                voucherResultDiv.innerHTML = '';
-                
-                // Redirect ke halaman history
-                window.location.href = '/history';
-            });
-
         } catch (error) {
-            console.error('Error:', error);
-            Swal.fire({
-                title: 'Error!',
-                text: error.message,
-                icon: 'error',
-                confirmButtonText: 'OK'
-            });
+            console.error('Error validating voucher:', error);
         }
-    });
+    }
+
+    // Siapkan data untuk dikirim
+    const requestData = {
+        booking_date: bookingDateInput.value,
+        ticket_type: ticketInfo.type,
+        jumlah_tiket: jumlahTiket,
+        voucher_code: voucherCode || null,
+        discount_applied: discountApplied,
+        total_harga: totalHarga
+    };
+
+    try {
+        const response = await fetch('/tickets/order', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken,
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        });
+
+        const responseData = await response.json();
+
+        if (!response.ok) {
+            throw new Error(responseData.message || 'Terjadi kesalahan saat memproses pemesanan');
+        }
+
+        // Tampilkan pesan sukses
+        Swal.fire({
+            title: 'Pemesanan Berhasil!',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        }).then(() => {
+            // Reset form
+            form.reset();
+            ticketTypeInput.value = '';
+            hargaInput.value = '';
+            subtotalHargaInput.value = '';
+            voucherResultDiv.innerHTML = '';
+            
+            // Redirect ke halaman history
+            window.location.href = '/history';
+        });
+
+    } catch (error) {
+        console.error('Error:', error);
+        Swal.fire({
+            title: 'Error!',
+            text: error.message,
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+    }
+});
 
     // Fungsi validasi form
     function validateForm() {

@@ -84,13 +84,6 @@
                                     <input type="date" class="form-control" id="tanggal_expired" name="tanggal_expired" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="status">Status</label>
-                                    <select class="form-control" id="status" name="status" required>
-                                        <option value="active">Aktif</option>
-                                        <option value="expired">Kadaluarsa</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
                                     <button type="submit" class="btn btn-primary">Simpan</button>
                                     <a href="{{ route('admin.voucher.index') }}" class="btn btn-secondary">Batal</a>
                                 </div>

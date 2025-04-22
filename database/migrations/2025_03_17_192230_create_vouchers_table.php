@@ -17,8 +17,8 @@ return new class extends Migration
             $table->decimal('nilai_diskon', 10, 2);
             $table->integer('kuota');
             $table->date('tanggal_berlaku');
+            $table->enum('status', ['active', 'expired','habis']);
             $table->date('tanggal_expired');
-            $table->enum('status', ['active', 'expired']);
             $table->timestamps();
         });
     }

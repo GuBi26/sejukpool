@@ -73,6 +73,7 @@
                                     <select class="form-control" id="status" name="status" required>
                                         <option value="active" {{ $voucher->status == 'active' ? 'selected' : '' }}>Aktif</option>
                                         <option value="expired" {{ $voucher->status == 'expired' ? 'selected' : '' }}>Kadaluarsa</option>
+                                        <option value="habis" {{ $voucher->status == 'habis' ? 'selected' : '' }}>Habis</option>
                                     </select>
                                 </div>
                                 <div class="form-group">

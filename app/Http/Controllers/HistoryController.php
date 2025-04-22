@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\TicketHistory;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Voucher;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class HistoryController extends Controller
 {
@@ -36,5 +38,28 @@ class HistoryController extends Controller
     
         return redirect()->route('history')->with('success', 'Status berhasil diperbarui.');
     }    
+ 
+    public function download(Order $order)
+    {
+        // Pastikan hanya pemilik order atau admin yang bisa download
+        if (auth()->id() !== $order->user_id && !auth()->user()->isAdmin()) {
+            abort(403);
+        }
+    
+        // Pastikan status sudah paid
+        if ($order->status !== 'paid') {
+            abort(403, 'Hanya pemesanan yang sudah dibayar yang bisa didownload');
+        }
+    
+        $data = [
+            'order' => $order,
+            'user' => $order->user,
+            'date' => now()->format('d F Y'),
+        ];
+    
+        $pdf = Pdf::loadView('pages.invoice', $data);
+        
+        return $pdf->download('invoice-'.$order->id.'.pdf');
+    }
     
 }

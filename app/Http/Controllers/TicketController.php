@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Ticket;
 use App\Models\Order;
+use App\Models\Voucher;
 
 class TicketController extends Controller
 {
@@ -128,9 +129,15 @@ public function storeOrder(Request $request)
         $totalHarga = $ticket->harga * $request->jumlah_tiket;
 
         // Diskon voucher
-        if ($request->voucher_code === 'DISKON10') {
-            $totalHarga *= 0.9;
+if ($request->voucher_code) {
+    $voucher = Voucher::where('kode', $request->voucher_code)->first();
+    if ($voucher) {
+        $voucher->decrement('kuota');
+        if ($voucher->kuota <= 0) {
+            $voucher->update(['status' => 'expired']);
         }
+    }
+}
 
         // Generate order_id unik
         $generatedOrderId = 'ORDER-' . uniqid() . '-' . time();

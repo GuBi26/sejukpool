@@ -2,45 +2,33 @@
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <title>Dashboard Admin</title>
-
     <!-- Custom fonts for this template-->
     <link href="{{ asset('content/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
-
     <!-- Custom styles for this template-->
     <link href="{{ asset('content/css/sb-admin-2.css') }}" rel="stylesheet">
-
 </head>
 
 <body id="page-top">
-
     <!-- Page Wrapper -->
     <div id="wrapper">
-
         <!-- Sidebar -->
         @include('admin.compo.sidebar')
-
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
-
             <!-- Main Content -->
             <div id="content">
-
                 @include('admin.compo.topbar')
-
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
@@ -70,25 +58,28 @@
                     
                         <!-- Total Tickets Sold Card -->
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
+                            <a href="{{ route('admin.transaksi.index') }}" class="card-link" style="text-decoration: none;">
+                            <div class="card border-left-success shadow h-100 py-2 hover-effect">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 TOTAL TIKET TERJUAL</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">10</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $totalTicketsSold }}</div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-ticket-alt fa-2x text-gray-300"></i> <!-- Changed to ticket icon -->
+                                            <i class="fas fa-ticket-alt fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            </a>
                         </div>
                     
                         <!-- Successful Transactions Card -->
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
+                        <a href="{{ route('admin.transaksi.index') }}" class="card-link" style="text-decoration: none;">
+                        <div class="card border-left-info shadow h-100 py-2 hover-effect">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
@@ -97,29 +88,27 @@
                                             </div>
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">10</div>
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ $successfulTransactions }}</div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-check-circle fa-2x text-gray-300"></i> <!-- Changed to check-circle icon -->
+                                            <i class="fas fa-check-circle fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+</a>
                     </div>
 
                     <!-- Content Row -->
-
                     <div class="row">
-
                         <!-- Area Chart -->
                         <div class="col-xl-8 col-lg-7">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">TOTAL PENDAPATAN</h6>
                                     <div class="dropdown no-arrow">
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
@@ -144,36 +133,32 @@
                                 </div>
                             </div>
                         </div>
-
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- End of Main Content -->
         </div>
         <!-- End of Content Wrapper -->
-                            <!-- Scroll to Top Button-->
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
 
-    </div>
-    <!-- End of Page Wrapper -->
-
-
-<!-- Bootstrap core JavaScript-->
-<script src="{{ asset('content/js/jquery.min.js') }}"></script>
-<script src="{{ asset('content/js/bootstrap.bundle.min.js') }}"></script>
-
-<!-- Core plugin JavaScript-->
-<script src="{{ asset('content/js/jquery.easing.min.js') }}"></script>
-
-<!-- Custom scripts for all pages-->
-<script src="{{ asset('content/js/sb-admin-2.min.js') }}"></script>
-
-<!-- Page level plugins -->
-<script src="{{ asset('content/js/Chart.min.js') }}"></script>
-
-<!-- Page level custom scripts -->
-<script src="{{ asset('content/js/chart-area-demo.js') }}"></script>
-<script src="{{ asset('content/js/chart-pie-demo.js') }}"></script>
-
-    
+    <!-- Bootstrap core JavaScript-->
+    <script src="{{ asset('content/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('content/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="{{ asset('content/js/jquery.easing.min.js') }}"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="{{ asset('content/js/sb-admin-2.min.js') }}"></script>
+    <!-- Page level plugins -->
+    <script src="{{ asset('content/js/Chart.min.js') }}"></script>
+    <!-- Page level custom scripts -->
+    <script src="{{ asset('content/js/chart-area-demo.js') }}"></script>
+    <script src="{{ asset('content/js/chart-pie-demo.js') }}"></script>
 </body>
-
 </html>

@@ -34,11 +34,7 @@
                     
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Data Transaksi</h1>
-                    <div class="d-flex justify-content-end align-items-center mb-4">
-                        <a href="#" class="btn btn-primary btn-sm">
-                            <i class="fas fa-plus mr-1"></i> Tambah Transaksi
-                        </a>
-                    </div>
+                    
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-body">
@@ -47,40 +43,37 @@
                                 <thead class="thead-light">
                                     <tr>
                                         <th>ID</th>
-                                        <th>Nama Pengunjung</th>
+                                        <th>Nama Pelanggan</th>
                                         <th>Tanggal Pesan</th>
-                                        <th>Total</th>
-                                        <th>Metode Pembayaran</th>
+                                        <th>Tanggal Kunjungan</th>
+                                        <th>Jumlah</th>
+                                        <th>Total Harga</th>
                                         <th>Status</th>
-                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($transaksi as $item)
-                                        @if($item->user && $item->user->role === 'pelanggan')
-                                            <tr>
-                                                <td>{{ $item->id }}</td>
-                                                <td>{{ $item->user->nama }}</td>
-                                                <td>{{ \Carbon\Carbon::parse($item->tanggal_pesan)->format('d M Y') }}</td>
-                                                <td>Rp{{ number_format($item->total, 0, ',', '.') }}</td>
-                                                <td>{{ ucfirst($item->metode_pembayaran) }}</td>
-                                                <td>
-                                                    @if ($item->status === 'success')
-                                                        <span class="badge badge-success">Berhasil</span>
-                                                    @elseif ($item->status === 'pending')
-                                                        <span class="badge badge-warning">Menunggu</span>
-                                                    @else
-                                                        <span class="badge badge-danger">Gagal</span>
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    <a href="{{ route('transaksi.show', $item->id) }}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                </td>
-                                            </tr>
+                                    @foreach ($orders as $order)
+                                        @if($order->user && $order->user->role === 'pelanggan')
+                                        <tr>
+                                            <td>{{ $order->id }}</td>
+                                            <td>{{ $order->user->name }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($order->created_at)->format('d M Y H:i') }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($order->tanggal_kunjungan)->format('d M Y') }}</td>
+                                            <td>{{ $order->jumlah }}</td>
+                                            <td>Rp{{ number_format($order->total_harga, 0, ',', '.') }}</td>
+                                            <td>
+                                                @if ($order->status === 'paid')
+                                                    <span class="badge badge-success">Dibayar</span>
+                                                @elseif ($order->status === 'pending')
+                                                    <span class="badge badge-warning">Menunggu</span>
+                                                @else
+                                                    <span class="badge badge-danger">Dibatalkan</span>
+                                                @endif
+                                            </td>
+                                        </tr>
                                         @endif
                                     @endforeach
                                 </tbody>
-
                             </table>
                             </div>
                         </div>
@@ -89,10 +82,11 @@
                 <!-- /.container-fluid -->
             </div>
             <!-- End of Main Content -->
-                                <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
+            <!-- Scroll to Top Button-->
+            <a class="scroll-to-top rounded" href="#page-top">
+                <i class="fas fa-angle-up"></i>
+            </a>
+            
             <!-- Bootstrap core JavaScript-->
             <script src="{{ asset('content/js/jquery.min.js') }}"></script>
             <script src="{{ asset('content/js/bootstrap.bundle.min.js') }}"></script>
@@ -102,153 +96,7 @@
             <script src="{{ asset('content/js/sb-admin-2.min.js') }}"></script>
             <script src="{{ asset('content/js/jquery.dataTables.min.js') }}"></script>
             <script src="{{ asset('content/js/dataTables.bootstrap4.min.js') }}"></script>
-            <!-- Custom styles for status badges -->
-            <style>
-                /* Table Styling */
-                .table {
-                    width: 100%;
-                    margin-bottom: 1rem;
-                    color: #212529;
-                    border-collapse: collapse;
-                }
-                
-                .table thead {
-                    background-color: #f8f9fc;
-                }
-                
-                .table thead th {
-                    color: #4e73df;
-                    font-weight: bold;
-                    text-transform: uppercase;
-                    font-size: 0.75rem;
-                    letter-spacing: 0.5px;
-                    padding: 12px 15px;
-                    border-bottom: 2px solid #e3e6f0;
-                    vertical-align: middle;
-                }
-                
-                .table tbody td {
-                    padding: 12px 15px;
-                    border-top: 1px solid #e3e6f0;
-                    vertical-align: middle;
-                }
-                
-                .table tbody tr:hover {
-                    background-color: rgba(0, 0, 0, 0.02);
-                }
-                
-                /* Badge Styling */
-                .badge {
-                    font-size: 0.75rem;
-                    font-weight: 600;
-                    padding: 0.35em 0.65em;
-                }
-                
-                .badge-success {
-                    background-color: #d1e7dd;
-                    color: #0f5132;
-                }
-                
-                .badge-danger {
-                    background-color: #f8d7da;
-                    color: #842029;
-                }
-                
-                .badge-warning {
-                    background-color: #fff3cd;
-                    color: #856404;
-                }
-                
-                /* Button Styling */
-                .btn-sm {
-                    padding: 0.25rem 0.5rem;
-                    font-size: 0.75rem;
-                    border-radius: 0.2rem;
-                    margin: 0 3px;
-                }
-                
-                /* Card Styling */
-                .card {
-                    border: none;
-                    border-radius: 0.35rem;
-                    box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
-                }
-                
-                .card-body {
-                    padding: 1.25rem;
-                }
-                
-                /* DataTables Custom Styling */
-                .dataTables_wrapper .dataTables_paginate .paginate_button {
-                    padding: 0.25rem 0.5rem;
-                    margin-left: 0.25rem;
-                    border-radius: 0.2rem;
-                }
-                
-                .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-                    background: #4e73df;
-                    color: white !important;
-                    border: none;
-                }
-                
-                .dataTables_wrapper .dataTables_info {
-                    font-size: 0.8rem;
-                    color: #6c757d;
-                }
-                
-                /* DataTables controls */
-                .dataTables_length {
-                    display: flex;
-                    align-items: center;
-                    margin-bottom: 1rem;
-                }
-                
-                .dataTables_length label {
-                    display: flex;
-                    align-items: center;
-                    font-size: 0.875rem;
-                    color: #6e707e;
-                    font-weight: 600;
-                    margin-bottom: 0;
-                }
-                
-                .dataTables_length select {
-                    margin: 0 0.5rem;
-                    width: 80px !important;
-                    border: 1px solid #d1d3e2;
-                    border-radius: 0.35rem;
-                    padding: 0.25rem 0.5rem;
-                    background-color: #fff;
-                    background-repeat: no-repeat;
-                    background-position: right 0.5rem center;
-                    background-size: 16px 12px;
-                    appearance: none;
-                }
-                
-                .dataTables_filter {
-                    display: flex;
-                    justify-content: flex-end;
-                    margin-bottom: 1rem;
-                }
-                
-                .dataTables_filter label {
-                    display: flex;
-                    align-items: center;
-                    font-size: 0.875rem;
-                    color: #6e707e;
-                    font-weight: 600;
-                    margin-bottom: 0;
-                }
-                
-                .dataTables_filter input {
-                    margin-left: 0.5rem !important;
-                    border: 1px solid #d1d3e2;
-                    border-radius: 0.35rem;
-                    padding: 0.25rem 0.5rem;
-                    background-color: #fff;
-                    width: 200px;
-                }
-            </style>
+            
             <script>
                 $(document).ready(function () {
                     $('#dataTable').DataTable({
@@ -292,5 +140,4 @@
                 });
             </script>
 </body>
-
 </html>
