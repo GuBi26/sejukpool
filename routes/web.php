@@ -9,6 +9,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\PetugasMiddleware;
 
@@ -54,13 +55,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/ticket', [TicketController::class, 'showTicketForm'])->name('ticket');
     Route::post('/tickets/order', [TicketController::class, 'storeOrder'])->name('tickets.order');
     Route::get('/tickets/price', [TicketController::class, 'getTicketPrice'])->name('tickets.price');
+
     // Midtrans routes
     Route::post('/payment/notification', [PaymentController::class, 'handleNotification']);
     Route::post('/payment/update-status', [PaymentController::class, 'updatePaymentStatus']);
 
     
-    // History
     Route::get('/history', [HistoryController::class, 'history'])->name('history');
+    Route::post('/update-status/{id}', [HistoryController::class, 'updateStatus'])->name('updateStatus');
+    Route::post('/payment/update-status', [PaymentController::class, 'updateStatus']);
+
+
 });
 
 /*

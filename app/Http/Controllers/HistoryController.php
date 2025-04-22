@@ -18,4 +18,23 @@ class HistoryController extends Controller
 
         return view('pages.history', compact('histories'));
     }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $order = Order::find($id);
+    
+        if (!$order) {
+            return redirect()->back()->with('error', 'Pesanan tidak ditemukan.');
+        }
+    
+        $request->validate([
+            'status' => 'required|in:pending,paid,cancelled', // validasi input status
+        ]);
+    
+        $order->status = $request->input('status');
+        $order->save();
+    
+        return redirect()->route('history')->with('success', 'Status berhasil diperbarui.');
+    }    
+    
 }

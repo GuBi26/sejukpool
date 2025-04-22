@@ -59,23 +59,18 @@ class PaymentController extends Controller
         return response()->json(['message' => 'Notification handled']);
     }
 
-    // Untuk update status dari frontend (fallback)
-    public function updatePaymentStatus(Request $request)
+    public function updateStatus(Request $request)
     {
         $request->validate([
-            'order_id' => 'required',
-            'status' => 'required|in:paid,pending,cancelled'
+            'order_id' => 'required|exists:orders,id',
+            'status' => 'required|in:pending,paid,cancelled'
         ]);
-
+    
         $order = Order::find($request->order_id);
-        
-        if (!$order) {
-            return response()->json(['success' => false, 'message' => 'Order not found']);
-        }
-
         $order->status = $request->status;
         $order->save();
-
+    
         return response()->json(['success' => true]);
     }
+    
 }

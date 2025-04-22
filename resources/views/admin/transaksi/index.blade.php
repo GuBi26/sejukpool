@@ -56,8 +56,31 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    
+                                    @foreach ($transaksi as $item)
+                                        @if($item->user && $item->user->role === 'pelanggan')
+                                            <tr>
+                                                <td>{{ $item->id }}</td>
+                                                <td>{{ $item->user->nama }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($item->tanggal_pesan)->format('d M Y') }}</td>
+                                                <td>Rp{{ number_format($item->total, 0, ',', '.') }}</td>
+                                                <td>{{ ucfirst($item->metode_pembayaran) }}</td>
+                                                <td>
+                                                    @if ($item->status === 'success')
+                                                        <span class="badge badge-success">Berhasil</span>
+                                                    @elseif ($item->status === 'pending')
+                                                        <span class="badge badge-warning">Menunggu</span>
+                                                    @else
+                                                        <span class="badge badge-danger">Gagal</span>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <a href="{{ route('transaksi.show', $item->id) }}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                </td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
                                 </tbody>
+
                             </table>
                             </div>
                         </div>

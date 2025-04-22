@@ -160,9 +160,6 @@ public function storeOrder(Request $request)
             'customer_details' => [
                 'first_name' => Auth::user()->name,
                 'email' => Auth::user()->email,
-            ],
-            'callbacks' => [
-                'finish' => route('payment.finish'), // Optional: route setelah pembayaran selesai
             ]
         ];
 
@@ -203,6 +200,19 @@ public function getTicketPrice(Request $request)
         'success' => true,
         'price' => $ticket->harga,
     ]);
+}
+
+public function updateStatus(Request $request, $id)
+{
+    $ticket = Ticket::find($id);
+    if (!$ticket) {
+        return redirect()->back()->with('error', 'Tiket tidak ditemukan.');
+    }
+
+    $ticket->status = $request->input('status');
+    $ticket->save();
+
+    return redirect()->route('history')->with('success', 'Status berhasil diperbarui.');
 }
 
 

@@ -14,12 +14,13 @@ class TransactionController extends Controller
 {
     public function index()
     {
-        $transactions = Transaction::with(['user' => function($query) {
+        $transaksi = Transaction::with(['user' => function ($query) {
             $query->where('role', 'pelanggan');
-        }])->get();
+        }])->get();        
     
-        return view('admin.transaksi.index', compact('transactions'));
+        return view('admin.transaksi.index', compact('transaksi'));
     }
+    
 
     // Menampilkan transaksi berdasarkan ID
     public function show($id)
