@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\ReportController;
 use App\Http\Middleware\AdminMiddleware;
@@ -53,6 +54,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/ticket', [TicketController::class, 'showTicketForm'])->name('ticket');
     Route::post('/tickets/order', [TicketController::class, 'storeOrder'])->name('tickets.order');
     Route::get('/tickets/price', [TicketController::class, 'getTicketPrice'])->name('tickets.price');
+    // Midtrans routes
+    Route::post('/payment/notification', [PaymentController::class, 'handleNotification']);
+    Route::post('/payment/update-status', [PaymentController::class, 'updatePaymentStatus']);
 
     
     // History
@@ -108,9 +112,8 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
     Route::get('/report/download', [ReportController::class, 'downloadPDF'])->name('report.download');
 
     // Transaksi (Jika perlu)
-    Route::get('/transaksi/index', function () {
-        return view('admin.transaksi.index');
-    })->name('transaksi');
+    Route::get('/transaksi', [TransactionController::class, 'index'])->name('transaksi.index');
+    Route::get('/transaksi/data', [TransactionController::class, 'getTransactionData'])->name('transaksi.data');
 });
 
 /*

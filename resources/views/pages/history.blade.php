@@ -62,6 +62,7 @@
             font-weight: bold;
             display: flex;
             align-items: center;
+            justify-content: center;
         }
         .status-success::before {
             content: "✓";
@@ -74,6 +75,7 @@
             font-weight: bold;
             display: flex;
             align-items: center;
+            justify-content: center;
         }
         .status-pending::before {
             content: "⌛";
@@ -86,6 +88,7 @@
             font-weight: bold;
             display: flex;
             align-items: center;
+            justify-content: center;
         }
         .status-failed::before {
             content: "❌";
@@ -117,6 +120,13 @@
             box-shadow: 0 0 0 3px rgba(95, 77, 238, 0.5);
         }
 
+        /* Action Buttons Container */
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
         /* Empty State Styles */
         .empty-state {
             text-align: center;
@@ -137,6 +147,10 @@
             th, td {
                 padding: 8px;
                 font-size: 14px;
+            }
+            .action-buttons {
+                flex-direction: column;
+                gap: 5px;
             }
         }
     </style>
@@ -169,42 +183,49 @@
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>No</th>
                     <th>Tanggal Kunjungan</th>
                     <th>Tanggal Pemesanan</th>
                     <th>Jenis Tiket</th>
                     <th>Jumlah</th>
                     <th>Total Harga</th>
                     <th>Status</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse ($histories as $order)
+                @forelse ($histories as $index => $order)
                 <tr>
-                    <td>{{ $order->id }}</td>
+                    <td>{{ $index + 1 }}</td>
                     <td>{{ \Carbon\Carbon::parse($order->tanggal_kunjungan)->translatedFormat('d M Y') }}</td>
                     <td>{{ \Carbon\Carbon::parse($order->created_at)->translatedFormat('d M Y H:i') }}</td>
                     <td>{{ $order->ticket->type }}</td>
                     <td>{{ $order->jumlah }}</td>
                     <td>Rp {{ number_format($order->total_harga, 0, ',', '.') }}</td>
                     <td>
-                    @if ($order->status === 'pending')
-    <span class="status-pending">Pending</span><br>
-    <a href="#" class="pay-button" 
-       data-order-id="{{ $order->id }}" 
-       data-snap-token="{{ $order->snap_token }}">
-       Bayar
-    </a>
-@elseif ($order->status === 'paid')
-    <span class="status-success">Paid</span>
-@else
-    <span class="status-failed">Cancelled</span>
-@endif
+                        @if ($order->status === 'pending')
+                            <span class="status-pending">Pending</span>
+                        @elseif ($order->status === 'paid')
+                            <span class="status-success">Paid</span>
+                        @else
+                            <span class="status-failed">Cancelled</span>
+                        @endif
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            @if ($order->status === 'pending')
+                            <a href="#" class="pay-button" 
+                               data-order-id="{{ $order->id }}" 
+                               data-snap-token="{{ $order->snap_token }}">
+                               Bayar
+                            </a>
+                            @endif
+                        </div>
                     </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="7" class="empty-state">Belum ada riwayat pemesanan tiket.</td>
+                    <td colspan="8" class="empty-state">Belum ada riwayat pemesanan tiket.</td>
                 </tr>
                 @endforelse
             </tbody>            
@@ -215,47 +236,58 @@
     @include('components.scripts')
 
     <script type="text/javascript">
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.pay-button').forEach(button => {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                const orderId = this.getAttribute('data-order-id');
-                const snapToken = this.getAttribute('data-snap-token');
-                
-                snap.pay(snapToken, {
-                    onSuccess: function(result) {
-    fetch('/update-payment-status', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-        },
-        body: JSON.stringify({
-            order_id: orderId,
-            status: 'paid'
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            window.location.reload();
-        }
-    });
-},
-                    onPending: function(result) {
-                        // Tidak perlu reload, status masih pending
-                        console.log(result);
-                    },
-                    onError: function(result) {
-                        console.error(result);
-                    },
-                    onClose: function() {
-                        // Aksi ketika popup ditutup
-                    }
-                });
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.pay-button').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const orderId = this.getAttribute('data-order-id');
+            const snapToken = this.getAttribute('data-snap-token');
+            
+            snap.pay(snapToken, {
+                onSuccess: function(result) {
+                    updatePaymentStatus(orderId, 'paid');
+                },
+                onPending: function(result) {
+                    console.log('Pembayaran pending:', result);
+                },
+                onError: function(result) {
+                    console.error('Error pembayaran:', result);
+                },
+                onClose: function() {
+                    console.log('Popup pembayaran ditutup');
+                }
             });
         });
     });
-</script>
+
+    // Fungsi untuk update status
+    async function updatePaymentStatus(orderId, status) {
+        try {
+            const response = await fetch('/payment/update-status', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({
+                    order_id: orderId,
+                    status: status
+                })
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                window.location.reload();
+            } else {
+                alert('Gagal memperbarui status pembayaran');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Terjadi kesalahan saat memperbarui status');
+        }
+    }
+});
+    </script>
 </body>
 </html>

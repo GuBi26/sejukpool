@@ -11,8 +11,15 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Transaction extends Model
 {
     use HasFactory;
-
-    protected $fillable = ['user_id', 'tanggal_pesan', 'total_harga', 'status'];
+    protected $fillable = [
+        'user_id',
+        'ticket_id',
+        'tanggal_kunjungan',
+        'jumlah',
+        'total_harga',
+        'status',
+        'metode_pembayaran'
+    ];
 
     public function user(): BelongsTo
     {
@@ -28,5 +35,15 @@ class Transaction extends Model
     {
         return $this->hasOne(Payment::class, 'transaction_id');
     }
+
+        public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+    public function ticket()
+    {
+        return $this->belongsTo(Ticket::class);
+    }
+
 }
 

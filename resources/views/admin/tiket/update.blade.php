@@ -45,10 +45,6 @@
                                 @csrf
                                 @method('PUT')
                             
-                                <div class="form-group">
-                                    <label for="type">Tipe</label>
-                                    <input type="text" name="type" class="form-control" value="{{ $tickets->type }}" required>
-                                </div>
                             
                                 <div class="form-group">
     <label for="harga">Harga (Rp)</label>

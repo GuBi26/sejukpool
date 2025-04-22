@@ -66,7 +66,7 @@
 
 <!-- Nav Item - Data Transaksi -->
 <li class="nav-item">
-    <a class="nav-link" href="{{ route('admin.transaksi') }}">
+    <a class="nav-link" href="{{ route('admin.transaksi.index') }}">
         <i class="fas fa-fw fa-exchange-alt"></i>
         <span>Data Transaksi</span>
     </a>

@@ -45,7 +45,7 @@
                 <!-- Gambar di kiri -->
                 <div class="col-lg-6 mb-4 mb-lg-0">
                     <div class="image-container">
-                        <img class="img-fluid" src="{{ asset('content/images/landing-1.png') }}" alt="alternative">
+                        <img class="img-fluid" src="{{ asset('content/images/foto1.jpeg') }}" alt="alternative">
                     </div>
                 </div>
 

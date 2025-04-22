@@ -666,7 +666,6 @@ async function calculateTotal() {
             // Tampilkan pesan sukses
             Swal.fire({
                 title: 'Pemesanan Berhasil!',
-                text: `ID Pemesanan: ${responseData.order_id}`,
                 icon: 'success',
                 confirmButtonText: 'OK'
             }).then(() => {

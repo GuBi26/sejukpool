@@ -10,16 +10,15 @@ use Illuminate\Support\Facades\Auth;
 use Midtrans\Snap;
 use Midtrans\Config;
 
-
-
-
 class TransactionController extends Controller
 {
-    // Menampilkan semua transaksi
     public function index()
     {
-        $transactions = Transaction::with('items.ticket')->get();
-        return response()->json($transactions);
+        $transactions = Transaction::with(['user' => function($query) {
+            $query->where('role', 'pelanggan');
+        }])->get();
+    
+        return view('admin.transaksi.index', compact('transactions'));
     }
 
     // Menampilkan transaksi berdasarkan ID
@@ -127,4 +126,29 @@ class TransactionController extends Controller
         $transaction->delete();
         return response()->json(['message' => 'Transaksi berhasil dihapus']);
     }
+    
+    public function getTransactionData()
+{
+    $transactions = Transaction::with(['user:id,name'])
+        ->select('transactions.*')
+        ->whereHas('user', function($q) {
+            $q->where('role', 'pelanggan'); 
+        });
+
+    return datatables()->eloquent($transactions)
+        ->editColumn('created_at', fn($t) => $t->created_at->format('d/m/Y H:i'))
+        ->addColumn('action', fn($t) => view('admin.transaksi.actions', compact('t')))
+        ->addColumn('status_badge', function($t) {
+            $class = [
+                'pending' => 'warning',
+                'completed' => 'success',
+                'failed' => 'danger'
+            ][$t->status] ?? 'secondary';
+            
+            return '<span class="badge badge-'.$class.'">'.ucfirst($t->status).'</span>';
+        })
+        ->rawColumns(['action', 'status_badge'])
+        ->toJson();
+}
+
 }

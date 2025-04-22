@@ -27,4 +27,10 @@ class Order extends Model
     {
         return $this->belongsTo(Ticket::class);
     }
+
+    public function transaction()
+    {
+        return $this->hasOne(Transaction::class);
+    }
+
 }

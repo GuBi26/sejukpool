@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Keloa Petugas</title>
+    <title>Data Transaksi</title>
     <!-- Custom fonts for this template-->
     <link href="{{ asset('content/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link
@@ -43,33 +43,22 @@
                     <div class="card shadow mb-4">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table" id="dataTable" width="100%" cellspacing="0">
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Nama Pengunjung</th>
-                                            <th>Tanggal Pesan</th>
-                                            <th>Total</th>
-                                            <th>Metode Pembayaran</th>
-                                            <th>Status</th>
-                                            <th>Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td><span class="badge badge-danger px-3 py-2">-</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i></button>
-                                                <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            <table class="table" id="dataTable" width="100%" cellspacing="0">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nama Pengunjung</th>
+                                        <th>Tanggal Pesan</th>
+                                        <th>Total</th>
+                                        <th>Metode Pembayaran</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
                             </div>
                         </div>
                     </div>

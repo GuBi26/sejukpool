@@ -2,35 +2,80 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Order;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class PaymentController extends Controller
 {
-    // Tambahkan di PaymentController untuk debugging
-public function handleCallback(Request $request)
-{
-    Log::info('Callback Received:', $request->all());
-    
-    // Simpan raw content ke log
-    Log::info('Raw callback:', [file_get_contents('php://input')]);
+    // Handle notification dari Midtrans
+    public function handleNotification(Request $request)
+    {
+        $payload = $request->all();
+        
+        Log::info('Midtrans Notification:', $payload);
 
-    $payload = $request->all();
-    $order = Order::find($payload['order_id'] ?? null);
+        // Verifikasi signature key
+        $serverKey = config('midtrans.serverKey');
+        $hashed = hash("sha512", 
+            $payload['order_id'] . 
+            $payload['status_code'] . 
+            $payload['gross_amount'] . 
+            $serverKey
+        );
 
-    if (!$order) {
-        Log::error('Order not found in callback');
-        return response()->json(['status' => 'error'], 404);
-    }
+        if ($hashed != $payload['signature_key']) {
+            Log::error('Invalid signature key');
+            return response()->json(['message' => 'Invalid signature'], 403);
+        }
 
-    // Update status berdasarkan callback
-    if (in_array($payload['transaction_status'] ?? null, ['capture', 'settlement'])) {
-        $order->status = 'paid';
+        // Cari order berdasarkan order_code (bukan ID)
+        $order = Order::where('order_code', $payload['order_id'])->first();
+
+        if (!$order) {
+            Log::error('Order not found: ' . $payload['order_id']);
+            return response()->json(['message' => 'Order not found'], 404);
+        }
+
+        // Update status berdasarkan notifikasi
+        switch($payload['transaction_status']) {
+            case 'capture':
+            case 'settlement':
+                $order->status = 'paid';
+                break;
+            case 'pending':
+                $order->status = 'pending';
+                break;
+            case 'deny':
+            case 'cancel':
+            case 'expire':
+                $order->status = 'cancelled';
+                break;
+        }
+
         $order->save();
-        Log::info('Status updated to paid');
+        Log::info('Order status updated: ' . $order->order_code . ' to ' . $order->status);
+
+        return response()->json(['message' => 'Notification handled']);
     }
 
-    return response()->json(['status' => 'success']);
-}
+    // Untuk update status dari frontend (fallback)
+    public function updatePaymentStatus(Request $request)
+    {
+        $request->validate([
+            'order_id' => 'required',
+            'status' => 'required|in:paid,pending,cancelled'
+        ]);
+
+        $order = Order::find($request->order_id);
+        
+        if (!$order) {
+            return response()->json(['success' => false, 'message' => 'Order not found']);
+        }
+
+        $order->status = $request->status;
+        $order->save();
+
+        return response()->json(['success' => true]);
+    }
 }

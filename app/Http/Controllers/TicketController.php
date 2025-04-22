@@ -116,7 +116,7 @@ public function storeOrder(Request $request)
     ]);
 
     try {
-        $ticket = Ticket::where('type', ucfirst($request->ticket_type))->first();
+        $ticket = Ticket::where('type', $request->ticket_type)->first();
 
         if (!$ticket) {
             return response()->json([
@@ -125,23 +125,17 @@ public function storeOrder(Request $request)
             ], 404);
         }
 
-// Hitung total harga
-$totalHarga = $ticket->price * $request->jumlah_tiket;
+        $totalHarga = $ticket->harga * $request->jumlah_tiket;
 
-// Jika voucher digunakan
-if ($request->voucher_code === 'DISKON10') {
-    $totalHarga *= 0.9; // Diskon 10%
-}
+        // Diskon voucher
+        if ($request->voucher_code === 'DISKON10') {
+            $totalHarga *= 0.9;
+        }
 
-// Pastikan total harga minimal 0.01
-if ($totalHarga < 0.01) {
-    return response()->json([
-        'success' => false,
-        'message' => 'Total harga tidak valid'
-    ], 400);
-}
+        // Generate order_id unik
+        $generatedOrderId = 'ORDER-' . uniqid() . '-' . time();
 
-
+        // Simpan order
         $order = Order::create([
             'user_id' => Auth::id(),
             'ticket_id' => $ticket->id,
@@ -149,24 +143,27 @@ if ($totalHarga < 0.01) {
             'jumlah' => $request->jumlah_tiket,
             'total_harga' => $totalHarga,
             'status' => 'pending',
-        ]);        
+            'order_code' => $generatedOrderId,
+        ]);
 
-        // Set Midtrans Config
+        // Midtrans Config
         \Midtrans\Config::$serverKey = config('midtrans.serverKey');
         \Midtrans\Config::$isProduction = config('midtrans.isProduction');
         \Midtrans\Config::$isSanitized = true;
         \Midtrans\Config::$is3ds = true;
 
-        // Buat snap token setelah order dibuat
         $params = [
             'transaction_details' => [
-                'order_id' => $order->id,
+                'order_id' => $generatedOrderId,
                 'gross_amount' => $totalHarga,
             ],
             'customer_details' => [
                 'first_name' => Auth::user()->name,
                 'email' => Auth::user()->email,
             ],
+            'callbacks' => [
+                'finish' => route('payment.finish'), // Optional: route setelah pembayaran selesai
+            ]
         ];
 
         $snapToken = \Midtrans\Snap::getSnapToken($params);
@@ -176,8 +173,9 @@ if ($totalHarga < 0.01) {
         return response()->json([
             'success' => true,
             'order_id' => $order->id,
+            'order_code' => $generatedOrderId,
             'snap_token' => $snapToken,
-            'total_harga' => $totalHarga,  // Kembalikan total_harga ke frontend
+            'total_harga' => $totalHarga,
             'message' => 'Pemesanan berhasil dibuat'
         ], 201);
 
@@ -188,12 +186,11 @@ if ($totalHarga < 0.01) {
         ], 500);
     }
 }
-
 public function getTicketPrice(Request $request)
 {
     $ticketType = $request->query('ticket_type');
     
-    $ticket = Ticket::where('type', ucfirst($ticketType))->first();
+    $ticket = Ticket::where('type', $ticketType)->first();
 
     if (!$ticket) {
         return response()->json([
