@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@sejukpool.com',
-            'password' => bcrypt('password123'), // Hash password
+            'password' => bcrypt('adminsejukpool99'), // Hash password
             'role' => 'admin',                   // Tambahkan role (jika ada)
         ]);        
     }

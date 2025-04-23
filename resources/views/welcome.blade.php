@@ -67,6 +67,7 @@
 <!-- end of details -->
 
 <!-- GALERI -->
+<!-- GALERI -->
 <section id="gallery" class="gallery-section py-5" style="background-color: #f6faff;">
     <div class="container text-center">
       <!-- Judul -->
@@ -78,40 +79,76 @@
         </p>
       </div>
   
-<!-- Swiper Slider -->
-<div class="swiper image-slider mb-4">
-    <div class="swiper-wrapper">
-      @for($i = 0; $i < 10; $i++)
-      <div class="swiper-slide">
-        <div class="gallery-item">
-          <div class="img-container">
-            <img src="{{ asset('content/images/landing-1.png') }}" class="img-fluid rounded shadow-sm" alt="Gallery Image">
+      <!-- Swiper Slider -->
+      <div class="swiper image-slider mb-4">
+        <div class="swiper-wrapper">
+          <!-- Gambar 1 -->
+          <div class="swiper-slide">
+            <div class="gallery-item">
+              <div class="img-container">
+                <img src="{{ asset('content/images/landing-1.png') }}" class="img-fluid rounded shadow-sm" alt="Kolam Renang Utama">
+              </div>
+            </div>
+          </div>
+          
+          <!-- Gambar 2 -->
+          <div class="swiper-slide">
+            <div class="gallery-item">
+              <div class="img-container">
+                <img src="{{ asset('content/images/landing-1.png') }}" class="img-fluid rounded shadow-sm" alt="Area Bermain Anak">
+              </div>
+            </div>
+          </div>
+          
+          <!-- Gambar 3 -->
+          <div class="swiper-slide">
+            <div class="gallery-item">
+              <div class="img-container">
+                <img src="{{ asset('content/images/landing-1.png') }}" class="img-fluid rounded shadow-sm" alt="Pemandangan Alam">
+              </div>
+            </div>
+          </div>
+          
+          <!-- Gambar 4 -->
+          <div class="swiper-slide">
+            <div class="gallery-item">
+              <div class="img-container">
+                <img src="{{ asset('content/images/landing-1.png') }}" class="img-fluid rounded shadow-sm" alt="Fasilitas Taman">
+              </div>
+            </div>
+          </div>
+          
+          <!-- Gambar 5 -->
+          <div class="swiper-slide">
+            <div class="gallery-item">
+              <div class="img-container">
+                <img src="{{ asset('content/images/landing-1.png') }}" class="img-fluid rounded shadow-sm" alt="Area Makan">
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      @endfor
-    </div>
-  </div>
   
-  <!-- Tombol Navigasi (icon) -->
-  <div class="swiper-nav text-center">
-    <button class="btn btn-outline-primary swiper-button-prev-custom mx-2">
-      <i class="fas fa-chevron-left"></i>
-    </button>
-    <button class="btn btn-outline-primary swiper-button-next-custom mx-2">
-      <i class="fas fa-chevron-right"></i>
-    </button>
-  </div>
+      <!-- Tombol Navigasi (icon) -->
+      <div class="swiper-nav text-center">
+        <button class="btn btn-outline-primary swiper-button-prev-custom mx-2">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="btn btn-outline-primary swiper-button-next-custom mx-2">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
   
-    <!-- Modal Lightbox -->
-    <div class="modal fade" id="galleryModal" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content bg-transparent border-0">
-          <img id="galleryModalImage" src="" class="img-fluid rounded shadow" alt="Preview">
+      <!-- Modal Lightbox -->
+      <div class="modal fade" id="galleryModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+          <div class="modal-content bg-transparent border-0">
+            <img id="galleryModalImage" src="" class="img-fluid rounded shadow" alt="Preview">
+          </div>
         </div>
       </div>
     </div>
-  </section>
+</section>
 
 <!-- Location Map -->
 <div class="map-section">

@@ -2111,7 +2111,7 @@ a:hover.back-to-top {
   
   .swiper-slide {
 	width: auto;
-	transition: all 0.3s ease;
+	transition: all 0.7s ease;
   }
   
   .swiper-slide-active .gallery-item {
