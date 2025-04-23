@@ -13,11 +13,25 @@ class DashboardController extends Controller
         $totalUser = User::where('role', 'pelanggan')->count();
         $totalTicketsSold = Order::sum('jumlah');
         $successfulTransactions = Order::where('status', 'paid')->count();
-        
-        return view('admin.dashboard', compact(
-            'totalUser',
-            'totalTicketsSold',
-            'successfulTransactions'
-        ));
-    }
+    
+        // Gunakan role dari user login
+        $role = auth()->user()->role;
+    
+        if ($role === 'admin') {
+            return view('admin.dashboard', compact(
+                'totalUser',
+                'totalTicketsSold',
+                'successfulTransactions'
+            ));
+        } elseif ($role === 'petugas') {
+            return view('petugas.dashboard', compact(
+                'totalUser',
+                'totalTicketsSold',
+                'successfulTransactions'
+            ));
+        }
+    
+        abort(403, 'Unauthorized');
+    }        
+    
 }

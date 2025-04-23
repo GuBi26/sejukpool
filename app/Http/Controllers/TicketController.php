@@ -126,18 +126,52 @@ public function storeOrder(Request $request)
             ], 404);
         }
 
-        $totalHarga = $ticket->harga * $request->jumlah_tiket;
+        // Hitung harga asli sebelum diskon
+        $hargaAsli = $ticket->harga * $request->jumlah_tiket;
+        
+        // Validasi total_harga dari request tidak boleh lebih besar dari harga asli
+        if ($request->total_harga > $hargaAsli) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Total harga tidak valid'
+            ], 400);
+        }
 
         // Diskon voucher
-if ($request->voucher_code) {
-    $voucher = Voucher::where('kode', $request->voucher_code)->first();
-    if ($voucher) {
-        $voucher->decrement('kuota');
-        if ($voucher->kuota <= 0) {
-            $voucher->update(['status' => 'expired']);
+        $discountApplied = 0;
+        $voucher = null;
+        
+        if ($request->voucher_code) {
+            $voucher = Voucher::where('kode', $request->voucher_code)
+                ->where('status', 'active')
+                ->where('kuota', '>', 0)
+                ->where('tanggal_berlaku', '<=', now())
+                ->where('tanggal_expired', '>=', now())
+                ->first();
+
+            if (!$voucher) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Voucher tidak valid atau sudah kadaluarsa'
+                ], 400);
+            }
+
+            // Hitung diskon berdasarkan persentase
+            $discountApplied = $voucher->nilai_diskon;
+            $diskon = $hargaAsli * ($voucher->nilai_diskon / 100);
+            $totalHargaSetelahDiskon = $hargaAsli - $diskon;
+
+            \Log::info("Total harga frontend: " . $request->total_harga);
+            \Log::info("Total harga backend: " . $totalHargaSetelahDiskon);
+
+            // Validasi total_harga dari request harus sama dengan perhitungan diskon
+            if ((float) $request->total_harga != (float) $totalHargaSetelahDiskon) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Total harga tidak sesuai dengan perhitungan diskon'
+                ], 400);
+            }
         }
-    }
-}
 
         // Generate order_id unik
         $generatedOrderId = 'ORDER-' . uniqid() . '-' . time();
@@ -148,9 +182,11 @@ if ($request->voucher_code) {
             'ticket_id' => $ticket->id,
             'tanggal_kunjungan' => $request->booking_date,
             'jumlah' => $request->jumlah_tiket,
-            'total_harga' => $totalHarga,
+            'total_harga' => $request->total_harga,
             'status' => 'pending',
             'order_code' => $generatedOrderId,
+            'voucher_code' => $request->voucher_code,
+            'discount_applied' => $discountApplied,
         ]);
 
         // Midtrans Config
@@ -162,24 +198,55 @@ if ($request->voucher_code) {
         $params = [
             'transaction_details' => [
                 'order_id' => $generatedOrderId,
-                'gross_amount' => $totalHarga,
+                'gross_amount' => $request->total_harga,
             ],
             'customer_details' => [
                 'first_name' => Auth::user()->name,
                 'email' => Auth::user()->email,
+            ],
+            'item_details' => [
+                [
+                    'id' => $ticket->id,
+                    'price' => $ticket->harga,
+                    'quantity' => $request->jumlah_tiket,
+                    'name' => $ticket->type . ' Ticket',
+                ]
             ]
         ];
+
+        // Jika ada diskon, tambahkan sebagai item discount
+        if ($discountApplied > 0) {
+            $params['item_details'][] = [
+                'id' => 'DISC',
+                'price' => -($hargaAsli - $request->total_harga),
+                'quantity' => 1,
+                'name' => 'Diskon Voucher ' . $request->voucher_code,
+            ];
+        }
 
         $snapToken = \Midtrans\Snap::getSnapToken($params);
         $order->snap_token = $snapToken;
         $order->save();
+        
+        // Update order dengan snap token
+        $order->update(['snap_token' => $snapToken]);
+
+        // Kurangi kuota voucher jika digunakan
+        if ($voucher) {
+            $voucher->decrement('kuota');
+            if ($voucher->kuota <= 0) {
+                $voucher->update(['status' => 'expired']);
+            }
+        }
 
         return response()->json([
             'success' => true,
             'order_id' => $order->id,
             'order_code' => $generatedOrderId,
             'snap_token' => $snapToken,
-            'total_harga' => $totalHarga,
+            'total_harga' => $request->total_harga,
+            'original_price' => $hargaAsli,
+            'discount_amount' => $hargaAsli - $request->total_harga,
             'message' => 'Pemesanan berhasil dibuat'
         ], 201);
 
@@ -190,6 +257,7 @@ if ($request->voucher_code) {
         ], 500);
     }
 }
+
 public function getTicketPrice(Request $request)
 {
     $ticketType = $request->query('ticket_type');

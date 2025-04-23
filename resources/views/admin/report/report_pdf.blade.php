@@ -31,7 +31,7 @@
 </head>
 <body>
 
-    <h2>Laporan Transaksi Tiket</h2>
+    <h2>Laporan Transaksi Tiket Sejukpool</h2>
     <h4>Bulan: {{ $monthName }}</h4>
 
     <table>

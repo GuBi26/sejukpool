@@ -51,45 +51,49 @@
                     
                         <!-- Total Tickets Sold Card -->
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
+                            <a href="#" class="card-link" style="text-decoration: none;">
+                            <div class="card border-left-success shadow h-100 py-2 hover-effect">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                TIKET TERVERIFIKASI</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">10</div>
+                                                TOTAL TIKET DIPESAN</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $totalTicketsSold }}</div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-check-circle fa-2x text-gray-300"></i> <!-- Changed to ticket icon -->
+                                            <i class="fas fa-ticket-alt fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            </a>
                         </div>
                     
                         <!-- Successful Transactions Card -->
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
+                        <a href="#" class="card-link" style="text-decoration: none;">
+                        <div class="card border-left-info shadow h-100 py-2 hover-effect">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                                TIKET BELUM TERVERIFIKASI
+                                                TRANSAKSI BERHASIL
                                             </div>
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">10</div>
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ $successfulTransactions }}</div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-auto">
-                                        <i class="fas fa-times-circle fa-2x text-gray-300"></i>
+                                            <i class="fas fa-check-circle fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+</a>
+</div>
 
                     <!-- Content Row -->
 

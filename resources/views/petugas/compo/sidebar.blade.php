@@ -18,7 +18,7 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-        <a class="nav-link" href="{{ route('admin.dashboard') }}">
+        <a class="nav-link" href="{{ route('petugas.dashboard') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
@@ -36,17 +36,9 @@
 
 <!-- Nav Item - Data Transaksi -->
 <li class="nav-item">
-    <a class="nav-link" href="{{ route('admin.transaksi') }}">
+    <a class="nav-link" href="{{ route ('petugas.transaksi.index') }}">
         <i class="fas fa-fw fa-exchange-alt"></i>
-        <span>Verifikasi Tiket</span>
-    </a>
-</li>
-
-<!-- Nav Item - Data Voucher -->
-<li class="nav-item">
-    <a class="nav-link" href="{{ route('admin.voucher.index') }}">
-        <i class="fas fa-fw fa-gift"></i>
-        <span>Data Transaksi</span>
+        <span>Data Transaksi </span>
     </a>
 </li>
 

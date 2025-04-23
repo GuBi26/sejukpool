@@ -118,21 +118,38 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
     Route::get('/report', [ReportController::class, 'showReport'])->name('report.report');
     Route::get('/report/download', [ReportController::class, 'downloadPDF'])->name('report.download');
 
-    // Transaksi (Jika perlu)
+    // Transaksi (Admin)
     Route::get('/transaksi', [TransactionController::class, 'index'])->name('transaksi.index');
     Route::get('/transaksi/data', [TransactionController::class, 'getTransactionData'])->name('transaksi.data');
+    
+    // Admin Transaksi Tambah
+    Route::get('/transaksi/tambah', [TransactionController::class, 'createManualAdmin'])->name('transaksi.create');
+    Route::post('/transaksi/tambah', [TransactionController::class, 'storeManual'])->name('transaksi.storeManual');
+
 });
+
 
 /*
 |--------------------------------------------------------------------------
 | Route untuk Petugas (Hanya Bisa Diakses Jika Login sebagai Petugas)
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth', PetugasMiddleware::class])->prefix('petugas')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('petugas.dashboard');
+Route::middleware(['auth', PetugasMiddleware::class])
+    ->prefix('petugas')
+    ->name('petugas.')
+    ->group(function () {
+
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+        // Transaksi
+        Route::get('/transaksi', [TransactionController::class, 'index'])->name('transaksi.index');
+        Route::get('/transaksi/data', [TransactionController::class, 'getTransactionData'])->name('transaksi.data');
+
+        // Form tambah transaksi
+        Route::get('/transaksi/tambah', [TransactionController::class, 'create'])->name('transaksi.create');
+        Route::post('/transaksi/tambah', [TransactionController::class, 'store'])->name('transaksi.store');
+        Route::post('/transaksi/store-manual', [TransactionController::class, 'storeManualPetugas'])->name('transaksi.storeManualPetugas');
     });
-});
 
 /*
 |--------------------------------------------------------------------------

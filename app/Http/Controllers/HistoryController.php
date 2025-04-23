@@ -15,12 +15,26 @@ class HistoryController extends Controller
     {
         $histories = Order::with('ticket')
             ->where('user_id', Auth::id())
-            ->orderBy('id', 'asc')
-            ->get();
-
+            ->orderBy('created_at', 'desc') // Urutkan dari yang terbaru
+            ->get()
+            ->map(function($order) {
+                if (!$order->ticket) {
+                    $order->original_price = 0;
+                    $order->discount_amount = 0;
+                    return $order;
+                }
+            
+                $originalPrice = $order->ticket->harga * $order->jumlah;
+            
+                $order->original_price = $originalPrice;
+                $order->discount_amount = $originalPrice - $order->total_harga;
+            
+                return $order;
+            });
+    
         return view('pages.history', compact('histories'));
     }
-
+    
     public function updateStatus(Request $request, $id)
     {
         $order = Order::find($id);

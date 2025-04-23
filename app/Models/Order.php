@@ -17,7 +17,12 @@ class Order extends Model
         'jumlah',
         'total_harga',
         'status',
+        'tipe_transaksi',
+        'nama_pembeli',
+        'voucher_code',         // Tambahkan ini
+        'discount_applied',     // Tambahkan ini
     ];
+    
 
     public function user()
     {

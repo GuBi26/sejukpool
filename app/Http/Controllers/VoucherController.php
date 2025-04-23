@@ -95,50 +95,53 @@ class VoucherController extends Controller
     }
 
     public function validateVoucher(Request $request)
-    {
-        $request->validate([
-            'voucher_code' => 'required|string',
-            'total_amount' => 'required|numeric'
-        ]);
+{
+    $request->validate([
+        'voucher_code' => 'required|string',
+        'total_amount' => 'required|numeric'
+    ]);
 
-        if (session()->has('used_voucher_code') && session('used_voucher_code') === $request->voucher_code) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Voucher Ini Sudah Anda Gunakan'
-            ]);
-        }
-
-        $voucher = Voucher::where('kode', $request->voucher_code)
-            ->where('kuota', '>', 0)
-            ->where('status', 'active')
-            ->where('tanggal_berlaku', '<=', Carbon::today())
-            ->where('tanggal_expired', '>=', Carbon::today())
-            ->first();
-
-        if (!$voucher) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Kuota Untuk Voucher Ini Sudah Habis'
-            ]);
-        }
-
-
-        // Jika kuota habis setelah dikurangi, ubah status jadi "habis"
-        if ($voucher->kuota <= 0) {
-            $voucher->status = 'habis';
-        }
-        $voucher->save();
-    
-        session(['used_voucher_code' => $request->voucher_code]);
-
-        $discountedAmount = $request->total_amount - ($request->total_amount * ($voucher->nilai_diskon / 100));
-
+    if (session()->has('used_voucher_code') && session('used_voucher_code') === $request->voucher_code) {
         return response()->json([
-            'success' => true,
-            'discounted_amount' => $discountedAmount,
-            'discount_percentage' => $voucher->nilai_diskon,
-            'voucher' => $voucher
+            'success' => false,
+            'message' => 'Voucher Ini Sudah Anda Gunakan'
         ]);
     }
 
+    $voucher = Voucher::where('kode', $request->voucher_code)
+        ->where('kuota', '>', 0)
+        ->where('status', 'active')
+        ->where('tanggal_berlaku', '<=', Carbon::today())
+        ->where('tanggal_expired', '>=', Carbon::today())
+        ->first();
+
+    if (!$voucher) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Voucher tidak valid atau kuota habis'
+        ]);
+    }
+
+    // Kurangi kuota
+    $voucher->kuota -= 1;
+    
+    // Jika kuota habis setelah dikurangi, ubah status jadi "habis"
+    if ($voucher->kuota <= 0) {
+        $voucher->status = 'habis';
+    }
+    
+    $voucher->save();
+
+    session(['used_voucher_code' => $request->voucher_code]);
+
+    $discountedAmount = $request->total_amount - ($request->total_amount * ($voucher->nilai_diskon / 100));
+
+    return response()->json([
+        'success' => true,
+        'discounted_amount' => $discountedAmount,
+        'discount_percentage' => $voucher->nilai_diskon,
+        'original_amount' => $request->total_amount,
+        'voucher' => $voucher
+    ]);
+}
 }

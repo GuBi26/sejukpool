@@ -21,7 +21,7 @@
     <!-- Page Wrapper -->
     <div id="wrapper">
         <!-- Sidebar -->
-        @include('admin.compo.sidebar')
+        @include('petugas.compo.sidebar')
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
             <!-- Main Content -->
@@ -35,9 +35,11 @@
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Data Transaksi</h1>
                     
-                    <!-- Add Voucher Button -->
-                    <div class="d-flex justify-content-end align-items-center mb-4">
-                        <a href="{{ route('admin.transaksi.create') }}" class="btn btn-primary">Tambah Transaksi Offline</a>
+                                        <!-- Add Voucher Button -->
+                                        <div class="d-flex justify-content-end align-items-center mb-4">
+                        <a href="{{ route('petugas.transaksi.create') }}" class="btn btn-primary btn-sm">
+                            <i class="fas fa-plus mr-1"></i> Tambah Transaksi Offline
+                        </a>
                     </div>
                     
                     <!-- DataTales Example -->
