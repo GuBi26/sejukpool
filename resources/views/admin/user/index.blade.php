@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Kelola Pengguna</title>
+    <title>Data Customer</title>
 
     <!-- Fonts and Styles -->
     <link href="{{ asset('content/css/all.min.css') }}" rel="stylesheet">

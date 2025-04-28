@@ -46,8 +46,8 @@
                                 @method('PUT')
                             
                                 <div class="form-group">
-                                    <label for="nama">Nama Petugas</label>
-                                    <input type="text" name="nama" class="form-control" value="{{ $staff->nama }}" required>
+                                    <label for="name">Nama Petugas</label>
+                                    <input type="text" name="name" class="form-control" value="{{ $staff->name }}" required>
                                 </div>
                             
                                 <div class="form-group">

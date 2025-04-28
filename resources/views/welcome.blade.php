@@ -86,7 +86,7 @@
           <div class="swiper-slide">
             <div class="gallery-item">
               <div class="img-container">
-                <img src="{{ asset('content/images/landing-1.png') }}" class="img-fluid rounded shadow-sm" alt="Kolam Renang Utama">
+                <img src="{{ asset('content/images/foto1.jpeg') }}" class="img-fluid rounded shadow-sm" alt="Kolam Renang Utama">
               </div>
             </div>
           </div>
@@ -95,7 +95,7 @@
           <div class="swiper-slide">
             <div class="gallery-item">
               <div class="img-container">
-                <img src="{{ asset('content/images/landing-1.png') }}" class="img-fluid rounded shadow-sm" alt="Area Bermain Anak">
+                <img src="{{ asset('content/images/foto2.jpeg') }}" class="img-fluid rounded shadow-sm" alt="Area Bermain Anak">
               </div>
             </div>
           </div>
@@ -104,7 +104,7 @@
           <div class="swiper-slide">
             <div class="gallery-item">
               <div class="img-container">
-                <img src="{{ asset('content/images/landing-1.png') }}" class="img-fluid rounded shadow-sm" alt="Pemandangan Alam">
+                <img src="{{ asset('content/images/foto3.jpeg') }}" class="img-fluid rounded shadow-sm" alt="Pemandangan Alam">
               </div>
             </div>
           </div>
@@ -113,7 +113,7 @@
           <div class="swiper-slide">
             <div class="gallery-item">
               <div class="img-container">
-                <img src="{{ asset('content/images/landing-1.png') }}" class="img-fluid rounded shadow-sm" alt="Fasilitas Taman">
+                <img src="{{ asset('content/images/foto4.jpeg') }}" class="img-fluid rounded shadow-sm" alt="Fasilitas Taman">
               </div>
             </div>
           </div>
